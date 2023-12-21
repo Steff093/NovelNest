@@ -1,7 +1,7 @@
 # NovelNest - Deine digitale Buchbibliothek
 "NovelNest" ist eine Anwendung, die es dir ermöglicht, deine Buchsammlung digital zu verwalten und zu organisieren. Mit NovelNest kannst du mühelos Bücher hinzufügen, bearbeiten und löschen sowie wichtige Informationen zu jedem Buch speichern.
 
-Funktionen
+## Funktionen
 - [ ] Hinzufügen von Büchern: Füge mühelos neue Bücher zu deiner digitalen Bibliothek hinzu, indem du Informationen wie Buchtitel, Autor, Beschreibung und mehr eingibst.
 
 - [ ] Bearbeiten von Büchern: Du kannst Informationen zu Büchern bearbeiten, um Änderungen oder Aktualisierungen vorzunehmen.
