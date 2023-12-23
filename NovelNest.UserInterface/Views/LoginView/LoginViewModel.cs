@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -35,15 +33,20 @@ namespace NovelNest.UI.Views.LoginView
             }
         }
 
-        public IRelayCommand LoginCommand { get; private set; }
-        public IRelayCommand RegisterCommand { get; private set; }
+        public ICommand LoginCommand { get; private set; }
 
         public LoginViewModel(ILoginService loginService)
         {
             _loginService = loginService;
-            //LoginCommand = new RelayCommand(Login, CanLogin);
+            LoginCommand = new RelayCommand(LoginAsync, CanLogin);
         }
 
+        private async void LoginAsync()
+        {
+
+        }
+
+        private bool CanLogin() => !string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password);
 
 
 
