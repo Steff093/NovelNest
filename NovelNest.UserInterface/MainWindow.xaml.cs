@@ -1,9 +1,5 @@
 ﻿using NovelNest.UI.Views.Login;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -14,16 +10,22 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NovelNest.UI
+namespace NovelNest.UserInterface
 {
     /// <summary>
-    /// Interaktionslogik für MainWindow.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void loginWindowTest_Click(object sender, RoutedEventArgs e)
+        {
+            LoginView login = new LoginView();
+            login.Show();
         }
 
         private void closeApplication_Click(object sender, RoutedEventArgs e)
@@ -42,13 +44,6 @@ namespace NovelNest.UI
                 case MessageBoxResult.No:
                     return;
             }
-        }
-
-        private void loginWindowTest_Click(object sender, RoutedEventArgs e)
-        {
-            LoginView log = new LoginView();
-
-            log.Show();
         }
     }
 }

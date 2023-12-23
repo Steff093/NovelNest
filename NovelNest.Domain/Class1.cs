@@ -1,7 +1,8 @@
-﻿namespace NovelNest.Domain
+
+namespace NovelNest.Domain
 {
     public class Class1
     {
-
     }
+
 }

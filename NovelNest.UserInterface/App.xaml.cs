@@ -1,12 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using NovelNest.ApplicationLogic.Common.Interfaces.LoginInterface;
+using NovelNest.ApplicationLogic.Services.LoginService;
 using NovelNest.UI.Views.LoginView;
-using System;
 using System.Windows;
 
-namespace NovelNest.UI
+namespace NovelNest.UserInterface
 {
     /// <summary>
-    /// Interaktionslogik für "App.xaml"
+    /// Interaction logic for App.xaml
     /// </summary>
     public partial class App : Application
     {
@@ -28,7 +29,7 @@ namespace NovelNest.UI
 
             mainWindow.Show();
         }
-        
+
         private void ConfigureServices(ServiceCollection serviceCollection)
         {
             serviceCollection.AddScoped<ILoginService, LoginService>();
@@ -36,4 +37,5 @@ namespace NovelNest.UI
             serviceCollection.AddTransient<LoginViewModel>();
         }
     }
+
 }
