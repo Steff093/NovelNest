@@ -5,7 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NovelNest.UserInterface"
         mc:Ignorable="d" Background="Gray"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" WindowStyle="None"
+        WindowStartupLocation="CenterScreen">
+
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="68"/>
@@ -25,5 +28,41 @@
                           Click="loginWindowTest_Click"/>
             </MenuItem>
         </Menu>
+
+        <!-- Buch Textboxen und Namen -->
+        <StackPanel Grid.Row="1">
+            <Label Content="Büchername"/>
+
+            <Label Content="Beschreibung"/>
+        </StackPanel>
+
+        <!--.Button's für Hinzufügen, Updaten und Löschen! -->
+        <Grid Grid.Row="2">
+
+            <Button x:Name="btnaddBookInDataGrid" 
+                    Height="32" Width="80"
+                    Content="Add"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left"/>
+
+            <Button x:Name="btnupdateBookDataGrid"
+                    Height="32" Width="80"
+                    Content="Update"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"/>
+
+
+            <Button x:Name="btndeleteBookDatagrid"
+                    Height="32" Width="80"
+                    Content="Delete"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Right"/>
+        </Grid>
+        
+        <!--Datagrid für Bücher-->
+
+        <DataGrid Grid.Row="3" Background="Gray">
+            
+        </DataGrid>
     </Grid>
 </Window>

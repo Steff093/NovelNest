@@ -12,14 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace NovelNest.UserInterface.Views.LoginView
+namespace NovelNest.UserInterface.Views.Registration
 {
     /// <summary>
-    /// Interaktionslogik für LoginView.xaml
+    /// Interaktionslogik für RegistrationView.xaml
     /// </summary>
-    public partial class LoginView : Window
+    public partial class RegistrationView : Window
     {
-        public LoginView()
+        public RegistrationView()
         {
             InitializeComponent();
         }
