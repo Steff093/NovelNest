@@ -5,17 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NovelNest.UI.Domain.Entities.LoginEntities
+namespace NovelNest.Domain.Entities.RegistrationEntites
 {
-    public class LoginEntity
+    public class RegistrationEntity
     {
         [Key]
         public int Id { get; set; }
 
-        [MaxLength(50), Required]
+        [Required]
         public string Name { get; set; } = string.Empty;
 
-        [MaxLength(255), Required]
+        [Required]
         public string Password { get; set; } = string.Empty;
+
+        [Required]
+        public string Email { get; set; } = string.Empty;
     }
 }

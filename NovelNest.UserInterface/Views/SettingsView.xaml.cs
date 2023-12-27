@@ -12,24 +12,24 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace NovelNest.UserInterface.Views.LoginView
+namespace NovelNest.UserInterface.Views
 {
     /// <summary>
-    /// Interaktionslogik für LoginView.xaml
+    /// Interaktionslogik für SettingsView.xaml
     /// </summary>
-    public partial class LoginView : Window
+    public partial class SettingsView : Window
     {
-        public LoginView()
+        public string ConnectionString { get; set; }
+
+        public SettingsView()
         {
             InitializeComponent();
         }
 
-        private void lnkRegister_Click(object sender, RoutedEventArgs e)
+        private void connectionButton_Click(object sender, RoutedEventArgs e)
         {
-            Close();
-
-            var mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow.NavigateToRegistrationView();
+            ConnectionString = txtConnectionString.Text;
+            DialogResult = true;
         }
     }
 }

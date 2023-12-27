@@ -1,7 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using NovelNest.ApplicationLogic.Common.Interfaces.LoginInterface;
 using NovelNest.ApplicationLogic.Services.LoginService;
+using NovelNest.Infrastructure.Database;
 using NovelNest.UI.Views.LoginView;
+using NovelNest.UserInterface.Views;
 using System.Windows;
 
 namespace NovelNest.UserInterface
@@ -26,8 +29,31 @@ namespace NovelNest.UserInterface
             {
                 DataContext = _serviceProvider.GetRequiredService<LoginViewModel>()
             };
-
             mainWindow.Show();
+
+            var connectedWindow = new SettingsView();
+
+            if (connectedWindow.ShowDialog() == true)
+            {
+                var connectedString = connectedWindow.ConnectionString;
+
+                var dbContext = new DbContextOptionsBuilder<NovelNestDataContext>()
+                    .UseSqlServer(connectedString)
+                    .Options;
+
+                using (var dbConnect = new NovelNestDataContext(dbContext))
+                {
+                    try
+                    {
+                        dbConnect.Database.Migrate();
+                        MessageBox.Show("Verbindung erfolgreich!");
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Fehler!");
+                    }
+                }
+            }
         }
 
         private void ConfigureServices(ServiceCollection serviceCollection)

@@ -5,13 +5,17 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7E1B1F5A-4FBB-47AE-B204-399403908894}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NovelNest.ApplicationLogic", "NovelNest.ApplicationLogic\NovelNest.ApplicationLogic.csproj", "{A7B407C2-AB79-4E12-89DC-68668840887E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NovelNest.ApplicationLogic", "NovelNest.ApplicationLogic\NovelNest.ApplicationLogic.csproj", "{A7B407C2-AB79-4E12-89DC-68668840887E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NovelNest.Domain", "NovelNest.Domain\NovelNest.Domain.csproj", "{15813FBC-2A79-4361-8F5B-0E6B5ECA3AED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NovelNest.Domain", "NovelNest.Domain\NovelNest.Domain.csproj", "{15813FBC-2A79-4361-8F5B-0E6B5ECA3AED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NovelNest.Infrastructure", "NovelNest.Infrastructure\NovelNest.Infrastructure.csproj", "{28295D30-756D-4108-AB32-0D46E628371E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NovelNest.Infrastructure", "NovelNest.Infrastructure\NovelNest.Infrastructure.csproj", "{28295D30-756D-4108-AB32-0D46E628371E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NovelNest.UserInterface", "NovelNest.UserInterface\NovelNest.UserInterface.csproj", "{D07D2CAE-1D79-4025-938C-FFB6BCACD25B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NovelNest.UserInterface", "NovelNest.UserInterface\NovelNest.UserInterface.csproj", "{D07D2CAE-1D79-4025-938C-FFB6BCACD25B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{6A9BBAAC-C6FB-4B85-A7D6-1D769A5584BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NovelNest.Test", "NovelNest.Test\NovelNest.Test.csproj", "{4393F952-3F6E-4FA7-B208-AD715E26EA01}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +39,10 @@ Global
 		{D07D2CAE-1D79-4025-938C-FFB6BCACD25B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D07D2CAE-1D79-4025-938C-FFB6BCACD25B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D07D2CAE-1D79-4025-938C-FFB6BCACD25B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4393F952-3F6E-4FA7-B208-AD715E26EA01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4393F952-3F6E-4FA7-B208-AD715E26EA01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4393F952-3F6E-4FA7-B208-AD715E26EA01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4393F952-3F6E-4FA7-B208-AD715E26EA01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +52,7 @@ Global
 		{15813FBC-2A79-4361-8F5B-0E6B5ECA3AED} = {7E1B1F5A-4FBB-47AE-B204-399403908894}
 		{28295D30-756D-4108-AB32-0D46E628371E} = {7E1B1F5A-4FBB-47AE-B204-399403908894}
 		{D07D2CAE-1D79-4025-938C-FFB6BCACD25B} = {7E1B1F5A-4FBB-47AE-B204-399403908894}
+		{4393F952-3F6E-4FA7-B208-AD715E26EA01} = {6A9BBAAC-C6FB-4B85-A7D6-1D769A5584BA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1DB9ACB4-23E7-454E-8FF3-F72601764FDD}

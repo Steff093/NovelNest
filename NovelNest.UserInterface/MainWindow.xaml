@@ -5,9 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NovelNest.UserInterface"
         mc:Ignorable="d" Background="Gray"
-        Title="MainWindow" Height="450" Width="800" WindowStyle="None"
-        WindowStartupLocation="CenterScreen">
-
+        Title="NovelNest" Height="450" Width="800">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -15,25 +13,35 @@
             <RowDefinition/>
             <RowDefinition Height="68"/>
             <RowDefinition/>
+            <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
 
-
+        <!-- Menü-System -->
         <Menu Height="20" VerticalAlignment="Top" Background="Gray">
             <MenuItem Header="Menü">
                 <MenuItem x:Name="closeApplication"
                           Header="Schließen"
                           Click="closeApplication_Click"/>
+                
                 <MenuItem x:Name="loginWindowTest"
                           Header="LoginTest"
                           Click="loginWindowTest_Click"/>
+                
+                <MenuItem x:Name="registrationTest"
+                          Header="RegistrationTest"
+                          Click="registrationTest_Click"/>
             </MenuItem>
         </Menu>
 
         <!-- Buch Textboxen und Namen -->
         <StackPanel Grid.Row="1">
+            
             <Label Content="Büchername"/>
+            <TextBox x:Name="tbxtBookName"/>
 
             <Label Content="Beschreibung"/>
+            <TextBox x:Name="tbxtDescription"/>
+            
         </StackPanel>
 
         <!--.Button's für Hinzufügen, Updaten und Löschen! -->
@@ -62,7 +70,12 @@
         <!--Datagrid für Bücher-->
 
         <DataGrid Grid.Row="3" Background="Gray">
-            
+
         </DataGrid>
+
+        <Label x:Name="madeByLabel" 
+               Content="Made by Steff" 
+               Grid.Row="4"
+               HorizontalAlignment="Right"/>
     </Grid>
 </Window>

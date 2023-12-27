@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace NovelNest.UserInterface.Views.Registration
+namespace NovelNest.UserInterface.Views.RegistrationView
 {
     /// <summary>
     /// Interaktionslogik für RegistrationView.xaml
@@ -22,6 +22,14 @@ namespace NovelNest.UserInterface.Views.Registration
         public RegistrationView()
         {
             InitializeComponent();
+        }
+
+        private void lnkLogin_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+
+            var mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.NavigateToLoginView();
         }
     }
 }

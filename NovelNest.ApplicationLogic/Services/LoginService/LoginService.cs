@@ -9,10 +9,5 @@ namespace NovelNest.ApplicationLogic.Services.LoginService
         {
             throw new NotImplementedException();
         }
-
-        public void Register(string username, string password)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

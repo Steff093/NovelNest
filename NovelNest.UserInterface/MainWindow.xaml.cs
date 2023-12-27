@@ -1,4 +1,5 @@
 ﻿using NovelNest.UserInterface.Views.LoginView;
+using NovelNest.UserInterface.Views.RegistrationView;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -44,6 +45,24 @@ namespace NovelNest.UserInterface
                 case MessageBoxResult.No:
                     return;
             }
+        }
+
+        private void registrationTest_Click(object sender, RoutedEventArgs e)
+        {
+            RegistrationView view = new();
+            view.Show();
+        }
+
+        public void NavigateToRegistrationView()
+        {
+            RegistrationView view = new RegistrationView();
+            view.ShowDialog();
+        }
+
+        public void NavigateToLoginView()
+        {
+            LoginView view = new LoginView();
+            view.ShowDialog();
         }
     }
 }
