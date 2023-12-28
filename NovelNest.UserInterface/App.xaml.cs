@@ -1,10 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NovelNest.ApplicationLogic.Common.Interfaces.LoginInterface;
+using NovelNest.ApplicationLogic.Common.Interfaces.MainWindowInterface;
+using NovelNest.ApplicationLogic.Features.BookFeatures;
+using NovelNest.ApplicationLogic.Interfaces;
 using NovelNest.ApplicationLogic.Services.LoginService;
+using NovelNest.ApplicationLogic.Services.MainWindowService;
+using NovelNest.Domain.Entities.BookEntities;
 using NovelNest.Infrastructure.Database;
+using NovelNest.Infrastructure.Interfaces;
+using NovelNest.Infrastructure.Repositories;
 using NovelNest.UI.Views.LoginView;
+using NovelNest.UserInterface.MainWindowViewModel;
 using NovelNest.UserInterface.Views;
+using System.Configuration;
 using System.Windows;
 
 namespace NovelNest.UserInterface
@@ -24,43 +33,15 @@ namespace NovelNest.UserInterface
             ConfigureServices(serviceCollection);
 
             _serviceProvider = serviceCollection.BuildServiceProvider();
-
-            var mainWindow = new MainWindow()
-            {
-                DataContext = _serviceProvider.GetRequiredService<LoginViewModel>()
-            };
-            mainWindow.Show();
-
-            var connectedWindow = new SettingsView();
-
-            if (connectedWindow.ShowDialog() == true)
-            {
-                var connectedString = connectedWindow.ConnectionString;
-
-                var dbContext = new DbContextOptionsBuilder<NovelNestDataContext>()
-                    .UseSqlServer(connectedString)
-                    .Options;
-
-                using (var dbConnect = new NovelNestDataContext(dbContext))
-                {
-                    try
-                    {
-                        dbConnect.Database.Migrate();
-                        MessageBox.Show("Verbindung erfolgreich!");
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Fehler!");
-                    }
-                }
-            }
         }
 
         private void ConfigureServices(ServiceCollection serviceCollection)
         {
-            serviceCollection.AddScoped<ILoginService, LoginService>();
+            serviceCollection.AddScoped<IMainWindowInterface, MainWindowService>();
+            serviceCollection.AddScoped<IBookAddRepository<BookEntity>, BookAddRepository>();
+            serviceCollection.AddScoped<IAddBookFeature<BookEntity>, AddBookFeature>();
+            serviceCollection.AddScoped<MainWindowViewModels>();
 
-            serviceCollection.AddTransient<LoginViewModel>();
         }
     }
 

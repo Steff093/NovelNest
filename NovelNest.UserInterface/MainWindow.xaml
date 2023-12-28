@@ -4,8 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NovelNest.UserInterface"
+        xmlns:viewModel="clr-namespace:NovelNest.UserInterface.MainWindowViewModel"
         mc:Ignorable="d" Background="Gray"
         Title="NovelNest" Height="450" Width="800">
+
+    <Window.DataContext>
+        <viewModel:MainWindowViewModels/>
+    </Window.DataContext>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -21,15 +26,15 @@
             <MenuItem Header="Menü">
                 <MenuItem x:Name="closeApplication"
                           Header="Schließen"
-                          Click="closeApplication_Click"/>
+                          Command="{Binding CloseApplicationCommand}"/>
                 
                 <MenuItem x:Name="loginWindowTest"
                           Header="LoginTest"
-                          Click="loginWindowTest_Click"/>
+                          Command="{Binding LoginApplicationCOmmand}"/>
                 
                 <MenuItem x:Name="registrationTest"
                           Header="RegistrationTest"
-                          Click="registrationTest_Click"/>
+                          Command="{Binding RegistrationApplicationCommand}"/>
             </MenuItem>
         </Menu>
 
@@ -37,10 +42,12 @@
         <StackPanel Grid.Row="1">
             
             <Label Content="Büchername"/>
-            <TextBox x:Name="tbxtBookName"/>
+            <TextBox x:Name="tbxtBookName"
+                     Text="{Binding BookName, Mode=TwoWay}"/>
 
             <Label Content="Beschreibung"/>
-            <TextBox x:Name="tbxtDescription"/>
+            <TextBox x:Name="tbxtDescription" 
+                     Text="{Binding BookDescription, Mode=TwoWay}"/>
             
         </StackPanel>
 
@@ -51,7 +58,8 @@
                     Height="32" Width="80"
                     Content="Add"
                     VerticalAlignment="Center"
-                    HorizontalAlignment="Left"/>
+                    HorizontalAlignment="Left"
+                    Command="{Binding AddBookCommand}"/>
 
             <Button x:Name="btnupdateBookDataGrid"
                     Height="32" Width="80"
@@ -69,9 +77,7 @@
         
         <!--Datagrid für Bücher-->
 
-        <DataGrid Grid.Row="3" Background="Gray">
-
-        </DataGrid>
+        <DataGrid Grid.Row="3" Background="Gray" ItemsSource="{Binding BookCollection}"/>
 
         <Label x:Name="madeByLabel" 
                Content="Made by Steff" 

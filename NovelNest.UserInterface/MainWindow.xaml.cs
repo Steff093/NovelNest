@@ -1,5 +1,8 @@
-﻿using NovelNest.UserInterface.Views.LoginView;
+﻿using NovelNest.Domain.Entities.BookEntities;
+using NovelNest.UserInterface.MainWindowViewModel;
+using NovelNest.UserInterface.Views.LoginView;
 using NovelNest.UserInterface.Views.RegistrationView;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,33 +21,11 @@ namespace NovelNest.UserInterface
     /// </summary>
     public partial class MainWindow : Window
     {
+
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private void loginWindowTest_Click(object sender, RoutedEventArgs e)
-        {
-            LoginView login = new LoginView();
-            login.Show();
-        }
-
-        private void closeApplication_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBoxResult result = MessageBox.Show(
-                "Möchten Sie diese Anwendung wirklich schließen?",
-                "NovelNest schließen",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question);
-
-            switch (result)
-            {
-                case MessageBoxResult.Yes:
-                    Application.Current.Shutdown();
-                    break;
-                case MessageBoxResult.No:
-                    return;
-            }
+         
         }
 
         private void registrationTest_Click(object sender, RoutedEventArgs e)
