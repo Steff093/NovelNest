@@ -13,16 +13,24 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows;
 using NovelNest.Infrastructure.Database;
+using NovelNest.ApplicationLogic.Features.BookFeatures;
 
 namespace NovelNest.UserInterface.MainWindowViewModel
 {
     public class MainWindowViewModels : INotifyPropertyChanged
     {
+        #region Variablen
 
+        public ICommand? CloseApplicationCommand { get; }
+        public ICommand? LoginApplicationCOmmand { get; }
+        public ICommand? RegistrationApplicationCommand { get; }
+        public ICommand? AddBookCommand => new RelayCommand(AddBook);
         private readonly IAddBookFeature<BookEntity> _addBookFeature;
         private ObservableCollection<BookEntity> _bookCollection;
+        private string _bookName;
+        private string _bookDescription;
 
-
+        #endregion
         public ObservableCollection<BookEntity> BookCollection
         {
             get { return _bookCollection; }
@@ -43,7 +51,6 @@ namespace NovelNest.UserInterface.MainWindowViewModel
             _addBookFeature = addBookFeature;
             CloseApplicationCommand = new RelayCommand(ExecuteCloseCommand);
             LoginApplicationCOmmand = new RelayCommand(LoginViewCommand);
-
         }
 
         private void LoadDatabase()
@@ -55,15 +62,11 @@ namespace NovelNest.UserInterface.MainWindowViewModel
                     BookCollection = new ObservableCollection<BookEntity>(dbContext.BookEntities.ToList());
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                throw new Exception("Fehler! " + ex.Message);
             }
         }
-
-        private string _bookName;
-        private string _bookDescription;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -92,11 +95,6 @@ namespace NovelNest.UserInterface.MainWindowViewModel
             }
         }
 
-        public ICommand? CloseApplicationCommand { get; }
-        public ICommand? LoginApplicationCOmmand { get; }
-        public ICommand? RegistrationApplicationCommand { get; }
-        public ICommand? AddBookCommand => new RelayCommand(AddBook);
-
         private async void AddBook()
         {
             try
@@ -106,12 +104,30 @@ namespace NovelNest.UserInterface.MainWindowViewModel
                     Title = BookName,
                     Description = BookDescription,
                 };
-                await _addBookFeature.AddBookAsync(newBook);
-                BookCollection.Add(newBook);
+                var addBook = await _addBookFeature.AddBookAsync(newBook);
+                BookCollection.Add(addBook);
+                if (addBook is null)
+                {
+                    return;
+                }
+                if (addBook is not null)
+                {
+                    if (!string.IsNullOrEmpty(BookName) && !string.IsNullOrEmpty(BookDescription))
+                    {
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Error two");
+                }
             }
             catch (Exception ex)
             {
-                throw new Exception("Fehler " + ex.ToString());
+                throw new Exception("Error " + ex.ToString());
             }
         }
 
@@ -133,13 +149,13 @@ namespace NovelNest.UserInterface.MainWindowViewModel
             }
         }
 
-        private void LoginViewCommand()
+        public void LoginViewCommand()
         {
             LoginView view = new();
             view.Show();
         }
 
-        private void RegistrationViewCommand()
+        public void RegistrationViewCommand()
         {
             RegistrationView view = new();
             view.Show();

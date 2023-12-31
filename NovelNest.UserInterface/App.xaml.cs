@@ -29,19 +29,19 @@ namespace NovelNest.UserInterface
         {
             base.OnStartup(e);
 
-            var serviceCollection = new ServiceCollection();
-            ConfigureServices(serviceCollection);
-
-            _serviceProvider = serviceCollection.BuildServiceProvider();
+            ConfigureServices();
         }
 
-        private void ConfigureServices(ServiceCollection serviceCollection)
+        private void ConfigureServices()
         {
+            var serviceCollection = new ServiceCollection();
+
             serviceCollection.AddScoped<IMainWindowInterface, MainWindowService>();
             serviceCollection.AddScoped<IBookAddRepository<BookEntity>, BookAddRepository>();
             serviceCollection.AddScoped<IAddBookFeature<BookEntity>, AddBookFeature>();
             serviceCollection.AddScoped<MainWindowViewModels>();
 
+            _serviceProvider = serviceCollection.BuildServiceProvider();
         }
     }
 

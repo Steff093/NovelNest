@@ -3,6 +3,7 @@ using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using NovelNest.ApplicationLogic.Common.Interfaces.LoginInterface;
+using System.Windows.Navigation;
 
 namespace NovelNest.UI.Views.LoginView
 {

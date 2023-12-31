@@ -28,8 +28,10 @@ namespace NovelNest.UserInterface.Views.RegistrationView
         {
             Close();
 
-            var mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow.NavigateToLoginView();
+            // ToDo: Login neu schreiben!
+
+            //var mainWindow = (MainWindow)Application.Current.MainWindow;
+            //mainWindow.NavigateToLoginView();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NovelNest.UserInterface.MainWindowViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,8 +29,10 @@ namespace NovelNest.UserInterface.Views.LoginView
         {
             Close();
 
-            var mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow.NavigateToRegistrationView();
+            // ToDo:  Register Verlinkung neu schreiben
+
+            //var mainWindowViewModel = new MainWindowViewModels();
+            //mainWindowViewModel.RegistrationApplicationCommand();
         }
     }
 }

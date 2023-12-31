@@ -1,11 +1,6 @@
 ﻿using NovelNest.ApplicationLogic.Interfaces;
 using NovelNest.Domain.Entities.BookEntities;
 using NovelNest.Infrastructure.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NovelNest.ApplicationLogic.Features.BookFeatures
 {
@@ -27,7 +22,7 @@ namespace NovelNest.ApplicationLogic.Features.BookFeatures
             }
             catch (Exception)
             {
-                throw new Exception("Es gab einen Fehler!");
+                throw new Exception("Error");
             }
         }
     }
