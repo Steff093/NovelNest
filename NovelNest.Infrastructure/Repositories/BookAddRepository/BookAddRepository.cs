@@ -2,7 +2,7 @@
 using NovelNest.Infrastructure.Database;
 using NovelNest.Infrastructure.Interfaces;
 
-namespace NovelNest.Infrastructure.Repositories
+namespace NovelNest.Infrastructure.Repositories.BookAddRepository
 {
     public class BookAddRepository : IBookAddRepository<BookEntity>
     {
@@ -12,13 +12,14 @@ namespace NovelNest.Infrastructure.Repositories
         {
             _context = context;
         }
-        
-        public async Task AddBookAsync(BookEntity book)
+
+        public async Task<BookEntity> AddBookAsync(BookEntity book)
         {
             try
             {
                 _context.BookEntities.Add(book);
                 await _context.SaveChangesAsync();
+                return book;
             }
             catch (Exception)
             {

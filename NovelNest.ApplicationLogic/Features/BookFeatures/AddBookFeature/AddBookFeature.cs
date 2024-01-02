@@ -2,7 +2,7 @@
 using NovelNest.Domain.Entities.BookEntities;
 using NovelNest.Infrastructure.Interfaces;
 
-namespace NovelNest.ApplicationLogic.Features.BookFeatures
+namespace NovelNest.ApplicationLogic.Features.BookFeatures.AddBookFeature
 {
     public class AddBookFeature : IAddBookFeature<BookEntity>
     {

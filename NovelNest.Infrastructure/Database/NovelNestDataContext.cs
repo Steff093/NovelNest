@@ -7,8 +7,8 @@ namespace NovelNest.Infrastructure.Database
     {
         public NovelNestDataContext()
         {
-        }
 
+        }
         public NovelNestDataContext(DbContextOptions<NovelNestDataContext> options) { }
 
         public DbSet<BookEntity> BookEntities { get; set; }

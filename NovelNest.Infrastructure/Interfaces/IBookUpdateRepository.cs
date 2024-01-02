@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace NovelNest.Infrastructure.Interfaces
 {
-    public interface IBookAddRepository<T> where T : class
+    public interface IBookUpdateRepository<T> where T : class
     {
-        Task<T> AddBookAsync(T book);
+        Task<T> UpdateBookAsync(T book);
     }
 }

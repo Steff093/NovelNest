@@ -3,8 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:NovelNest.UserInterface"
-        xmlns:viewModel="clr-namespace:NovelNest.UserInterface.MainWindowViewModel"
+        xmlns:viewModel="clr-namespace:NovelNest.UserInterface.ViewModels.MainWindowViewModel"
         mc:Ignorable="d" Background="Gray"
         Title="NovelNest" Height="450" Width="800">
 
@@ -65,7 +64,8 @@
                     Height="32" Width="80"
                     Content="Update"
                     VerticalAlignment="Center"
-                    HorizontalAlignment="Center"/>
+                    HorizontalAlignment="Center"
+                    Command="{Binding UpdateApplicationWindowCommand}"/>
 
 
             <Button x:Name="btndeleteBookDatagrid"

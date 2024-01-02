@@ -1,18 +1,4 @@
-﻿using NovelNest.Domain.Entities.BookEntities;
-using NovelNest.UserInterface.MainWindowViewModel;
-using NovelNest.UserInterface.Views.LoginView;
-using NovelNest.UserInterface.Views.RegistrationView;
-using System.Collections.ObjectModel;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows;
 
 namespace NovelNest.UserInterface
 {
@@ -25,7 +11,6 @@ namespace NovelNest.UserInterface
         public MainWindow()
         {
             InitializeComponent();
-         
         }
     }
 }
