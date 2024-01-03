@@ -1,11 +1,6 @@
 ﻿using NovelNest.Domain.Entities.BookEntities;
 using NovelNest.Infrastructure.Database;
 using NovelNest.Infrastructure.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NovelNest.Infrastructure.Repositories.BookUpdateRepository
 {
@@ -22,6 +17,8 @@ namespace NovelNest.Infrastructure.Repositories.BookUpdateRepository
         {
             try
             {
+                await Console.Out.WriteLineAsync("In UpdateBookAsync"); // Logging hinzufügen
+
                 _context.BookEntities.Update(book);
                 await _context.SaveChangesAsync();
                 return book;

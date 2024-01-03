@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using NovelNest.ApplicationLogic.Interfaces;
 using NovelNest.Domain.Entities.BookEntities;
-using NovelNest.UserInterface.ViewModels.MainWindowViewModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
@@ -16,6 +15,7 @@ namespace NovelNest.UserInterface.ViewModels.UpdateWindowViewModel
         private readonly IUpdateBookFeature<BookEntity> _updateBookFeature;
         public event PropertyChangedEventHandler? PropertyChanged;
         public ICommand UpdateBookCommand { get; }
+        public ICommand CloseUpdateViewCommand { get; }
 
         #endregion
 
@@ -24,13 +24,14 @@ namespace NovelNest.UserInterface.ViewModels.UpdateWindowViewModel
 
         }
 
-        public UpdateWindowViewModels(IUpdateBookFeature<BookEntity> updateBooFeature, BookEntity bookEntity)
+        public UpdateWindowViewModels(IUpdateBookFeature<BookEntity> updateBookFeature, BookEntity bookEntity)
         {
             _bookEntity = bookEntity;
-            _updateBookFeature = updateBooFeature;
-            UpdateBookCommand = new RelayCommand(UpodateBookCommand);
-            UpdateBookName = _bookEntity.Title;
-            UpdateBookDescription = _bookEntity.Description;
+            _updateBookFeature = updateBookFeature;
+            UpdateBookName = bookEntity.Title;
+            UpdateBookDescription = bookEntity.Description;
+            UpdateBookCommand = new RelayCommand(UpodateBookCommandWrapper);
+            CloseUpdateViewCommand = new RelayCommand(CloseUpdateCommand);
         }
 
         public Action CloseAction { get; set; }
@@ -40,20 +41,56 @@ namespace NovelNest.UserInterface.ViewModels.UpdateWindowViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        public BookEntity SelectedBook
+        {
+            get => _bookEntity;
+            set
+            {
+                _bookEntity = value;
+                OnPropertyChanged(nameof(SelectedBook));
+            }
+        }
+
         public string UpdateBookName { get; set; }
         public string UpdateBookDescription { get; set; }
 
-        public void UpodateBookCommand()
+        public void UpodateBookCommandWrapper()
         {
-            if (_updateBookFeature is not null)
-            {
-                _bookEntity.Title = UpdateBookName;
-                _bookEntity.Description = UpdateBookDescription;
+            _ = UpodateBookCommand();
+        }
 
-                MessageBox.Show("Erfolgreich geändert!");
+        public async Task UpodateBookCommand()
+        {
+            if (_updateBookFeature is not null && SelectedBook is not null)
+            {
+                SelectedBook.Title = UpdateBookName;
+                SelectedBook.Description = UpdateBookDescription;
+
+                var updatedBook = await _updateBookFeature.UpdateBookAsync(SelectedBook);
+
+                if (updatedBook is null)
+                {
+                    return;
+                }
+
+                if (updatedBook is not null)
+                {
+                    MessageBox.Show("Erfolgreich geändert!", "Erfolg",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    CloseAction.Invoke();
+
+                }
+                else
+                    MessageBox.Show("Fehler beim Aktualisieren des Buches!");
             }
             else
-                throw new Exception("Es ist ein Fehler bei der Veränderung aufgetreten");
+                MessageBox.Show("UpdateBookFeature oder SelectedBook ist null!");
+        }
+
+        private void CloseUpdateCommand()
+        {
+            CloseAction?.Invoke();
         }
     }
 }

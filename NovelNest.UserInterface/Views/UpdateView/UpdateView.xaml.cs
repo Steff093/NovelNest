@@ -1,4 +1,5 @@
-﻿using NovelNest.UserInterface.ViewModels.UpdateWindowViewModel;
+﻿using NovelNest.Domain.Entities.BookEntities;
+using NovelNest.UserInterface.ViewModels.UpdateWindowViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,7 @@ namespace NovelNest.UserInterface.Views.UpdateView
     /// 
     public partial class UpdateView : Window
     {
+
         public UpdateView()
         {
             InitializeComponent();

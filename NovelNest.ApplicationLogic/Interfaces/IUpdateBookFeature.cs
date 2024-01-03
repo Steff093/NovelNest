@@ -2,6 +2,6 @@
 {
     public interface IUpdateBookFeature<T> where T : class
     {
-        public Task<T> UpdateAsync(T book);
+        public Task<T> UpdateBookAsync(T book);
     }
 }

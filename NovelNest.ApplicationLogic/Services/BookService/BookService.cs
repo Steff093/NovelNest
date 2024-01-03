@@ -21,7 +21,7 @@ namespace NovelNest.ApplicationLogic.Services.BookService
 
         public async Task<BookEntity> UpdateBookAsync(BookEntity book)
         {
-            return await _updateBookFeature.UpdateAsync(book);
+            return await _updateBookFeature.UpdateBookAsync(book);
         }
     }
 }

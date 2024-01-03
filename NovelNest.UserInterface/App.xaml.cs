@@ -1,22 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using NovelNest.ApplicationLogic.Common.Interfaces.LoginInterface;
-using NovelNest.ApplicationLogic.Common.Interfaces.MainWindowInterface;
+﻿using Microsoft.Extensions.DependencyInjection;
 using NovelNest.ApplicationLogic.Features.BookFeatures.AddBookFeature;
 using NovelNest.ApplicationLogic.Features.BookFeatures.UpdateBookFeature;
 using NovelNest.ApplicationLogic.Interfaces;
-using NovelNest.ApplicationLogic.Services.BookService;
-using NovelNest.ApplicationLogic.Services.LoginService;
-using NovelNest.ApplicationLogic.Services.MainWindowService;
 using NovelNest.Domain.Entities.BookEntities;
 using NovelNest.Infrastructure.Database;
 using NovelNest.Infrastructure.Interfaces;
 using NovelNest.Infrastructure.Repositories.BookAddRepository;
-using NovelNest.UI.Views.LoginView;
+using NovelNest.Infrastructure.Repositories.BookUpdateRepository;
 using NovelNest.UserInterface.ViewModels.MainWindowViewModel;
 using NovelNest.UserInterface.ViewModels.UpdateWindowViewModel;
-using NovelNest.UserInterface.Views;
-using System.Configuration;
 using System.Windows;
 
 namespace NovelNest.UserInterface
@@ -50,7 +42,9 @@ namespace NovelNest.UserInterface
         {
             serviceCollection.AddDbContext<NovelNestDataContext>();
             serviceCollection.AddScoped<IBookAddRepository<BookEntity>, BookAddRepository>();
+            serviceCollection.AddScoped<IBookUpdateRepository<BookEntity>, BookUpdateRepository>();
             serviceCollection.AddScoped<IAddBookFeature<BookEntity>, AddBookFeature>();
+            serviceCollection.AddScoped<IUpdateBookFeature<BookEntity>, UpdateBookFeature>();
             serviceCollection.AddScoped<BookEntity>();
             serviceCollection.AddScoped<MainWindowViewModels>();
             serviceCollection.AddScoped<UpdateWindowViewModels>();

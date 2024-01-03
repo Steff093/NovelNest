@@ -2,12 +2,15 @@
 using NovelNest.ApplicationLogic.Interfaces;
 using NovelNest.Domain.Entities.BookEntities;
 using NovelNest.Infrastructure.Database;
+using NovelNest.Infrastructure.Interfaces;
+using NovelNest.Infrastructure.Repositories.BookUpdateRepository;
 using NovelNest.UserInterface.ViewModels.UpdateWindowViewModel;
 using NovelNest.UserInterface.Views.LoginView;
 using NovelNest.UserInterface.Views.RegistrationView;
 using NovelNest.UserInterface.Views.UpdateView;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 
@@ -22,11 +25,10 @@ namespace NovelNest.UserInterface.ViewModels.MainWindowViewModel
         public ICommand? RegistrationApplicationCommand { get; }
         public ICommand? UpdateApplicationWindowCommand { get; }
         public ICommand? AddBookCommand => new RelayCommand(AddBook);
-        private readonly IAddBookFeature<BookEntity> _addBookFeature;
 
+        private readonly IAddBookFeature<BookEntity> _addBookFeature;
+        private readonly IUpdateBookFeature<BookEntity> _updateBookFeature;
         private ObservableCollection<BookEntity> _bookCollection;
-        private string _bookName;
-        private string _bookDescription;
         private BookEntity _bookEntity;
 
         #endregion
@@ -34,20 +36,32 @@ namespace NovelNest.UserInterface.ViewModels.MainWindowViewModel
         public MainWindowViewModels()
         {
         }
-        public MainWindowViewModels(IAddBookFeature<BookEntity> addBookFeature, BookEntity bookEntity)
+        public MainWindowViewModels(IAddBookFeature<BookEntity> addBookFeature, IUpdateBookFeature<BookEntity> updteBookFeature)
         {
-            _addBookFeature = addBookFeature;
-            _bookEntity = bookEntity;
             BookCollection = new ObservableCollection<BookEntity>();
             LoadDatabase();
+            _addBookFeature = addBookFeature;
+            _updateBookFeature = updteBookFeature;
             CloseApplicationCommand = new RelayCommand(ExecuteCloseCommand);
             LoginApplicationCOmmand = new RelayCommand(LoginViewCommand);
             UpdateApplicationWindowCommand = new RelayCommand(UpdateWindowCommand);
         }
 
+        // SelectedBook stellt einen ausgewähltes Element im DataGrid dar.
+
+        public BookEntity SelectedBook
+        {
+            get => _bookEntity;
+            set
+            {
+                _bookEntity = value;
+                OnPropertyChanged(nameof(SelectedBook));
+            }
+        }
+
         public ObservableCollection<BookEntity> BookCollection
         {
-            get { return _bookCollection; }
+            get => _bookCollection;
             set
             {
                 _bookCollection = value;
@@ -80,6 +94,9 @@ namespace NovelNest.UserInterface.ViewModels.MainWindowViewModel
         }
 
         #endregion
+
+        private string _bookName;
+        private string _bookDescription;
 
         public string BookName
         {
@@ -123,7 +140,7 @@ namespace NovelNest.UserInterface.ViewModels.MainWindowViewModel
                 {
                     BookCollection.Add(addBook);
                     MessageBox.Show(
-                        "Buch erfolgreich hinzugefügt!", "Erfolg", 
+                        "Buch erfolgreich hinzugefügt!", "Erfolg",
                         MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
@@ -136,18 +153,23 @@ namespace NovelNest.UserInterface.ViewModels.MainWindowViewModel
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Ein unerwarteter Fehler ist aufgetreten: " + ex.Message, "Fehler", 
+                    "Ein unerwarteter Fehler ist aufgetreten: " + ex.Message, "Fehler",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void ExecuteCloseCommand()
         {
+            CloseApplication();
+        }
+
+        private void CloseApplication()
+        {
             MessageBoxResult result = MessageBox.Show(
-                "Möchten Sie die Anwendung wirklich schließen?",
-                "NovelNest schließen",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question);
+            "Möchten Sie die Anwendung wirklich schließen?",
+            "NovelNest schließen",
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Question);
 
             switch (result)
             {
@@ -173,7 +195,16 @@ namespace NovelNest.UserInterface.ViewModels.MainWindowViewModel
 
         public void UpdateWindowCommand()
         {
-            UpdateView view = new();
+            if (SelectedBook is null)
+            {
+                MessageBox.Show("Bitte wählen Sie einen Eintrag aus!");
+                return;
+            }
+            var updatebookWindow = new UpdateWindowViewModels(_updateBookFeature, SelectedBook);
+            var view = new UpdateView { DataContext = updatebookWindow };
+
+            updatebookWindow.CloseAction = () => view.Close();
+
             view.ShowDialog();
         }
     }

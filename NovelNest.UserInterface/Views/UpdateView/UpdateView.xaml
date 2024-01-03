@@ -4,8 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NovelNest.UserInterface.Views.UpdateView"
+        xmlns:viewModel="clr-namespace:NovelNest.UserInterface.ViewModels.UpdateWindowViewModel"
         mc:Ignorable="d" Background="Gray"
         Title="Update-Book" Height="300" Width="400">
+
+    <Window.DataContext>
+        <viewModel:UpdateWindowViewModels/>
+    </Window.DataContext>
 
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
@@ -44,11 +49,13 @@
         <Button Grid.Row="3" 
                 x:Name="btnUpdate" Content="Update" 
                 Margin="140,25,130,-25" Focusable="True" 
-                Grid.ColumnSpan="2"/>
+                Grid.ColumnSpan="2"
+                Command="{Binding UpdateBookCommand}"/>
 
         <Button Grid.Row="3" 
                 x:Name="btnBrakUp" Content="Cancel" 
                 Margin="0,25,5,-25" Grid.Column="1" 
-                HorizontalAlignment="Right" Width="111"/>
+                HorizontalAlignment="Right" Width="111"
+                Command="{Binding CloseUpdateViewCommand}"/>
     </Grid>
 </Window>

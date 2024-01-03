@@ -77,7 +77,10 @@
         
         <!--Datagrid für Bücher-->
 
-        <DataGrid Grid.Row="3" Background="Gray" ItemsSource="{Binding BookCollection}"/>
+        <DataGrid Grid.Row="3" Background="Gray" 
+                  ItemsSource="{Binding BookCollection}"
+                  IsReadOnly="True"
+                  SelectedItem="{Binding SelectedBook}"/>
 
         <Label x:Name="madeByLabel" 
                Content="Made by Steff" 

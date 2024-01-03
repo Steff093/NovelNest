@@ -1,26 +1,29 @@
 ﻿using NovelNest.ApplicationLogic.Interfaces;
 using NovelNest.Domain.Entities.BookEntities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using NovelNest.Infrastructure.Interfaces;
 
 namespace NovelNest.ApplicationLogic.Features.BookFeatures.UpdateBookFeature
 {
     public class UpdateBookFeature : IUpdateBookFeature<BookEntity>
     {
-        private readonly IUpdateBookFeature<BookEntity> _updateBookFeature;
+        private readonly IBookUpdateRepository<BookEntity> _bookUpdateRepository;
 
-        public UpdateBookFeature(IUpdateBookFeature<BookEntity> updateBookFeature)
+        public UpdateBookFeature(IBookUpdateRepository<BookEntity> bookUpdateRepository)
         {
-            _updateBookFeature = updateBookFeature;
+            _bookUpdateRepository = bookUpdateRepository;
         }
 
-        public async Task<BookEntity> UpdateAsync(BookEntity book)
+        public async Task<BookEntity> UpdateBookAsync(BookEntity book)
         {
-
-            return await _updateBookFeature.UpdateAsync(book);
+            try
+            {
+                await _bookUpdateRepository.UpdateBookAsync(book);
+                return book;
+            }
+            catch (Exception)
+            {
+                throw new Exception("Fehler bei UpdateBookFeature!");
+            }
         }
     }
 }
