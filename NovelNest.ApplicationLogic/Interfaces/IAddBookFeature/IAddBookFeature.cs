@@ -1,4 +1,4 @@
-﻿namespace NovelNest.ApplicationLogic.Interfaces
+﻿namespace NovelNest.ApplicationLogic.Interfaces.IAddBookFeature
 {
     public interface IAddBookFeature<T> where T : class
     {

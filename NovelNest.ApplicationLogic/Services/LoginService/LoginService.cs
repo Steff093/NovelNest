@@ -1,4 +1,4 @@
-﻿using NovelNest.ApplicationLogic.Common.Interfaces.LoginInterface;
+﻿using NovelNest.ApplicationLogic.Interfaces.LoginInterface;
 
 
 namespace NovelNest.ApplicationLogic.Services.LoginService

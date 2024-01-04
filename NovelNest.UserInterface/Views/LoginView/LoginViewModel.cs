@@ -2,8 +2,8 @@
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
-using NovelNest.ApplicationLogic.Common.Interfaces.LoginInterface;
 using System.Windows.Navigation;
+using NovelNest.ApplicationLogic.Interfaces.LoginInterface;
 
 namespace NovelNest.UI.Views.LoginView
 {

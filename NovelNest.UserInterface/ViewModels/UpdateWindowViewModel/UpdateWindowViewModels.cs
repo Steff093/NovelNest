@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using NovelNest.ApplicationLogic.Interfaces;
+using NovelNest.ApplicationLogic.Interfaces.IDialogProvider;
+using NovelNest.ApplicationLogic.Interfaces.IUpdateBookFeature;
 using NovelNest.Domain.Entities.BookEntities;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
@@ -13,9 +15,13 @@ namespace NovelNest.UserInterface.ViewModels.UpdateWindowViewModel
 
         private BookEntity _bookEntity;
         private readonly IUpdateBookFeature<BookEntity> _updateBookFeature;
+        private readonly IDialogProvider _dialogProvider;
         public event PropertyChangedEventHandler? PropertyChanged;
         public ICommand UpdateBookCommand { get; }
         public ICommand CloseUpdateViewCommand { get; }
+        public Action CloseAction { get; set; }
+        public ObservableCollection<BookEntity> _booksCollection;
+
 
         #endregion
 
@@ -24,21 +30,39 @@ namespace NovelNest.UserInterface.ViewModels.UpdateWindowViewModel
 
         }
 
-        public UpdateWindowViewModels(IUpdateBookFeature<BookEntity> updateBookFeature, BookEntity bookEntity)
+        public UpdateWindowViewModels(
+            IUpdateBookFeature<BookEntity> updateBookFeature, 
+            BookEntity bookEntity, 
+            ObservableCollection<BookEntity> booksCollection, 
+            IDialogProvider dialogProvider)
         {
             _bookEntity = bookEntity;
             _updateBookFeature = updateBookFeature;
+            _booksCollection = booksCollection;
+            _dialogProvider = dialogProvider;
             UpdateBookName = bookEntity.Title;
             UpdateBookDescription = bookEntity.Description;
             UpdateBookCommand = new RelayCommand(UpodateBookCommandWrapper);
             CloseUpdateViewCommand = new RelayCommand(CloseUpdateCommand);
+            BookCollection = new ObservableCollection<BookEntity>();
         }
-
-        public Action CloseAction { get; set; }
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public ObservableCollection<BookEntity> BookCollection
+        {
+            get => _booksCollection;
+            set
+            {
+                if (_booksCollection != value)
+                {
+                    _booksCollection = value;
+                    OnPropertyChanged(nameof(BookCollection));
+                }
+            }
         }
 
         public BookEntity SelectedBook
@@ -54,7 +78,7 @@ namespace NovelNest.UserInterface.ViewModels.UpdateWindowViewModel
         public string UpdateBookName { get; set; }
         public string UpdateBookDescription { get; set; }
 
-        public void UpodateBookCommandWrapper()
+        private void UpodateBookCommandWrapper()
         {
             _ = UpodateBookCommand();
         }
@@ -75,17 +99,17 @@ namespace NovelNest.UserInterface.ViewModels.UpdateWindowViewModel
 
                 if (updatedBook is not null)
                 {
-                    MessageBox.Show("Erfolgreich geändert!", "Erfolg",
-                        MessageBoxButton.OK, MessageBoxImage.Information);
+                    _dialogProvider.ShowMessage("Eintrag erfolgreich geändert!", "Update Erfolg");
+
+                    // ToDo: Mit der BookCollection vom MainWindow versuchen, die Liste zu aktualisieren
 
                     CloseAction.Invoke();
-
                 }
                 else
-                    MessageBox.Show("Fehler beim Aktualisieren des Buches!");
+                    _dialogProvider.ShowError("Fehler bei der Aktualisierung!", "Update Fehler");
             }
             else
-                MessageBox.Show("UpdateBookFeature oder SelectedBook ist null!");
+                _dialogProvider.ShowError("UpdateBookFeature oder SelectedBook ist null", "Update Null Fehler");
         }
 
         private void CloseUpdateCommand()

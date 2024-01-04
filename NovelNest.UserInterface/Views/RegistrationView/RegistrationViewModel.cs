@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using NovelNest.ApplicationLogic.Common.Interfaces.RegistrationInterface;
+using NovelNest.ApplicationLogic.Interfaces.RegistrationInterface;
 using NovelNest.UserInterface.Views.RegistrationView.Interface;
 using System.ComponentModel;
 using System.Windows.Input;

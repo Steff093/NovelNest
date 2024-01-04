@@ -1,4 +1,4 @@
-﻿using NovelNest.ApplicationLogic.Interfaces;
+﻿using NovelNest.ApplicationLogic.Interfaces.IUpdateBookFeature;
 using NovelNest.Domain.Entities.BookEntities;
 using NovelNest.Infrastructure.Interfaces;
 

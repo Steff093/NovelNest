@@ -58,21 +58,22 @@
                     Content="Add"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Left"
-                    Command="{Binding AddBookCommand}"/>
+                    Command="{Binding AddNewBookCommand}"/>
 
             <Button x:Name="btnupdateBookDataGrid"
                     Height="32" Width="80"
                     Content="Update"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"
-                    Command="{Binding UpdateApplicationWindowCommand}"/>
+                    Command="{Binding UpdateButtonCommand}"/>
 
 
             <Button x:Name="btndeleteBookDatagrid"
                     Height="32" Width="80"
                     Content="Delete"
                     VerticalAlignment="Center"
-                    HorizontalAlignment="Right"/>
+                    HorizontalAlignment="Right"
+                    Command="{Binding DeleteButtonCommand}"/>
         </Grid>
         
         <!--Datagrid für Bücher-->

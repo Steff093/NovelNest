@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NovelNest.ApplicationLogic.Common.Interfaces.LoginInterface
+namespace NovelNest.ApplicationLogic.Interfaces.LoginInterface
 {
     public interface ILoginService
     {
