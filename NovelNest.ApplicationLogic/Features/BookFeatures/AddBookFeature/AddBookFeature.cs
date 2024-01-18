@@ -1,14 +1,14 @@
-﻿using NovelNest.ApplicationLogic.Interfaces.IAddBookFeature;
+﻿using NovelNest.ApplicationLogic.Interfaces.BookInterfaces.IAddBookFeature;
 using NovelNest.Domain.Entities.BookEntities;
-using NovelNest.Infrastructure.Interfaces;
+using NovelNest.Infrastructure.Interfaces.BookInterfaceInfrastructure.AddBookInterfaceInfrastructure;
 
 namespace NovelNest.ApplicationLogic.Features.BookFeatures.AddBookFeature
 {
-    public class AddBookFeature : IAddBookFeature<BookEntity>
+    public class AddBookFeature : IAddBookFeature
     {
-        private readonly IBookAddRepository<BookEntity> _bookAddRepository;
+        private readonly IBookAddRepository _bookAddRepository;
 
-        public AddBookFeature(IBookAddRepository<BookEntity> bookAddRepository)
+        public AddBookFeature(IBookAddRepository bookAddRepository)
         {
             _bookAddRepository = bookAddRepository;
         }
@@ -21,6 +21,8 @@ namespace NovelNest.ApplicationLogic.Features.BookFeatures.AddBookFeature
                 return book;
             }
             catch (Exception)
+
+
             {
                 throw new Exception("Error");
             }

@@ -1,14 +1,14 @@
-﻿using NovelNest.ApplicationLogic.Interfaces.IUpdateBookFeature;
+﻿using NovelNest.ApplicationLogic.Interfaces.BookInterfaces.IUpdateBookFeature;
 using NovelNest.Domain.Entities.BookEntities;
-using NovelNest.Infrastructure.Interfaces;
+using NovelNest.Infrastructure.Interfaces.BookInterfaceInfrastructure.UpdateeBookInterfaceInfrastructure;
 
 namespace NovelNest.ApplicationLogic.Features.BookFeatures.UpdateBookFeature
 {
-    public class UpdateBookFeature : IUpdateBookFeature<BookEntity>
+    public class UpdateBookFeature : IUpdateBookFeature
     {
-        private readonly IBookUpdateRepository<BookEntity> _bookUpdateRepository;
+        private readonly IBookUpdateRepository _bookUpdateRepository;
 
-        public UpdateBookFeature(IBookUpdateRepository<BookEntity> bookUpdateRepository)
+        public UpdateBookFeature(IBookUpdateRepository bookUpdateRepository)
         {
             _bookUpdateRepository = bookUpdateRepository;
         }

@@ -4,11 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NovelNest.UserInterface.Views.RegistrationView"
+        xmlns:viewModel="clr-namespace:NovelNest.UserInterface.ViewModels.RegistrationViewModel"
         mc:Ignorable="d" Background="Gray"
         Title="NovelNest-Registration" Height="450" Width="800">
 
     <Window.DataContext>
-        <local:RegistrationView/>
+        <viewModel:RegistrationViewModels/>
     </Window.DataContext>
     
     <Grid>
@@ -25,23 +26,26 @@
                 <!-- Name -->
                 <StackPanel Grid.Row="0" Margin="10">
                     <TextBlock Text="Name:"/>
-                    <TextBox x:Name="txtName" Width="200" Margin="5"/>
+                    <TextBox x:Name="txtName" Width="200" 
+                             Margin="5" 
+                             Text="{Binding RegistrationName}"/>
                 </StackPanel>
 
                 <!-- Password -->
                 <StackPanel Grid.Row="1" Margin="10">
                     <TextBlock Text="Password:"/>
-                    <PasswordBox x:Name="txtPassword" Width="200" Margin="5"/>
+                    <TextBox x:Name="txtPassword" Width="200" Margin="5" Text="{Binding RegistrationPassword}" />
                 </StackPanel>
 
                 <!-- Email -->
                 <StackPanel Grid.Row="2" Margin="10">
                     <TextBlock Text="Email:"/>
-                    <TextBox x:Name="txtEmail" Width="200" Margin="5"/>
+                    <TextBox x:Name="txtEmail" Width="200" Margin="5" Text="{Binding RegistrationEmail}"/>
                 </StackPanel>
 
                 <!-- Register Button -->
-                <Button Grid.Row="3" Content="Register" Width="100" Height="30" Margin="10"/>
+                <Button Grid.Row="3" Content="Register" Width="100" Height="30" Margin="10"
+                        Command="{Binding RegisterButtonCommand}"/>
 
                 <!-- Optional: Link to LoginView -->
                 <TextBlock Grid.Row="4" Text="Already have an account?">

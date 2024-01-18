@@ -4,8 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModel="clr-namespace:NovelNest.UserInterface.ViewModels.MainWindowViewModel"
-        mc:Ignorable="d" Background="Gray"
-        Title="NovelNest" Height="450" Width="800">
+        mc:Ignorable="d"
+        Title="NovelNest"
+        Height="600"
+        Width="800"
+        WindowStartupLocation="CenterScreen"
+        Background="Gray" Cursor="" ResizeMode="NoResize">
 
     <Window.DataContext>
         <viewModel:MainWindowViewModels/>
@@ -19,73 +23,81 @@
             <RowDefinition/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Rectangle x:Name="sideBarRectangle" Width="100" 
+                   VerticalAlignment="Stretch"
+                   Visibility="Collapsed"/>
 
-        <!-- Menü-System -->
-        <Menu Height="20" VerticalAlignment="Top" Background="Gray">
+        <Menu Height="20" VerticalAlignment="Top" Grid.Column="0" Grid.ColumnSpan="2">
             <MenuItem Header="Menü">
                 <MenuItem x:Name="closeApplication"
-                          Header="Schließen"
+                          Header="Close"
                           Command="{Binding CloseApplicationCommand}"/>
-                
+
                 <MenuItem x:Name="loginWindowTest"
                           Header="LoginTest"
-                          Command="{Binding LoginApplicationCOmmand}"/>
-                
+                          Command="{Binding LoginApplicationCommand}"/>
+
                 <MenuItem x:Name="registrationTest"
                           Header="RegistrationTest"
                           Command="{Binding RegistrationApplicationCommand}"/>
             </MenuItem>
         </Menu>
 
-        <!-- Buch Textboxen und Namen -->
-        <StackPanel Grid.Row="1">
-            
-            <Label Content="Büchername"/>
+        <Grid Grid.Row="1" Grid.Column="2">
+
+            <Label Content="Buch Titel" Margin="85,16,-85,148" FontWeight="Bold"/>
+
+            <TextBlock Text="Buch Beschreibung" Margin="85,64,-85,110"  FontWeight="Bold"/>
             <TextBox x:Name="tbxtBookName"
-                     Text="{Binding BookName, Mode=TwoWay}"/>
+                     Text="{Binding BookName, Mode=TwoWay}" Margin="232,61,315,122"/>
 
-            <Label Content="Beschreibung"/>
             <TextBox x:Name="tbxtDescription" 
-                     Text="{Binding BookDescription, Mode=TwoWay}"/>
-            
-        </StackPanel>
+                     Text="{Binding BookDescription, Mode=TwoWay}" Margin="232,16,315,168" RenderTransformOrigin="0.5,0.5">
+                <TextBox.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform AngleY="0"/>
+                        <RotateTransform/>
+                        <TranslateTransform Y="0"/>
+                    </TransformGroup>
+                </TextBox.RenderTransform>
+            </TextBox>
 
-        <!--.Button's für Hinzufügen, Updaten und Löschen! -->
-        <Grid Grid.Row="2">
+        </Grid>
+
+        <Grid Grid.Row="2" Grid.Column="1">
 
             <Button x:Name="btnaddBookInDataGrid" 
                     Height="32" Width="80"
                     Content="Add"
-                    VerticalAlignment="Center"
+                    VerticalAlignment="Top"
                     HorizontalAlignment="Left"
-                    Command="{Binding AddNewBookCommand}"/>
+                    Command="{Binding AddNewBookCommand}" Margin="310,-50,0,0"/>
 
             <Button x:Name="btnupdateBookDataGrid"
                     Height="32" Width="80"
                     Content="Update"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    Command="{Binding UpdateButtonCommand}"/>
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    Command="{Binding UpdateButtonCommand}" Margin="395,-50,0,0"/>
 
 
             <Button x:Name="btndeleteBookDatagrid"
                     Height="32" Width="80"
                     Content="Delete"
-                    VerticalAlignment="Center"
+                    VerticalAlignment="Top"
                     HorizontalAlignment="Right"
-                    Command="{Binding DeleteButtonCommand}"/>
+                    Command="{Binding DeleteButtonCommand}" RenderTransformOrigin="-2.5,-1.437" Margin="0,-50,225,0"/>
         </Grid>
-        
-        <!--Datagrid für Bücher-->
 
-        <DataGrid Grid.Row="3" Background="Gray" 
+        <DataGrid Grid.Row="3" Background="Transparent"
                   ItemsSource="{Binding BookCollection}"
                   IsReadOnly="True"
-                  SelectedItem="{Binding SelectedBook}"/>
-
-        <Label x:Name="madeByLabel" 
-               Content="Made by Steff" 
-               Grid.Row="4"
-               HorizontalAlignment="Right"/>
+                  SelectedItem="{Binding SelectedBook}"
+                  Grid.Column="1" Margin="35,5,40,0"/>
     </Grid>
 </Window>

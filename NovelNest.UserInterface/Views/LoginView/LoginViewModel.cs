@@ -12,8 +12,6 @@ namespace NovelNest.UI.Views.LoginView
         private string _username;
         private string _password;
 
-        private readonly ILoginService _loginService;
-
         public string Username
         {
             get => _username;
@@ -36,9 +34,8 @@ namespace NovelNest.UI.Views.LoginView
 
         public ICommand LoginCommand { get; private set; }
 
-        public LoginViewModel(ILoginService loginService)
+        public LoginViewModel()
         {
-            _loginService = loginService;
             LoginCommand = new RelayCommand(LoginAsync, CanLogin);
         }
 

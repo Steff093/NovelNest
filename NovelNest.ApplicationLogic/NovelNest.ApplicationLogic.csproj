@@ -19,10 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\LoggerService\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\NovelNest.Domain\NovelNest.Domain.csproj" />
     <ProjectReference Include="..\NovelNest.Infrastructure\NovelNest.Infrastructure.csproj" />
   </ItemGroup>

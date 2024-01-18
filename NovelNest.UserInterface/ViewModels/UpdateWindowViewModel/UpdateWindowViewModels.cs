@@ -1,37 +1,36 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using NovelNest.ApplicationLogic.Interfaces.BookInterfaces.IUpdateBookFeature;
 using NovelNest.ApplicationLogic.Interfaces.IDialogProvider;
-using NovelNest.ApplicationLogic.Interfaces.IUpdateBookFeature;
 using NovelNest.Domain.Entities.BookEntities;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Windows;
 using System.Windows.Input;
 
 namespace NovelNest.UserInterface.ViewModels.UpdateWindowViewModel
 {
     public class UpdateWindowViewModels : INotifyPropertyChanged
     {
-        #region Variablen
-
+        #region Fields
         private BookEntity _bookEntity;
-        private readonly IUpdateBookFeature<BookEntity> _updateBookFeature;
+        private readonly IUpdateBookFeature _updateBookFeature;
         private readonly IDialogProvider _dialogProvider;
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public ObservableCollection<BookEntity> _booksCollection;
+        #endregion
+
+        #region ICommand + Action
         public ICommand UpdateBookCommand { get; }
         public ICommand CloseUpdateViewCommand { get; }
         public Action CloseAction { get; set; }
-        public ObservableCollection<BookEntity> _booksCollection;
-
-
         #endregion
 
+        #region Konstruktoren 
         public UpdateWindowViewModels()
         {
 
         }
 
         public UpdateWindowViewModels(
-            IUpdateBookFeature<BookEntity> updateBookFeature, 
+            IUpdateBookFeature updateBookFeature, 
             BookEntity bookEntity, 
             ObservableCollection<BookEntity> booksCollection, 
             IDialogProvider dialogProvider)
@@ -46,12 +45,22 @@ namespace NovelNest.UserInterface.ViewModels.UpdateWindowViewModel
             CloseUpdateViewCommand = new RelayCommand(CloseUpdateCommand);
             BookCollection = new ObservableCollection<BookEntity>();
         }
+        #endregion
 
+        #region PropertyChanged
+        public event PropertyChangedEventHandler? PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        #endregion
 
+        #region Property
+        /*
+         * Property für DataGrid vom MainWindow
+         * Property für ausgwaählten Eintrag im Datagrid
+         * Property für Update Fenster Textboxen 
+        */
         public ObservableCollection<BookEntity> BookCollection
         {
             get => _booksCollection;
@@ -77,6 +86,10 @@ namespace NovelNest.UserInterface.ViewModels.UpdateWindowViewModel
 
         public string UpdateBookName { get; set; }
         public string UpdateBookDescription { get; set; }
+
+        #endregion
+
+        #region CommandsMethoden
 
         private void UpodateBookCommandWrapper()
         {
@@ -116,5 +129,6 @@ namespace NovelNest.UserInterface.ViewModels.UpdateWindowViewModel
         {
             CloseAction?.Invoke();
         }
+        #endregion
     }
 }

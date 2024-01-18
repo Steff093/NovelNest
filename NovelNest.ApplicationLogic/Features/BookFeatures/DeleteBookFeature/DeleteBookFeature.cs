@@ -1,10 +1,10 @@
-﻿using NovelNest.ApplicationLogic.Interfaces.IDeleteBookFeature;
+﻿using NovelNest.ApplicationLogic.Interfaces.BookInterfaces.IDeleteBookFeature;
 using NovelNest.Domain.Entities.BookEntities;
-using NovelNest.Infrastructure.Interfaces;
+using NovelNest.Infrastructure.Interfaces.BookInterfaceInfrastructure.DeleteBookInterfaceInfrastructure;
 
 namespace NovelNest.ApplicationLogic.Features.BookFeatures.DeleteBookFeature
 {
-    public class DeleteBookFeature : IDeleteBooKFeature
+    public class DeleteBookFeature : IDeleteBookFeature
     {
         private readonly IBookDeleteRepository _deleteBookRepository;
 

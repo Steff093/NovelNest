@@ -32,7 +32,7 @@
         <Label Grid.Row="1" 
                x:Name="lblName" Content="Name" 
                HorizontalAlignment="Left"/>
-        
+
         <TextBox Grid.Row="1" 
                  x:Name="txtName" TextAlignment="Left" 
                  Grid.ColumnSpan="2" Margin="200,5,0,10"
@@ -41,7 +41,7 @@
         <Label Grid.Row="2" 
                x:Name="lblDescription" Content="Description" 
                HorizontalAlignment="Left"/>
-        
+
         <TextBox Grid.Row="2" x:Name="txtDescription" 
                  TextAlignment="Left" Grid.ColumnSpan="2" Margin="200,5,0,10"
                  Text="{Binding UpdateBookDescription, UpdateSourceTrigger=PropertyChanged}"/>

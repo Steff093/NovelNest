@@ -12,10 +12,10 @@ namespace NovelNest.Domain.Entities.BookEntities
         [Key]
         public int BookId { get; set; }
 
-        [Required]
+        [Required, MinLength(5)]
         public string Title { get; set; } = string.Empty;
 
-        [Required]
+        [Required, MinLength(25)]
         public string Description { get; set; } = string.Empty;
     }
 }
