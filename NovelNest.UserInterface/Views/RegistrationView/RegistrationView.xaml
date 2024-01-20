@@ -48,9 +48,12 @@
                         Command="{Binding RegisterButtonCommand}"/>
 
                 <!-- Optional: Link to LoginView -->
-                <TextBlock Grid.Row="4" Text="Already have an account?">
-                    <Hyperlink x:Name="lnkLogin" NavigateUri="#" Click="lnkLogin_Click">Login</Hyperlink>
-                </TextBlock>
+                <TextBlock Grid.Row="4" HorizontalAlignment="Center" >
+        <Run Text="Sie haben bereits einen Account?"/>
+        <Hyperlink Command="{Binding LoginWindow}">
+            <TextBlock Text="Login"/>
+        </Hyperlink>
+    </TextBlock>
             </Grid>
         </Border>
     </Grid>

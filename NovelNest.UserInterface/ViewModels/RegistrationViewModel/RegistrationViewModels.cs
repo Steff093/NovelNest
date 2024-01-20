@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using NovelNest.ApplicationLogic.Common.PasswordHash;
 using NovelNest.ApplicationLogic.Interfaces.IDialogProvider;
+using NovelNest.ApplicationLogic.Interfaces.NavigationService;
 using NovelNest.ApplicationLogic.Interfaces.PasswordHasherInterface;
 using NovelNest.ApplicationLogic.Interfaces.RegistrationInterface;
 using NovelNest.UI.Domain.Entities.LoginEntities;
@@ -20,8 +21,10 @@ namespace NovelNest.UserInterface.ViewModels.RegistrationViewModel
         private readonly IRegistrationFeatures _registrationFeatures;
         private readonly IDialogProvider _dialogProvider;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly INavigationService _navigateService;
 
         public ICommand RegisterButtonCommand => new RelayCommand(RegisterCommand);
+        public ICommand LoginWindow => new RelayCommand(LoginNavigateWindow);
 
         public RegistrationViewModels()
         {
@@ -31,11 +34,13 @@ namespace NovelNest.UserInterface.ViewModels.RegistrationViewModel
         public RegistrationViewModels(
             IRegistrationFeatures registrationFeatures,
             IDialogProvider dialogProvider,
-            IPasswordHasher passwordHasher)
+            IPasswordHasher passwordHasher,
+            INavigationService navigationService)
         {
             _registrationFeatures = registrationFeatures;
             _dialogProvider = dialogProvider;
             _passwordHasher = passwordHasher;
+            _navigateService = navigationService;
         }
 
         private string _registrationName;
@@ -76,13 +81,12 @@ namespace NovelNest.UserInterface.ViewModels.RegistrationViewModel
         {
             if (string.IsNullOrEmpty(RegistrationName) || string.IsNullOrEmpty(RegistrationPassword) || string.IsNullOrEmpty(RegistrationEmail))
             {
-                _dialogProvider.ShowError("Bitte tragen Sie einen Namen, Password und eine Email ein!", "Fehler");
+                _dialogProvider.ShowError("Fehler", "Bitte tragen Sie einen Namen, Password und eine Email ein!");
                 return;
             }
 
             if (_passwordHasher == null)
             {
-                Debug.WriteLine("PasswordHasher ist nulL!");
                 return;
             }
             var salt = _passwordHasher.GenerateRandomSalt();
@@ -100,8 +104,13 @@ namespace NovelNest.UserInterface.ViewModels.RegistrationViewModel
 
                 _registrationFeatures.AddUserToTable(entity);
 
-                _dialogProvider.ShowMessage("Benutzer erfolgreich hinzugefügt!", "Erfolgreich");
+                _dialogProvider.ShowMessage("Erfolgreich", "Benutzer erfolgreich hinzugefügt!");
             }
+        }
+
+        private void LoginNavigateWindow()
+        {
+            _navigateService.NavigateToLoginWindow();
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

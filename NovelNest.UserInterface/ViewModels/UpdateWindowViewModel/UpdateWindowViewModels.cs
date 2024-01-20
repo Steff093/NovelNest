@@ -89,7 +89,7 @@ namespace NovelNest.UserInterface.ViewModels.UpdateWindowViewModel
 
         #endregion
 
-        #region CommandsMethoden
+        #region CommmandsMethoden
 
         private void UpodateBookCommandWrapper()
         {
@@ -112,17 +112,17 @@ namespace NovelNest.UserInterface.ViewModels.UpdateWindowViewModel
 
                 if (updatedBook is not null)
                 {
-                    _dialogProvider.ShowMessage("Eintrag erfolgreich geändert!", "Update Erfolg");
+                    _dialogProvider.ShowMessage("Update Erfolg", "Eintrag erfolgreich geändert!");
 
                     // ToDo: Mit der BookCollection vom MainWindow versuchen, die Liste zu aktualisieren
 
                     CloseAction.Invoke();
                 }
                 else
-                    _dialogProvider.ShowError("Fehler bei der Aktualisierung!", "Update Fehler");
+                    _dialogProvider.ShowError("Update Fehler", "Fehler bei der Aktualisierung!");
             }
             else
-                _dialogProvider.ShowError("UpdateBookFeature oder SelectedBook ist null", "Update Null Fehler");
+                _dialogProvider.ShowError("Update Null Fehler", "UpdateBookFeature oder SelectedBook ist null");
         }
 
         private void CloseUpdateCommand()

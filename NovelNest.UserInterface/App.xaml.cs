@@ -22,7 +22,7 @@ using NovelNest.Infrastructure.Repositories.BookRepositories.BookAddRepository;
 using NovelNest.Infrastructure.Repositories.BookRepositories.BookDeleteRepository;
 using NovelNest.Infrastructure.Repositories.BookRepositories.BookUpdateRepository;
 using NovelNest.Infrastructure.Repositories.RegistrationRepositories;
-using NovelNest.UserInterface.Common.NavigationService;
+using NovelNest.UserInterface.Services.NavigationService;
 using NovelNest.UserInterface.ViewModels.LoginViewModel;
 using NovelNest.UserInterface.ViewModels.MainWindowViewModel;
 using NovelNest.UserInterface.ViewModels.RegistrationViewModel;
@@ -51,47 +51,12 @@ namespace NovelNest.UserInterface
 
             _serviceProvider = serviceCollection.BuildServiceProvider();
 
-            /* Falls Login eine NullReferenceException wirft :
-             * Login muss alleine aufrufbar sein
-             * da sonst _dialogProvider geblockt wird vom MainWindow
-            */
-
-            /*
-             * Login funktioniert soweit. Problem ist nun,
-             * dass MainWindow danach nicht der Focus ist
-             * dadurch stürzt die Anwendung ab
-             * bei'm hinzufügen eines Buches
-            */
-
-            //var mainWindow = new MainWindow()
-            //{
-            //    DataContext = _serviceProvider.GetRequiredService<MainWindowViewModels>()
-            //};
-            //mainWindow.ShowDialog();
-
             var loginWindow = new LoginView()
             {
                 DataContext = _serviceProvider.GetRequiredService<LoginViewModels>()
             };
-
             loginWindow.ShowDialog();
-
-            //var register = new RegistrationView()
-            //{
-            //    DataContext = _serviceProvider.GetRequiredService<RegistrationViewModels>()
-            //};
-            //register.ShowDialog();
         }
-
-        /*
-         * für meine Navigation zum MainWindow, falls NavigationService doch nicht so schön ist.
-         * */
-
-        //public static void SwitchToMainWindow()
-        //{
-        //    var window = new MainWindow();
-        //    window.ShowDialog();
-        //}
 
         private void ConfigureServices(ServiceCollection serviceCollection)
         {
@@ -105,7 +70,6 @@ namespace NovelNest.UserInterface
             serviceCollection.AddSingleton<IUpdateBookFeature, UpdateBookFeature>();
             serviceCollection.AddSingleton<IDeleteBookFeature, DeleteBookFeature>();
             serviceCollection.AddSingleton<IRegistrationFeatures, RegistrationUserFeature>();
-            // Aufgrund von Schwierigkeiten mit wiederholter Verwendunvon derselben Instanzen, lieber auf Transient umgestiegen.
             serviceCollection.AddScoped<IPasswordHasher, PasswordHasher>();
             serviceCollection.AddSingleton<INavigationService, NavigationService>();
             serviceCollection.AddSingleton<BookEntity>();

@@ -141,13 +141,13 @@ namespace NovelNest.UserInterface.ViewModels.MainWindowViewModel
         {
             if (SelectedBook is null)
             {
-                _dialogProvider.ShowError("Bitte wähle einen Eintrag aus", "Fehler");
+                _dialogProvider.ShowError("Fehler", "Bitte wähle einen Eintrag aus");
                 return;
             }
 
             if (SelectedBook is not null)
             {
-                bool reault = _dialogProvider.ShowConfirmation("Möchtest du diesen Eintrag wirklich löschen?", "Hinweis");
+                bool reault = _dialogProvider.ShowConfirmation("Hinweis", "Möchtest du diesen Eintrag wirklich löschen?");
                 if (reault)
                 {
                     await _deleteBookFeature.DeleteBookAsync(SelectedBook);
@@ -194,7 +194,7 @@ namespace NovelNest.UserInterface.ViewModels.MainWindowViewModel
         {
             if (string.IsNullOrEmpty(BookName) || string.IsNullOrEmpty(BookDescription))
             {
-                _dialogProvider.ShowError("Bitte geben Sie einen Buchtitel und eine Beschreibung ein!", "Fehler");
+                _dialogProvider.ShowError("Fehler", "Bitte geben Sie einen Buchtitel und eine Beschreibung ein!");
                 BookName = string.Empty;
                 BookDescription = string.Empty;
                 return;
@@ -208,7 +208,7 @@ namespace NovelNest.UserInterface.ViewModels.MainWindowViewModel
 
             if (BookName.Length < 5 || BookDescription.Length < 5)
             {
-                _dialogProvider.ShowError("Ihr Buch und Beschreibung muss mindestens 5 Zeichen lang sein", "Fehler");
+                _dialogProvider.ShowError("Fehler", "Ihre Buch und dessen Beschreibung muss mindestens 5 Zeichen lang sein");
                 return;
             }
 
@@ -218,13 +218,13 @@ namespace NovelNest.UserInterface.ViewModels.MainWindowViewModel
             {
                 BookCollection.Add(addBook);
 
-                _dialogProvider.ShowMessage("Buch erfolgreich hinzugefügt!", "Erfolg");
+                _dialogProvider.ShowMessage("Erfolg", "Buch erfolgreich hinzugefügt!");
 
                 BookName = string.Empty;
                 BookDescription = string.Empty;
             }
             else
-                _dialogProvider.ShowError("Es gab einen Fehler beim Hinzufügen des Buches.", "Fehler");
+                _dialogProvider.ShowError("Fehler", "Es gab einen Fehler beim Hinzufügen des Buches.");
         }
         #endregion
 
@@ -241,15 +241,15 @@ namespace NovelNest.UserInterface.ViewModels.MainWindowViewModel
         {
             if (SelectedBook is null)
             {
-                _dialogProvider.ShowError("Bitte wählen Sie einen Eintrag aus!", "Fehler");
+                _dialogProvider.ShowError("Fehler", "Bitte wählen Sie einen Eintrag aus!");
                 return;
             }
-            //var updatebookWindow = new UpdateWindowViewModels(_updateBookFeature, SelectedBook, BookCollection, DialogProvider);
-            //var view = new UpdateView { DataContext = updatebookWindow };
+            var updatebookWindow = new UpdateWindowViewModels(_updateBookFeature, SelectedBook, BookCollection, _dialogProvider);
+            var view = new UpdateView { DataContext = updatebookWindow };
 
-            //updatebookWindow.CloseAction = () => view.Close();
+            updatebookWindow.CloseAction = () => view.Close();
 
-            //view.ShowDialog();
+            view.ShowDialog();
         }
         #endregion
 

@@ -26,12 +26,6 @@ namespace NovelNest.UserInterface.Views.RegistrationView
 
         private void lnkLogin_Click(object sender, RoutedEventArgs e)
         {
-            Close();
-
-            // ToDo: Login neu schreiben!
-
-            //var mainWindow = (MainWindow)Application.Current.MainWindow;
-            //mainWindow.NavigateToLoginView();
         }
     }
 }

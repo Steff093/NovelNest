@@ -7,18 +7,18 @@ namespace NovelNest.ApplicationLogic.Common.DialogProvider
     {
         public void ShowMessage(string noteMessage, string headMessageText)
         {
-            MessageBox.Show(noteMessage, headMessageText, MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show(headMessageText, noteMessage, MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         public bool ShowConfirmation(string noteMessage, string headMessageText)
         {
-            MessageBoxResult result = MessageBox.Show(noteMessage, headMessageText, MessageBoxButton.YesNo, MessageBoxImage.Question);
+            MessageBoxResult result = MessageBox.Show(headMessageText, noteMessage, MessageBoxButton.YesNo, MessageBoxImage.Question);
             return result == MessageBoxResult.Yes;
         }
 
         public void ShowError(string message, string headMessage)
         {
-            MessageBoxResult result = MessageBox.Show(message, headMessage, MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBoxResult result = MessageBox.Show(headMessage, message, MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }

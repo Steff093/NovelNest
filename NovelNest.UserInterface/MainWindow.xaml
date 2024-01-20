@@ -53,10 +53,10 @@
 
             <TextBlock Text="Buch Beschreibung" Margin="85,64,-85,110"  FontWeight="Bold"/>
             <TextBox x:Name="tbxtBookName"
-                     Text="{Binding BookName, Mode=TwoWay}" Margin="232,61,315,122"/>
+                     Text="{Binding BookName, Mode=TwoWay}" Margin="232,10,315,173"/>
 
             <TextBox x:Name="tbxtDescription" 
-                     Text="{Binding BookDescription, Mode=TwoWay}" Margin="232,16,315,168" RenderTransformOrigin="0.5,0.5">
+                     Text="{Binding BookDescription, Mode=TwoWay}" Margin="232,54,315,130" RenderTransformOrigin="0.5,0.5">
                 <TextBox.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
