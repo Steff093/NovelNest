@@ -12,7 +12,7 @@ using NovelNest.Infrastructure.Database;
 namespace NovelNest.Infrastructure.Migrations
 {
     [DbContext(typeof(NovelNestDataContext))]
-    [Migration("20240117215327_firstMigration")]
+    [Migration("20240131140109_firstMigration")]
     partial class firstMigration
     {
         /// <inheritdoc />

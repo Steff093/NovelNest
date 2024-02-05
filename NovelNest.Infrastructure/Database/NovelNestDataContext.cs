@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NovelNest.Domain.Entities.BookEntities;
+using NovelNest.Domain.Entities.FolderEntities;
 using NovelNest.UI.Domain.Entities.LoginEntities;
 
 namespace NovelNest.Infrastructure.Database
@@ -14,6 +15,7 @@ namespace NovelNest.Infrastructure.Database
 
         public DbSet<BookEntity> BookEntities { get; set; }
         public DbSet<UserEntity> UserEntities { get; set; }
+        public DbSet<FolderEntity> FolderEntities { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

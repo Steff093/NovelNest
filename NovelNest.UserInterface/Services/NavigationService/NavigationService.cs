@@ -32,15 +32,12 @@ namespace NovelNest.UserInterface.Services.NavigationService
          * Somit wäre das Problem mit der UI in einer Klasse theoretisch auch gelöst. 
          * Und wenn man von Login auf Registration wechselt, soll der Login oder die Registration geschlossen werden.
         */
+
         public void NavigateToMainWindow()
         {
             var loginWindow = Application.Current.Windows.OfType<LoginView>().FirstOrDefault(x => x.IsActive);
             var mainWindowViewModelService = new MainWindowViewModelService();
-            var mainWindowViewModel = mainWindowViewModelService.GetMainViewModel(
-                new AddBookFeature(new BookAddRepository(new NovelNestDataContext())),
-                new UpdateBookFeature(new BookUpdateRepository(new NovelNestDataContext())),
-                new DialogProvider(),
-                new DeleteBookFeature(new BookDeleteRepository(new NovelNestDataContext())));
+            var mainWindowViewModel = mainWindowViewModelService.GetMainViewModel();
 
             if (loginWindow is not null)
             {
@@ -56,42 +53,42 @@ namespace NovelNest.UserInterface.Services.NavigationService
 
         public void NavigateToRegistrationWindow()
         {
-            var registtationViewModelService = new LoginWindowViewModelService();
-            var registrationViewModel = registtationViewModelService.GetRegistrationViewModels(
-                new RegistrationUserFeature(new RegistrationRepository(new NovelNestDataContext())),
-                new DialogProvider(),
-                new PasswordHasher(),
-                new NavigationService());
+            //var registtationViewModelService = new LoginWindowViewModelService();
+            //var registrationViewModel = registtationViewModelService.GetRegistrationViewModels(
+            //    new RegistrationUserFeature(new RegistrationRepository(new NovelNestDataContext())),
+            //    new DialogProvider(),
+            //    new PasswordHasher(),
+            //    new NavigationService());
 
-            if (registrationViewModel is not null)
-            {
-                var registration = new RegistrationView()
-                {
-                    DataContext = registrationViewModel,
-                };
-                registration.ShowDialog();
-                registration.Activate();
-            }
+            //if (registrationViewModel is not null)
+            //{
+            //    var registration = new RegistrationView()
+            //    {
+            //        DataContext = registrationViewModel,
+            //    };
+            //    registration.ShowDialog();
+            //    registration.Activate();
+            //}
         }
 
         public void NavigateToLoginWindow()
         {
-            var loginViewModelService = new RegistrationWindowViewModelService();
-            var loginViewModel = loginViewModelService.GetLoginView(
-                new DialogProvider(),
-                new RegistrationUserFeature(new RegistrationRepository(new NovelNestDataContext())),
-                new PasswordHasher(),
-                new NavigationService());
+            //var loginViewModelService = new RegistrationWindowViewModelService();
+            //var loginViewModel = loginViewModelService.GetRegistrationView(
+            //    new DialogProvider(),
+            //    new RegistrationUserFeature(new RegistrationRepository(new NovelNestDataContext())),
+            //    new PasswordHasher(),
+            //    new NavigationService());
 
-            if (loginViewModel is not null)
-            {
-                var login = new LoginView()
-                {
-                    DataContext = loginViewModel,
-                };
-                login.ShowDialog();
-                login.Activate();
-            }
+            //if (loginViewModel is not null)
+            //{
+            //    var login = new LoginView()
+            //    {
+            //        DataContext = loginViewModel,
+            //    };
+            //    login.ShowDialog();
+            //    login.Activate();
+            //}
         }
     }
 }

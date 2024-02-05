@@ -27,7 +27,7 @@ namespace NovelNest.Infrastructure.Repositories.BookRepositories.BookDeleteRepos
             }
             catch (Exception ex)
             {
-                throw new Exception("Fehler in DelteRepository " + ex.Message);
+                throw new Exception("Fehler in DeleteRepository " + ex.Message);
             }
         }
     }

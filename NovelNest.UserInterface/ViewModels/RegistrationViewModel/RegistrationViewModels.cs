@@ -110,7 +110,8 @@ namespace NovelNest.UserInterface.ViewModels.RegistrationViewModel
 
         private void LoginNavigateWindow()
         {
-            _navigateService.NavigateToLoginWindow();
+            //_navigateService.NavigateToLoginWindow();
+            App.NavigateToLogin();
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

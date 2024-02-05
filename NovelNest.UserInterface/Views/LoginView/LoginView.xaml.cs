@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 
 namespace NovelNest.UserInterface.Views.LoginView
 {
@@ -10,16 +11,6 @@ namespace NovelNest.UserInterface.Views.LoginView
         public LoginView()
         {
             InitializeComponent();
-        }
-
-        private void lnkRegister_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-
-            // ToDo:  Register Verlinkung neu schreiben
-
-            //var mainWindowViewModel = new MainWindowViewModels();
-            //mainWindowViewModel.RegistrationApplicationCommand();
         }
     }
 }

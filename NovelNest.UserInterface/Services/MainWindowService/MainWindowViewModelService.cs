@@ -1,8 +1,10 @@
 ﻿
+using NovelNest.ApplicationLogic.Common.DialogProvider;
 using NovelNest.ApplicationLogic.Interfaces.BookInterfaces.IAddBookFeature;
 using NovelNest.ApplicationLogic.Interfaces.BookInterfaces.IDeleteBookFeature;
 using NovelNest.ApplicationLogic.Interfaces.BookInterfaces.IUpdateBookFeature;
 using NovelNest.ApplicationLogic.Interfaces.IDialogProvider;
+using NovelNest.UserInterface.ViewModels.BookManagementViewModel;
 using NovelNest.UserInterface.ViewModels.MainWindowViewModel;
 
 namespace NovelNest.UserInterface.Services.MainWindowService
@@ -11,18 +13,11 @@ namespace NovelNest.UserInterface.Services.MainWindowService
     {
         private MainWindowViewModels _mainWindowViewModel;
 
-        public MainWindowViewModels GetMainViewModel(
-            IAddBookFeature addBookFeature,
-            IUpdateBookFeature updateBookFeature,
-            IDialogProvider dialogProvider,
-            IDeleteBookFeature deleteBooKFeature)
+        public MainWindowViewModels GetMainViewModel()
         {
-            if(_mainWindowViewModel is null)
+            if (_mainWindowViewModel is null)
                 _mainWindowViewModel = new MainWindowViewModels(
-                    addBookFeature,
-                    updateBookFeature,
-                    dialogProvider,
-                    deleteBooKFeature);
+                    new DialogProvider());
 
             return _mainWindowViewModel;
         }

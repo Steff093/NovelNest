@@ -21,8 +21,6 @@ namespace NovelNest.ApplicationLogic.Features.BookFeatures.AddBookFeature
                 return book;
             }
             catch (Exception)
-
-
             {
                 throw new Exception("Error");
             }

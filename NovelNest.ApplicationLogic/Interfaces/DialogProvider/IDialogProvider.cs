@@ -11,5 +11,6 @@ namespace NovelNest.ApplicationLogic.Interfaces.IDialogProvider
         void ShowMessage(string notemessage, string headMessage);
         bool ShowConfirmation(string noteMessage, string headMessageText);
         void ShowError(string noteMessage, string headMessage);
+        bool ShowQuestionDeleteBook(string headMessage, string noteMessage);
     }
 }

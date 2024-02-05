@@ -3,27 +3,28 @@ using NovelNest.ApplicationLogic.Interfaces.NavigationService;
 using NovelNest.ApplicationLogic.Interfaces.PasswordHasherInterface;
 using NovelNest.ApplicationLogic.Interfaces.RegistrationInterface;
 using NovelNest.UserInterface.ViewModels.LoginViewModel;
+using NovelNest.UserInterface.ViewModels.RegistrationViewModel;
 
 namespace NovelNest.UserInterface.Services.RegistrationWindowService
 {
     public class RegistrationWindowViewModelService
     {
-        private LoginViewModels _loginViewModels;
+        private RegistrationViewModels _registrationViewModels;
 
-        public LoginViewModels GetLoginView(
-            IDialogProvider dialogProvider,
+        public RegistrationViewModels GetRegistrationView(
             IRegistrationFeatures registrationFeatures,
+            IDialogProvider dialogProvider,
             IPasswordHasher passwordHasher,
             INavigationService navigationService)
 
         {
-            if (_loginViewModels == null)
-                _loginViewModels = new LoginViewModels(
-                    dialogProvider,
+            if (_registrationViewModels == null)
+                _registrationViewModels = new RegistrationViewModels(
                     registrationFeatures,
+                    dialogProvider,
                     passwordHasher,
                     navigationService);
-            return _loginViewModels;
+            return _registrationViewModels;
         }
     }
 }

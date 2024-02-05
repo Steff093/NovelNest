@@ -5,56 +5,83 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NovelNest.UserInterface.Views.RegistrationView"
         xmlns:viewModel="clr-namespace:NovelNest.UserInterface.ViewModels.RegistrationViewModel"
-        mc:Ignorable="d" Background="Gray"
-        Title="NovelNest-Registration" Height="450" Width="800">
+        mc:Ignorable="d" Background="Transparent"
+        Title="NovelNest-Registration" Height="635" Width="800">
 
     <Window.DataContext>
         <viewModel:RegistrationViewModels/>
     </Window.DataContext>
-    
+
     <Grid>
-        <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="10" Margin="20">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+        <Image x:Name="bookCover" Source="/Assets/CoverNovelNest.jpg" Stretch="UniformToFill" Opacity="0.45" Margin="1,-6,-1,0" Height="618" VerticalAlignment="Top">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="0.287"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="1.148"/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
 
-                <!-- Name -->
-                <StackPanel Grid.Row="0" Margin="10">
-                    <TextBlock Text="Name:"/>
-                    <TextBox x:Name="txtName" Width="200" 
+        <Grid>
+            <Grid Margin="10,80,-10,30">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                <StackPanel>
+                    <TextBlock Grid.Row="0" Text="NovelNest-Registrierung"
+                               HorizontalAlignment="Center" Width="220"
+                               Foreground="White" FontSize="20"
+                               FontStyle="Oblique"/>
+                </StackPanel>
+                    <!-- Name -->
+                    <StackPanel Grid.Row="1" Margin="10">
+                        <TextBlock Text="Name" FontSize="20" Foreground="White" Width="62" FontStyle="Oblique"/>
+                        <TextBox x:Name="txtName" Width="200" 
                              Margin="5" 
+                                 Style="{StaticResource CustomTextboxStyle}"
                              Text="{Binding RegistrationName}"/>
-                </StackPanel>
+                    </StackPanel>
 
-                <!-- Password -->
-                <StackPanel Grid.Row="1" Margin="10">
-                    <TextBlock Text="Password:"/>
-                    <TextBox x:Name="txtPassword" Width="200" Margin="5" Text="{Binding RegistrationPassword}" />
-                </StackPanel>
+                    <!-- Password -->
+                    <StackPanel Grid.Row="2" Margin="10">
+                        <TextBlock Text="Password" FontSize="20" Foreground="White" Width="87"
+                           FontStyle="Oblique"/>
+                        <TextBox x:Name="txtPassword" Width="200" 
+                                 Margin="5"
+                                 Style="{StaticResource CustomTextboxStyle}"
+                                 Text="{Binding RegistrationPassword}" />
+                    </StackPanel>
 
-                <!-- Email -->
-                <StackPanel Grid.Row="2" Margin="10">
-                    <TextBlock Text="Email:"/>
-                    <TextBox x:Name="txtEmail" Width="200" Margin="5" Text="{Binding RegistrationEmail}"/>
-                </StackPanel>
+                    <!-- Email -->
+                    <StackPanel Grid.Row="3" Margin="0">
+                        <TextBlock Text="Email" FontSize="20" Foreground="White" Width="52"
+                           FontStyle="Oblique"/>
+                        <TextBox x:Name="txtEmail" Width="200" 
+                                 Margin="5"
+                                 Style="{StaticResource CustomTextboxStyle}"
+                                 Text="{Binding RegistrationEmail}"/>
+                    </StackPanel>
 
-                <!-- Register Button -->
-                <Button Grid.Row="3" Content="Register" Width="100" Height="30" Margin="10"
+                    <!-- Register Button -->
+                    <Button Grid.Row="4" Content="Register" Height="30" Margin="318,73,300,44"
+                            
+                            Style="{StaticResource CustomButtonStyle}"
                         Command="{Binding RegisterButtonCommand}"/>
 
-                <!-- Optional: Link to LoginView -->
-                <TextBlock Grid.Row="4" HorizontalAlignment="Center" >
-        <Run Text="Sie haben bereits einen Account?"/>
-        <Hyperlink Command="{Binding LoginWindow}">
-            <TextBlock Text="Login"/>
-        </Hyperlink>
-    </TextBlock>
-            </Grid>
-        </Border>
+                    <!-- Optional: Link to LoginView -->
+                    <StackPanel Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Top" Height="40" Margin="0,157,0,0" Grid.RowSpan="2">
+                        <TextBlock Width="261" FontStyle="Oblique" FontSize="15" Height="40"><Run Text="Sie haben ein Account?" Foreground="White"/><Run/><Run Text=" "/><Hyperlink Command="{Binding LoginWindow}"><InlineUIContainer>
+                            <TextBlock Text="Hier Einloggen" Foreground="White"/>
+                        </InlineUIContainer></Hyperlink></TextBlock>
+                    </StackPanel>
+                </Grid>
+        </Grid>
     </Grid>
 </Window>

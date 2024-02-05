@@ -1,23 +1,74 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using NovelNest.ApplicationLogic.Common.DialogProvider;
+using NovelNest.ApplicationLogic.Features.BookFeatures.AddBookFeature;
+using NovelNest.ApplicationLogic.Features.BookFeatures.DeleteBookFeature;
+using NovelNest.ApplicationLogic.Features.BookFeatures.UpdateBookFeature;
 using NovelNest.ApplicationLogic.Interfaces.BookInterfaces.IAddBookFeature;
 using NovelNest.ApplicationLogic.Interfaces.BookInterfaces.IDeleteBookFeature;
 using NovelNest.ApplicationLogic.Interfaces.BookInterfaces.IUpdateBookFeature;
 using NovelNest.ApplicationLogic.Interfaces.IDialogProvider;
 using NovelNest.Domain.Entities.BookEntities;
 using NovelNest.Infrastructure.Database;
+using NovelNest.Infrastructure.Repositories.BookRepositories.BookAddRepository;
+using NovelNest.Infrastructure.Repositories.BookRepositories.BookDeleteRepository;
+using NovelNest.Infrastructure.Repositories.BookRepositories.BookUpdateRepository;
+using NovelNest.UserInterface.Services.BookManagementService;
+using NovelNest.UserInterface.UserControlView;
+using NovelNest.UserInterface.ViewModels.BookManagementViewModel;
 using NovelNest.UserInterface.ViewModels.UpdateWindowViewModel;
 using NovelNest.UserInterface.Views.LoginView;
 using NovelNest.UserInterface.Views.UpdateView;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace NovelNest.UserInterface.ViewModels.MainWindowViewModel
 {
-    public class MainWindowViewModels : INotifyPropertyChanged
+    public class MainWindowViewModels :INotifyPropertyChanged
     {
-        #region Commands
+
+        private readonly IDialogProvider _dialogProvider;
+
+        public UserControl _currentView;
+
+        public UserControl CurrentView
+        {
+            get => _currentView;
+            set
+            {
+                _currentView = value;
+                OnPropertyChanged(nameof(CurrentView));
+            }
+        }
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public MainWindowViewModels()
+        {
+
+        }
+
+        public MainWindowViewModels(IDialogProvider dialogProvider)
+        {
+            _dialogProvider = dialogProvider;
+
+            /* Zeigt den View an, der angezeigt werden soll beim Start
+             * Könnte man mit einer Startseite verschönern
+            */
+
+            BookButton();
+        }
+
+        #region Comandas
+
+        public ICommand BookManagement => new RelayCommand(BookManagementButton);
+        public ICommand FolderManagement => new RelayCommand(FolderManagementButton);
+        public ICommand MouseDrag => new RelayCommand(MouseDownDrag);
 
         public ICommand CloseApplicationCommand => new RelayCommand(CloseApplication);
         public ICommand LoginApplicationCommand => new RelayCommand(LoginViewCommand);
@@ -25,140 +76,56 @@ namespace NovelNest.UserInterface.ViewModels.MainWindowViewModel
 
         #endregion
 
-        #region Button Commands - Hinzufügen, Bearbeiten und Löschen 
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-        public ICommand UpdateButtonCommand => new RelayCommand(UpdateWindowCommand);
-        public ICommand AddNewBookCommand => new RelayCommand(AddBookCommand);
-        public ICommand DeleteButtonCommand => new RelayCommand(DeleteBookCommand);
-
-        #endregion
-
-        #region Fields
-
-        private readonly IAddBookFeature _addBookFeature;
-        private readonly IUpdateBookFeature _updateBookFeature;
-        private readonly IDeleteBookFeature _deleteBookFeature;
-        private readonly IDialogProvider _dialogProvider;
-        public ObservableCollection<BookEntity> _bookCollection;
-        //public IDialogProvider DialogProvider { get; set; }
-        public BookEntity _bookEntity;
-
-        #endregion
-
-        #region Konstruktor 
-
-        public MainWindowViewModels()
+        private void BookButton()
         {
+            /*
+                * Richtigen Konstruktor nutzen!
+                * Hier DataContext setzen, damit alle Daten angezeigt werden!
+             */
+
+            var bookManagementDataContext = new BookManagementViewModels(
+                new AddBookFeature(new BookAddRepository(new NovelNestDataContext())),
+                new UpdateBookFeature(new BookUpdateRepository(new NovelNestDataContext())),
+                new DialogProvider(),
+                new DeleteBookFeature(new BookDeleteRepository(new NovelNestDataContext())));
+
+            CurrentView = new BookManagementView()
+            {
+                DataContext = bookManagementDataContext
+            };
         }
 
-        public MainWindowViewModels(
-            IAddBookFeature addBookFeature,
-            IUpdateBookFeature updteBookFeature,
-            IDialogProvider dialogProvider,
-            IDeleteBookFeature delteBookFeature)
+        private void BookManagementButton()
         {
-            BookCollection = new ObservableCollection<BookEntity>();
-            LoadDatabase();
-            _addBookFeature = addBookFeature;
-            _updateBookFeature = updteBookFeature;
-            _dialogProvider = dialogProvider;
-            _deleteBookFeature = delteBookFeature;
+            BookButton();
         }
 
-        #endregion
-
-        #region Property
-
-        public BookEntity SelectedBook
+        private void FolderManagementButton()
         {
-            get => _bookEntity;
-            set
-            {
-                _bookEntity = value;
-                OnPropertyChanged(nameof(SelectedBook));
-            }
+            CurrentView = new FolderManagementView();
         }
 
-        public ObservableCollection<BookEntity> BookCollection
+        public void LoginViewCommand()
         {
-            get => _bookCollection;
-            set
-            {
-                _bookCollection = value;
-                OnPropertyChanged(nameof(BookCollection));
-            }
+            _dialogProvider.ShowMessage("Text", "///////");
         }
 
-        private string _bookName;
-        private string _bookDescription;
-
-        public string BookName
+        public void RegistrationViewCommand()
         {
-            get => _bookName;
-            set
-            {
-                _bookName = value;
-                OnPropertyChanged(nameof(BookName));
-            }
+
         }
 
-        public string BookDescription
+        private void MouseDownDrag()
         {
-            get => _bookDescription;
-            set
+            var loginWindow = Application.Current.MainWindow as Window;
+
+            if (loginWindow is not null && Mouse.LeftButton == MouseButtonState.Pressed)
             {
-                _bookDescription = value;
-                OnPropertyChanged(nameof(BookDescription));
+                loginWindow.DragMove();
             }
         }
-        #endregion
-
-        #region Methoden 
-
-        /*
-         * Datenbank Liste Laden
-         */
-
-        private void LoadDatabase()
-        {
-            try
-            {
-                using var dbContext = new NovelNestDataContext();
-                BookCollection = new ObservableCollection<BookEntity>(dbContext.BookEntities.ToList());
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Fehler! " + ex.Message);
-            }
-        }
-
-        #region Lösche eines Buches Methode
-
-        /* Methode, welches einen Eintrag löscht, wenn etwas ausgewählt wurde
-         * Man wird vorher gefragt, ob man sich sicher sei, diesen Eintrag zu löschen.
-        */
-        private async Task DeleteBook()
-        {
-            if (SelectedBook is null)
-            {
-                _dialogProvider.ShowError("Fehler", "Bitte wähle einen Eintrag aus");
-                return;
-            }
-
-            if (SelectedBook is not null)
-            {
-                bool reault = _dialogProvider.ShowConfirmation("Hinweis", "Möchtest du diesen Eintrag wirklich löschen?");
-                if (reault)
-                {
-                    await _deleteBookFeature.DeleteBookAsync(SelectedBook);
-                    BookCollection.Remove(SelectedBook);
-                }
-                else
-                    return;
-
-            }
-        }
-        #endregion
 
         #region Schließen der Anwendung
 
@@ -170,11 +137,11 @@ namespace NovelNest.UserInterface.ViewModels.MainWindowViewModel
 
         private void CloseApplication()
         {
-            bool result = _dialogProvider.ShowConfirmation("Möchten Sie die Anwendung wirklich schließen?", "NovelNest schließen");
+            bool result = _dialogProvider.ShowConfirmation("NovelNest schließen", "Möchten Sie die Anwendung wirklich schließen?");
 
             if (result)
             {
-                // BUgFix : Prüfen, ob Anwendung schon geschlossen ist oder nicht 
+                // Prüfen, ob Anwendung schon geschlossen ist oder nicht 
 
                 if (Application.Current is not null)
                     Application.Current.Shutdown();
@@ -182,118 +149,6 @@ namespace NovelNest.UserInterface.ViewModels.MainWindowViewModel
             else
                 return;
         }
-        #endregion
-
-        #region Hinzufügen eines Buches
-
-        /* Fügt ein Buch in das Datagrid hinzu
-         * Beide Textboxen müssen gefüllt sein
-         */
-
-        public async Task AddBook()
-        {
-            if (string.IsNullOrEmpty(BookName) || string.IsNullOrEmpty(BookDescription))
-            {
-                _dialogProvider.ShowError("Fehler", "Bitte geben Sie einen Buchtitel und eine Beschreibung ein!");
-                BookName = string.Empty;
-                BookDescription = string.Empty;
-                return;
-            }
-
-            BookEntity newBook = new()
-            {
-                Title = BookName,
-                Description = BookDescription,
-            };
-
-            if (BookName.Length < 5 || BookDescription.Length < 5)
-            {
-                _dialogProvider.ShowError("Fehler", "Ihre Buch und dessen Beschreibung muss mindestens 5 Zeichen lang sein");
-                return;
-            }
-
-            var addBook = await _addBookFeature.AddBookAsync(newBook);
-
-            if (addBook is not null)
-            {
-                BookCollection.Add(addBook);
-
-                _dialogProvider.ShowMessage("Erfolg", "Buch erfolgreich hinzugefügt!");
-
-                BookName = string.Empty;
-                BookDescription = string.Empty;
-            }
-            else
-                _dialogProvider.ShowError("Fehler", "Es gab einen Fehler beim Hinzufügen des Buches.");
-        }
-        #endregion
-
-        #region UpdateFenster für Notiz
-
-        /* Hier wird geprüft, ob ein Eintrag aus der Liste
-         * ausgewählt wurde oder nicht. 
-         * Ist dies nicht der Fall, wird eine Fehlermeldung ausgegeben.
-         * Ist ein Eintrag ausgewählt, wird das UpdateView geöffnet und
-         * man "wechselt" dann zur UpdateWindowViewModel
-         */
-
-        public void UpdateBook()
-        {
-            if (SelectedBook is null)
-            {
-                _dialogProvider.ShowError("Fehler", "Bitte wählen Sie einen Eintrag aus!");
-                return;
-            }
-            var updatebookWindow = new UpdateWindowViewModels(_updateBookFeature, SelectedBook, BookCollection, _dialogProvider);
-            var view = new UpdateView { DataContext = updatebookWindow };
-
-            updatebookWindow.CloseAction = () => view.Close();
-
-            view.ShowDialog();
-        }
-        #endregion
-
-        #endregion
-
-        #region NotifyPropertyChanged
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion
-
-        #region Command's Methoden
-
-        private async void AddBookCommand()
-        {
-            await AddBook();
-        }
-
-        private async void DeleteBookCommand()
-        {
-            await DeleteBook();
-        }
-
-        public void LoginViewCommand()
-        {
-            LoginView view = new LoginView();
-            view.Show();
-        }
-
-        public void RegistrationViewCommand()
-        {
-
-        }
-
-        private void UpdateWindowCommand()
-        {
-            UpdateBook();
-        }
-
         #endregion
     }
 }

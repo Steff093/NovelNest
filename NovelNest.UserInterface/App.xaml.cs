@@ -22,7 +22,12 @@ using NovelNest.Infrastructure.Repositories.BookRepositories.BookAddRepository;
 using NovelNest.Infrastructure.Repositories.BookRepositories.BookDeleteRepository;
 using NovelNest.Infrastructure.Repositories.BookRepositories.BookUpdateRepository;
 using NovelNest.Infrastructure.Repositories.RegistrationRepositories;
+using NovelNest.UserInterface.Services.BookManagementService;
+using NovelNest.UserInterface.Services.LoginWindowService;
+using NovelNest.UserInterface.Services.MainWindowService;
 using NovelNest.UserInterface.Services.NavigationService;
+using NovelNest.UserInterface.Services.RegistrationWindowService;
+using NovelNest.UserInterface.ViewModels.BookManagementViewModel;
 using NovelNest.UserInterface.ViewModels.LoginViewModel;
 using NovelNest.UserInterface.ViewModels.MainWindowViewModel;
 using NovelNest.UserInterface.ViewModels.RegistrationViewModel;
@@ -58,6 +63,70 @@ namespace NovelNest.UserInterface
             loginWindow.ShowDialog();
         }
 
+        public static void NavigateToMainWindow()
+        {
+            var loginWindow = Application.Current.Windows.OfType<LoginView>().FirstOrDefault(x => x.IsActive);
+            var mainWindowViewModelService = new MainWindowViewModelService();
+            var mainWindowViewModel = mainWindowViewModelService.GetMainViewModel();
+
+            if (loginWindow is not null)
+            {
+                var mainWIndow = new MainWindow()
+                {
+                    DataContext = mainWindowViewModel,
+                };
+
+                loginWindow.Close();
+                mainWIndow.ShowDialog();
+                mainWIndow.Activate();
+            }
+        }
+
+        public static void NavigateToRegister()
+        {
+            var loginWindow = Application.Current.Windows.OfType<LoginView>().FirstOrDefault(x => x.IsActive);
+            var registrationWindowService = new RegistrationWindowViewModelService();
+            var registrationViewModel = registrationWindowService.GetRegistrationView(
+                new RegistrationUserFeature(new RegistrationRepository(new NovelNestDataContext())),
+                new DialogProvider(),
+                new PasswordHasher(),
+                new NavigationService());
+
+            if (registrationViewModel is not null)
+            {
+                var registration = new RegistrationView()
+                {
+                    DataContext = registrationViewModel,
+                };
+                loginWindow.Close();
+                registration.ShowDialog();
+                registration.Activate();
+            }
+        }
+
+        public static void NavigateToLogin()
+        {
+            var registerWindow = Application.Current.Windows.OfType<RegistrationView>().FirstOrDefault(x => x.IsActive);
+            var loginWindowService = new LoginWindowViewModelService();
+            var LoginViewModel = loginWindowService.GetLoginWindowView(
+                new DialogProvider(),
+                new RegistrationUserFeature(new RegistrationRepository(new NovelNestDataContext())),
+                new PasswordHasher(),
+                new NavigationService());
+
+            if(LoginViewModel is not null)
+            {
+                var login = new LoginView()
+                {
+                    DataContext = LoginViewModel,
+                };
+
+                registerWindow.Close();
+                login.ShowDialog();
+                login.Activate();
+            }
+        }
+
         private void ConfigureServices(ServiceCollection serviceCollection)
         {
             serviceCollection.AddDbContext<NovelNestDataContext>();
@@ -70,11 +139,12 @@ namespace NovelNest.UserInterface
             serviceCollection.AddSingleton<IUpdateBookFeature, UpdateBookFeature>();
             serviceCollection.AddSingleton<IDeleteBookFeature, DeleteBookFeature>();
             serviceCollection.AddSingleton<IRegistrationFeatures, RegistrationUserFeature>();
-            serviceCollection.AddScoped<IPasswordHasher, PasswordHasher>();
+            serviceCollection.AddSingleton<IPasswordHasher, PasswordHasher>();
             serviceCollection.AddSingleton<INavigationService, NavigationService>();
             serviceCollection.AddSingleton<BookEntity>();
             serviceCollection.AddSingleton<LoginViewModels>();
             serviceCollection.AddSingleton<MainWindowViewModels>();
+            serviceCollection.AddSingleton<BookManagementViewModels>();
             serviceCollection.AddSingleton<UpdateWindowViewModels>();
             serviceCollection.AddSingleton<RegistrationViewModels>();
         }

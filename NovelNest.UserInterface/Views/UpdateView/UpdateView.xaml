@@ -5,57 +5,58 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NovelNest.UserInterface.Views.UpdateView"
         xmlns:viewModel="clr-namespace:NovelNest.UserInterface.ViewModels.UpdateWindowViewModel"
-        mc:Ignorable="d" Background="Gray"
+        mc:Ignorable="d" Background="Transparent"
         Title="Update-Book" Height="300" Width="400">
 
     <Window.DataContext>
         <viewModel:UpdateWindowViewModels/>
     </Window.DataContext>
 
-    <Grid Margin="10">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+    <Grid>
+        <Image x:Name="bookCover" Source="/Assets/CoverNovelNest.jpg" Opacity="0.45" Margin="0,-16,0,0" Height="459" VerticalAlignment="Top"/>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+        <Grid Margin="10,10,-10,30">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="60" />
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-        <Label Grid.Row="0" 
-               x:Name="lblHeadText" 
-               Content="Please enter your new text"/>
+            <StackPanel Grid.Row="1" HorizontalAlignment="Center" >
+                <TextBlock 
+                    x:Name="lblName" Text="Name" 
+                    Foreground="White"
+                    FontSize="15" Width="44"/>
+                <TextBox 
+                     x:Name="txtName"
+                     Text="{Binding UpdateBookName, UpdateSourceTrigger=PropertyChanged}"
+                     Style="{StaticResource CustomTextboxStyle}" Width="172" Height="29"/>
+            </StackPanel>
 
-        <Label Grid.Row="1" 
-               x:Name="lblName" Content="Name" 
-               HorizontalAlignment="Left"/>
+            <StackPanel Grid.Row="2" HorizontalAlignment="Center">
+                <TextBlock
+                    x:Name="lblDescription" 
+                    Text="Beschreibung"
+                    Foreground="White"
+                    FontSize="15" Height="24" Width="90"/>
+                <TextBox x:Name="txtDescription" 
+                     TextAlignment="Left"
+                     Text="{Binding UpdateBookDescription, UpdateSourceTrigger=PropertyChanged}"
+                     Style="{StaticResource CustomTextboxStyle}" Width="170" Height="25"/>
+            </StackPanel>
 
-        <TextBox Grid.Row="1" 
-                 x:Name="txtName" TextAlignment="Left" 
-                 Grid.ColumnSpan="2" Margin="200,5,0,10"
-                 Text="{Binding UpdateBookName, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button Grid.Row="2" 
+                    x:Name="btnUpdate" Content="Update" 
+                    Margin="135,109,135,-23" Focusable="True"
+                    Style="{StaticResource CustomButtonStyle}"
+                    Command="{Binding UpdateBookCommand}"/>
 
-        <Label Grid.Row="2" 
-               x:Name="lblDescription" Content="Description" 
-               HorizontalAlignment="Left"/>
-
-        <TextBox Grid.Row="2" x:Name="txtDescription" 
-                 TextAlignment="Left" Grid.ColumnSpan="2" Margin="200,5,0,10"
-                 Text="{Binding UpdateBookDescription, UpdateSourceTrigger=PropertyChanged}"/>
-
-        <Button Grid.Row="3" 
-                x:Name="btnUpdate" Content="Update" 
-                Margin="140,25,130,-25" Focusable="True" 
-                Grid.ColumnSpan="2"
-                Command="{Binding UpdateBookCommand}"/>
-
-        <Button Grid.Row="3" 
-                x:Name="btnBrakUp" Content="Cancel" 
-                Margin="0,25,5,-25" Grid.Column="1" 
-                HorizontalAlignment="Right" Width="111"
-                Command="{Binding CloseUpdateViewCommand}"/>
+            <Button Grid.Row="2" 
+                    x:Name="btnBrakUp" Content="Abbrechen" 
+                    Margin="0,109,24,-23" 
+                    Style="{StaticResource CustomButtonStyle}"
+                    HorizontalAlignment="Right" Width="111"
+                    Command="{Binding CloseUpdateViewCommand}"/>
+        </Grid>
     </Grid>
 </Window>
