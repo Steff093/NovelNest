@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace NovelNest.UserInterface.ViewModels.LoginViewModel
 {
-    public class LoginViewModels : INotifyPropertyChanged
+    public class LoginViewModels : BaseViewModel
     {
         public ICommand LoginConnect => new RelayCommand(LoginConnectCommand);
         public ICommand RegisterWindow => new RelayCommand(NavigateToRegistrationView);
@@ -133,13 +133,6 @@ namespace NovelNest.UserInterface.ViewModels.LoginViewModel
             {
                 loginWindow.DragMove();
             }
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

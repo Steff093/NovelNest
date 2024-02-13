@@ -20,7 +20,7 @@ using System.Windows.Input;
 
 namespace NovelNest.UserInterface.ViewModels.BookManagementViewModel
 {
-    public class BookManagementViewModels 
+    public class BookManagementViewModels : BaseViewModel
     {
 
         #region Button Commands - Hinzufügen, Bearbeiten und Löschen 
@@ -54,7 +54,6 @@ namespace NovelNest.UserInterface.ViewModels.BookManagementViewModel
             IDialogProvider dialogProvider,
             IDeleteBookFeature delteBookFeature)
         {
-            BookCollection = new ObservableCollection<BookEntity>();
             LoadDatabase();
             _addBookFeature = addBookFeature;
             _updateBookFeature = updteBookFeature;
@@ -121,12 +120,19 @@ namespace NovelNest.UserInterface.ViewModels.BookManagementViewModel
             try
             {
                 using var dbContext = new NovelNestDataContext();
-                BookCollection = new ObservableCollection<BookEntity>(dbContext.BookEntities.ToList());
+                BookCollection = new ObservableCollection<BookEntity>(
+                    dbContext.BookEntities
+                        .Select(book => new BookEntity
+                        {
+                            BookId = book.BookId,
+                            Title = book.Title,
+                            Description = book.Description
+                        })
+                        .ToList());
             }
             catch (Exception ex)
             {
-                _dialogProvider.ShowError("Fehler  ", "Es gab folgenden Fehler: " + ex.Message);
-                return;
+                _dialogProvider.ShowError("Fehler", "Hier ist ein Fehler: " + ex.Message.ToString());
             }
         }
 
@@ -143,20 +149,21 @@ namespace NovelNest.UserInterface.ViewModels.BookManagementViewModel
                 _dialogProvider.ShowError("Fehler", "Bitte wähle einen Eintrag aus");
                 return;
             }
-
-            if (SelectedBook is not null)
+            else
             {
-                bool reault = _dialogProvider.ShowQuestionDeleteBook("Hinweis", "Möchtest du diesen Eintrag wirklich löschen?");
+                bool reault = _dialogProvider.ShowQuestionDelete("Hinweis", "Möchtest du diesen Eintrag wirklich löschen?");
 
                 if (reault)
                 {
+                    _dialogProvider.ShowMessage("Erfolg", "Eintrag erfolgreich entfernt");
                     await _deleteBookFeature.DeleteBookAsync(SelectedBook);
                     BookCollection.Remove(SelectedBook);
                 }
                 else
                     return;
-
             }
+
+
         }
         #endregion
 
@@ -228,17 +235,6 @@ namespace NovelNest.UserInterface.ViewModels.BookManagementViewModel
             view.ShowDialog();
         }
         #endregion
-
-        #endregion
-
-        #region NotifyPropertyChanged
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         #endregion
 

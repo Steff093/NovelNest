@@ -3,6 +3,8 @@ using NovelNest.ApplicationLogic.Common.DialogProvider;
 using NovelNest.ApplicationLogic.Features.BookFeatures.AddBookFeature;
 using NovelNest.ApplicationLogic.Features.BookFeatures.DeleteBookFeature;
 using NovelNest.ApplicationLogic.Features.BookFeatures.UpdateBookFeature;
+using NovelNest.ApplicationLogic.Features.FolderFeature.FolderAddFeature;
+using NovelNest.ApplicationLogic.Features.FolderFeature.FolderDeleteFeature;
 using NovelNest.ApplicationLogic.Interfaces.BookInterfaces.IAddBookFeature;
 using NovelNest.ApplicationLogic.Interfaces.BookInterfaces.IDeleteBookFeature;
 using NovelNest.ApplicationLogic.Interfaces.BookInterfaces.IUpdateBookFeature;
@@ -12,9 +14,12 @@ using NovelNest.Infrastructure.Database;
 using NovelNest.Infrastructure.Repositories.BookRepositories.BookAddRepository;
 using NovelNest.Infrastructure.Repositories.BookRepositories.BookDeleteRepository;
 using NovelNest.Infrastructure.Repositories.BookRepositories.BookUpdateRepository;
+using NovelNest.Infrastructure.Repositories.FolderRepositories.FolderAddRepositories;
+using NovelNest.Infrastructure.Repositories.FolderRepositories.FolderDeleteRepositories;
 using NovelNest.UserInterface.Services.BookManagementService;
 using NovelNest.UserInterface.UserControlView;
 using NovelNest.UserInterface.ViewModels.BookManagementViewModel;
+using NovelNest.UserInterface.ViewModels.FolderManagementViewModel;
 using NovelNest.UserInterface.ViewModels.UpdateWindowViewModel;
 using NovelNest.UserInterface.Views.LoginView;
 using NovelNest.UserInterface.Views.UpdateView;
@@ -26,7 +31,7 @@ using System.Windows.Input;
 
 namespace NovelNest.UserInterface.ViewModels.MainWindowViewModel
 {
-    public class MainWindowViewModels :INotifyPropertyChanged
+    public class MainWindowViewModels :BaseViewModel
     {
 
         private readonly IDialogProvider _dialogProvider;
@@ -41,11 +46,6 @@ namespace NovelNest.UserInterface.ViewModels.MainWindowViewModel
                 _currentView = value;
                 OnPropertyChanged(nameof(CurrentView));
             }
-        }
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public MainWindowViewModels()
@@ -76,8 +76,6 @@ namespace NovelNest.UserInterface.ViewModels.MainWindowViewModel
 
         #endregion
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-
         private void BookButton()
         {
             /*
@@ -104,7 +102,20 @@ namespace NovelNest.UserInterface.ViewModels.MainWindowViewModel
 
         private void FolderManagementButton()
         {
-            CurrentView = new FolderManagementView();
+            FolderButton();
+        }
+
+        private void FolderButton()
+        {
+            var folderViewModel = new FolderManagementViewModels(
+                new DialogProvider(),
+                new AddFolderFeature(new FolderAddRepository(new NovelNestDataContext())),
+                new DeleteFolderFeatures(new FolderDeleteRepository(new NovelNestDataContext())));
+
+            CurrentView = new FolderManagementView()
+            {
+                DataContext = folderViewModel
+            };
         }
 
         public void LoginViewCommand()

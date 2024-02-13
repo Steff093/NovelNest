@@ -55,7 +55,7 @@ namespace NovelNest.ApplicationLogic.Common.DialogProvider
 
         }
 
-        public bool ShowQuestionDeleteBook(string headMessage, string noteMessage)
+        public bool ShowQuestionDelete(string headMessage, string noteMessage)
         {
             TaskDialog dialogDeleteBook = new();
             dialogDeleteBook.WindowTitle = headMessage;

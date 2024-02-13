@@ -12,17 +12,17 @@ namespace NovelNest.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "BookEntities",
+                name: "FolderEntities",
                 columns: table => new
                 {
-                    BookId = table.Column<int>(type: "int", nullable: false)
+                    FolderID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    FolderName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    FolderDescription = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BookEntities", x => x.BookId);
+                    table.PrimaryKey("PK_FolderEntities", x => x.FolderID);
                 });
 
             migrationBuilder.CreateTable(
@@ -41,6 +41,32 @@ namespace NovelNest.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_UserEntities", x => x.UserID);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "BookEntities",
+                columns: table => new
+                {
+                    BookId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FolderID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BookEntities", x => x.BookId);
+                    table.ForeignKey(
+                        name: "FK_BookEntities_FolderEntities_FolderID",
+                        column: x => x.FolderID,
+                        principalTable: "FolderEntities",
+                        principalColumn: "FolderID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BookEntities_FolderID",
+                table: "BookEntities",
+                column: "FolderID");
         }
 
         /// <inheritdoc />
@@ -51,6 +77,9 @@ namespace NovelNest.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserEntities");
+
+            migrationBuilder.DropTable(
+                name: "FolderEntities");
         }
     }
 }

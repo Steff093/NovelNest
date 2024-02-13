@@ -28,6 +28,7 @@ using NovelNest.UserInterface.Services.MainWindowService;
 using NovelNest.UserInterface.Services.NavigationService;
 using NovelNest.UserInterface.Services.RegistrationWindowService;
 using NovelNest.UserInterface.ViewModels.BookManagementViewModel;
+using NovelNest.UserInterface.ViewModels.FolderManagementViewModel;
 using NovelNest.UserInterface.ViewModels.LoginViewModel;
 using NovelNest.UserInterface.ViewModels.MainWindowViewModel;
 using NovelNest.UserInterface.ViewModels.RegistrationViewModel;
@@ -145,6 +146,7 @@ namespace NovelNest.UserInterface
             serviceCollection.AddSingleton<LoginViewModels>();
             serviceCollection.AddSingleton<MainWindowViewModels>();
             serviceCollection.AddSingleton<BookManagementViewModels>();
+            serviceCollection.AddSingleton<FolderManagementViewModels>();
             serviceCollection.AddSingleton<UpdateWindowViewModels>();
             serviceCollection.AddSingleton<RegistrationViewModels>();
         }

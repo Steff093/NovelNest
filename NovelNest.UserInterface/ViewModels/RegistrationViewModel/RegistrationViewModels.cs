@@ -16,7 +16,7 @@ using System.Windows.Input;
 
 namespace NovelNest.UserInterface.ViewModels.RegistrationViewModel
 {
-    public class RegistrationViewModels : INotifyPropertyChanged
+    public class RegistrationViewModels : BaseViewModel
     {
         private readonly IRegistrationFeatures _registrationFeatures;
         private readonly IDialogProvider _dialogProvider;
@@ -112,12 +112,6 @@ namespace NovelNest.UserInterface.ViewModels.RegistrationViewModel
         {
             //_navigateService.NavigateToLoginWindow();
             App.NavigateToLogin();
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

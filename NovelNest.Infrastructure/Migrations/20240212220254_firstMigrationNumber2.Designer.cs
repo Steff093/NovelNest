@@ -12,8 +12,8 @@ using NovelNest.Infrastructure.Database;
 namespace NovelNest.Infrastructure.Migrations
 {
     [DbContext(typeof(NovelNestDataContext))]
-    [Migration("20240201210600_addedFolderMigration")]
-    partial class addedFolderMigration
+    [Migration("20240212220254_firstMigrationNumber2")]
+    partial class firstMigrationNumber2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,7 +37,7 @@ namespace NovelNest.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("FolderEntityFolderID")
+                    b.Property<int?>("FolderID")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -46,7 +46,7 @@ namespace NovelNest.Infrastructure.Migrations
 
                     b.HasKey("BookId");
 
-                    b.HasIndex("FolderEntityFolderID");
+                    b.HasIndex("FolderID");
 
                     b.ToTable("BookEntities");
                 });
@@ -110,9 +110,11 @@ namespace NovelNest.Infrastructure.Migrations
 
             modelBuilder.Entity("NovelNest.Domain.Entities.BookEntities.BookEntity", b =>
                 {
-                    b.HasOne("NovelNest.Domain.Entities.FolderEntities.FolderEntity", null)
+                    b.HasOne("NovelNest.Domain.Entities.FolderEntities.FolderEntity", "Folder")
                         .WithMany("BookEntities")
-                        .HasForeignKey("FolderEntityFolderID");
+                        .HasForeignKey("FolderID");
+
+                    b.Navigation("Folder");
                 });
 
             modelBuilder.Entity("NovelNest.Domain.Entities.FolderEntities.FolderEntity", b =>

@@ -1,6 +1,7 @@
 ﻿using NovelNest.ApplicationLogic.Interfaces.BookInterfaces.IAddBookFeature;
 using NovelNest.Domain.Entities.BookEntities;
 using NovelNest.Infrastructure.Interfaces.BookInterfaceInfrastructure.AddBookInterfaceInfrastructure;
+using System.Diagnostics;
 
 namespace NovelNest.ApplicationLogic.Features.BookFeatures.AddBookFeature
 {
@@ -20,9 +21,16 @@ namespace NovelNest.ApplicationLogic.Features.BookFeatures.AddBookFeature
                 await _bookAddRepository.AddBookAsync(book);
                 return book;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new Exception("Error");
+                // Ausnahmebehandlung
+                Debug.WriteLine("Fehler beim Hinzufügen des Buchs: " + ex.Message);
+
+                if (ex.InnerException != null)
+                {
+                    Debug.WriteLine("Innere Ausnahme: " + ex.InnerException.Message);
+                }
+                throw;
             }
         }
     }

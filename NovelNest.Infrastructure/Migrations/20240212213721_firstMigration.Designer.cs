@@ -12,7 +12,7 @@ using NovelNest.Infrastructure.Database;
 namespace NovelNest.Infrastructure.Migrations
 {
     [DbContext(typeof(NovelNestDataContext))]
-    [Migration("20240131140109_firstMigration")]
+    [Migration("20240212213721_firstMigration")]
     partial class firstMigration
     {
         /// <inheritdoc />
@@ -37,13 +37,41 @@ namespace NovelNest.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("FolderID")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("BookId");
 
+                    b.HasIndex("FolderID");
+
                     b.ToTable("BookEntities");
+                });
+
+            modelBuilder.Entity("NovelNest.Domain.Entities.FolderEntities.FolderEntity", b =>
+                {
+                    b.Property<int>("FolderID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FolderID"));
+
+                    b.Property<string>("FolderDescription")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("FolderName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("FolderID");
+
+                    b.ToTable("FolderEntities");
                 });
 
             modelBuilder.Entity("NovelNest.UI.Domain.Entities.LoginEntities.UserEntity", b =>
@@ -78,6 +106,22 @@ namespace NovelNest.Infrastructure.Migrations
                     b.HasKey("UserID");
 
                     b.ToTable("UserEntities");
+                });
+
+            modelBuilder.Entity("NovelNest.Domain.Entities.BookEntities.BookEntity", b =>
+                {
+                    b.HasOne("NovelNest.Domain.Entities.FolderEntities.FolderEntity", "Folder")
+                        .WithMany("BookEntities")
+                        .HasForeignKey("FolderID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Folder");
+                });
+
+            modelBuilder.Entity("NovelNest.Domain.Entities.FolderEntities.FolderEntity", b =>
+                {
+                    b.Navigation("BookEntities");
                 });
 #pragma warning restore 612, 618
         }

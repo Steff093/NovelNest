@@ -36,7 +36,6 @@
         </Style.Triggers>
     </Style>
     
-    
     <!-- Datagrid Style -->
     <Style x:Key="CustomDatagridStyle" TargetType="DataGrid">
         <Setter Property="Background" Value="Transparent"/>
@@ -49,5 +48,12 @@
     <Style TargetType="{x:Type DataGridColumnHeader}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+
+    <!-- ToggleButton Style -->
+    <Style x:Key="CustomToggleButton" TargetType="ToggleButton">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderThickness" Value="0"/>
     </Style>
 </ResourceDictionary>

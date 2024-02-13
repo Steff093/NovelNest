@@ -1,6 +1,7 @@
 ﻿using NovelNest.Domain.Entities.BookEntities;
 using NovelNest.Infrastructure.Database;
 using NovelNest.Infrastructure.Interfaces.BookInterfaceInfrastructure.AddBookInterfaceInfrastructure;
+using System.Diagnostics;
 
 namespace NovelNest.Infrastructure.Repositories.BookRepositories.BookAddRepository
 {
@@ -20,10 +21,15 @@ namespace NovelNest.Infrastructure.Repositories.BookRepositories.BookAddReposito
                 _context.BookEntities.Add(book);
                 await _context.SaveChangesAsync();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                // Ausnahmebehandlung
+                Debug.WriteLine("Fehler beim Hinzufügen des Buchs: " + ex.Message);
 
-                throw new Exception("Noch ein Fehler");
+                if (ex.InnerException != null)
+                {
+                    Debug.WriteLine("Innere Ausnahme: " + ex.InnerException.Message);
+                }
             }
         }
     }

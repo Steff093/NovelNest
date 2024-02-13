@@ -22,8 +22,8 @@ namespace NovelNest.Infrastructure.Repositories.FolderRepositories.FolderAddRepo
         {
             try
             {
-                //_context.FolderEntities.Add(folderEntity);
-                //await _context.SaveChangesAsync();
+                _context.FolderEntities.Add(folderEntity);
+                await _context.SaveChangesAsync();
             }
             catch (Exception) { }
         }

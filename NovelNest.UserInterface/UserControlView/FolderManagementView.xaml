@@ -4,8 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:NovelNest.UserInterface.UserControlView"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:folderViewModel="clr-namespace:NovelNest.UserInterface.ViewModels.FolderManagementViewModel"
+             xmlns:bookViewModel="clr-namespace:NovelNest.UserInterface.ViewModels.BookManagementViewModel"
+             d:DataContext="{d:DesignInstance
+            Type=folderViewModel:FolderManagementViewModels}"
+             xmlns:folderEntites="clr-namespace:NovelNest.Domain.Entities.FolderEntities;assembly=NovelNest.Domain"
              mc:Ignorable="d" Height="600" Width="1100"
              Background="Transparent">
+
     <Grid>
         <Image x:Name="bookCover" Source="/Assets/CoverNovelNest.jpg" Opacity="0.45" Margin="5,20,10,0" Height="576" VerticalAlignment="Top" Grid.RowSpan="4" Grid.ColumnSpan="2" Stretch="Fill">
             <Image.Triggers>
@@ -18,8 +25,120 @@
             </Image.Triggers>
         </Image>
 
-        <Button Style="{StaticResource CustomButtonStyle}"
-                Content="+" Margin="720,45,355,530"/>
+        <Button Command="{Binding OpenFolderTextBoxCommand}" 
+                Style="{StaticResource CustomButtonStyle}"
+                Margin="510,40,565,525">
+            <TextBlock Text="+" Width="15" Height="32" FontSize="20"/>
+        </Button>
 
+        <TextBox x:Name="folderNameTextbox"
+                 Height="25"
+                 Width="300" Margin="548,45,252,530"
+                 Visibility="{Binding Visibility, Mode=TwoWay}"
+                 Background="Transparent"
+                 Style="{StaticResource CustomTextboxStyle}"
+                 Text="{Binding FolderTextbox}"/>
+
+        <Button Style="{StaticResource CustomButtonStyle}"
+                Command="{Binding CreateNewFolder}"
+                Margin="818,35,252,525" 
+                Visibility="{Binding Visibility, Mode=TwoWay}">
+            <TextBlock Text="..." Height="42"/>
+        </Button>
+
+        <Button Style="{StaticResource CustomButtonStyle}" 
+                Margin="865,40,210,525"
+                Command="{Binding DeleteFolder}">
+            <Image Source="/Assets/icons8-entfernen_transparent_weiss.gif"/>
+        </Button>
+
+        <!--<ListView ItemsSource="{Binding Folders}" Margin="522,108,36,10"
+          Background="Transparent" Foreground="White" FontSize="20"
+          SelectedItem="{Binding SelectedFolder}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <ToggleButton Grid.Column="0"
+                              Style="{StaticResource CustomToggleButton}"
+                              IsChecked="{Binding IsSubMenuVisible,
+                              Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding FolderName}">
+                        <Button Style="{StaticResource CustomButtonStyle}"
+                                Content="+"
+                                HorizontalAlignment="Right"/>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="LeftMouse">
+                            <i:InvokeCommandAction Command="{Binding OpenSubMenu,
+                                RelativeSource={RelativeSource Mode=FindAncestor,
+                                AncestorType={x:Type folderViewModel:FolderManagementViewModels}}}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                        </TextBlock>
+                        -->
+        <!--Expander für die zweite ListView-->
+        <!-- 
+                        <Expander HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" IsExpanded="{Binding IsSubMenuVisible}">
+                            -->
+        <!--<i:Interaction.Triggers>
+                                <i:EventTrigger EventName="LeftMouse">
+                                    <i:InvokeCommandAction Command="{Binding OpenSubMenu,
+                              RelativeSource={RelativeSource Mode=FindAncestor,
+                              AncestorType={x:Type folderViewModel:FolderManagementViewModels}}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>-->
+        <!--
+                            <ListView>
+                                 -->
+        <!--Zweite ListView-->
+        <!-- 
+                                <ListView.View>
+                                    <GridView>
+                                         -->
+        <!--Spalten 2. ListView-->
+        <!--
+                                        <GridViewColumn Header="Buchtitel"
+                                                DisplayMemberBinding="{Binding BookTitle}"/>
+                                        <GridViewColumn Header="Description"
+                                                DisplayMemberBinding="{Binding Description}"/>
+                                         -->
+        <!--Weitere Spalten...-->
+        <!-- 
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </Expander>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>-->
+
+
+        <ListView ItemsSource="{Binding Folders}" Margin="522,108,36,10"
+          Background="Transparent" Foreground="White" FontSize="20"
+                  SelectedItem="{Binding SelectedFolder}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Expander Grid.Row="0">
+                            <DataGrid ItemsSource="{Binding BookEntities}">
+                                
+                            </DataGrid>
+                        </Expander>
+                        <TextBlock Grid.Column="1" Text="{Binding FolderName}">
+                        <Button Style="{StaticResource CustomButtonStyle}">
+                            </Button>
+                        </TextBlock>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </UserControl>

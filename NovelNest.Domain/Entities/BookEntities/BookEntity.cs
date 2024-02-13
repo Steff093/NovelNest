@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NovelNest.Domain.Entities.FolderEntities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -17,5 +18,9 @@ namespace NovelNest.Domain.Entities.BookEntities
 
         [Required, MinLength(25)]
         public string Description { get; set; } = string.Empty;
+
+        public int? FolderID { get; set; }
+
+        public virtual FolderEntity Folder { get; set; }
     }
 }

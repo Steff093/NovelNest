@@ -1,4 +1,5 @@
-﻿using NovelNest.Domain.Entities.BookEntities;
+﻿using Microsoft.EntityFrameworkCore;
+using NovelNest.Domain.Entities.BookEntities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,7 +21,6 @@ namespace NovelNest.Domain.Entities.FolderEntities
         [MaxLength(50)]
         public string FolderDescription { get; set; } = string.Empty;
 
-        public ObservableCollection<BookEntity> BookEntities { get; set; } = new ObservableCollection<BookEntity>();
-
+        public virtual ICollection<BookEntity> BookEntities { get; set; } = new List<BookEntity>();
     }
 }

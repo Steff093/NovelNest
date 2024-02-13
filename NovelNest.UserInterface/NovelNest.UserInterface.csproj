@@ -10,6 +10,13 @@
 
   <ItemGroup>
     <None Remove="Assets\CoverNovelNest.jpg" />
+    <None Remove="Assets\icons8-entfernen_transparent_weiss.gif" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\icons8-entfernen_transparent_weiss.gif">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>

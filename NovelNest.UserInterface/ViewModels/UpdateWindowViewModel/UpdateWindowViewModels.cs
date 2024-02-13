@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace NovelNest.UserInterface.ViewModels.UpdateWindowViewModel
 {
-    public class UpdateWindowViewModels : INotifyPropertyChanged
+    public class UpdateWindowViewModels : BaseViewModel
     {
         #region Fields
         private BookEntity _bookEntity;
@@ -44,14 +44,6 @@ namespace NovelNest.UserInterface.ViewModels.UpdateWindowViewModel
             UpdateBookCommand = new RelayCommand(UpodateBookCommandWrapper);
             CloseUpdateViewCommand = new RelayCommand(CloseUpdateCommand);
             BookCollection = new ObservableCollection<BookEntity>();
-        }
-        #endregion
-
-        #region PropertyChanged
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
 

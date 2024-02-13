@@ -34,7 +34,7 @@ namespace NovelNest.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("FolderEntityFolderID")
+                    b.Property<int?>("FolderID")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -43,7 +43,7 @@ namespace NovelNest.Infrastructure.Migrations
 
                     b.HasKey("BookId");
 
-                    b.HasIndex("FolderEntityFolderID");
+                    b.HasIndex("FolderID");
 
                     b.ToTable("BookEntities");
                 });
@@ -107,9 +107,11 @@ namespace NovelNest.Infrastructure.Migrations
 
             modelBuilder.Entity("NovelNest.Domain.Entities.BookEntities.BookEntity", b =>
                 {
-                    b.HasOne("NovelNest.Domain.Entities.FolderEntities.FolderEntity", null)
+                    b.HasOne("NovelNest.Domain.Entities.FolderEntities.FolderEntity", "Folder")
                         .WithMany("BookEntities")
-                        .HasForeignKey("FolderEntityFolderID");
+                        .HasForeignKey("FolderID");
+
+                    b.Navigation("Folder");
                 });
 
             modelBuilder.Entity("NovelNest.Domain.Entities.FolderEntities.FolderEntity", b =>

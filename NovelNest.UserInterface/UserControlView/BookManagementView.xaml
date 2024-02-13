@@ -96,12 +96,19 @@
         </Grid>
 
         <DataGrid Grid.Row="2"
-                  ItemsSource="{Binding BookCollection}"
-                  SelectedItem="{Binding SelectedBook}"
-                  Style="{StaticResource CustomDatagridStyle}"
-                  Height="212"
-                  VerticalAlignment="Top" 
-                  Grid.Column="1" 
-                  Margin="10,58,45,0" Grid.RowSpan="2"/>
+          ItemsSource="{Binding BookCollection}"
+          SelectedItem="{Binding SelectedBook}"
+          Style="{StaticResource CustomDatagridStyle}"
+          Height="212"
+          VerticalAlignment="Top" 
+          Grid.Column="1" 
+          Margin="10,58,45,0" Grid.RowSpan="2"
+          AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="BuchID" Binding="{Binding BookId}"/>
+                <DataGridTextColumn Header="Title" Binding="{Binding Title}" />
+                <DataGridTextColumn Header="Description" Binding="{Binding Description}" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

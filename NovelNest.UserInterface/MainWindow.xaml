@@ -17,10 +17,11 @@
         <viewModel:MainWindowViewModels/>
     </Window.DataContext>
     <Grid>
-        <ContentControl Content="{Binding CurrentView}"/>
+        <ContentControl Content="{Binding CurrentView}" Margin="-15,-21,0,0"/>
 
-        <Menu Height="20" VerticalAlignment="Top" Grid.ColumnSpan="2">
-            <MenuItem Header="Menü">
+        <Menu Height="20" VerticalAlignment="Top" Grid.ColumnSpan="2"
+              Background="Transparent">
+            <MenuItem Header="Menü" Foreground="White" Background="Transparent">
                 <MenuItem x:Name="closeApplication"
                           Header="Close"
                           Command="{Binding CloseApplicationCommand}"/>
@@ -36,13 +37,13 @@
         <Button Grid.Row="0"
                 Style="{StaticResource CustomButtonStyle}"
                 Margin="65,79,857,425"
-                Content="Bücherrei"
+                Content="Books"
                 Command="{Binding BookManagement}"/>
 
         <Button Grid.Row="0"
                 Style="{StaticResource CustomButtonStyle}"
                 Margin="65,164,857,345"
-                Content="Ordner"
+                Content="Folder"
                 Command="{Binding FolderManagement}"/>
     </Grid>
 </Window>

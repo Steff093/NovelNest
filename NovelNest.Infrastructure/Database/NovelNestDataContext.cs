@@ -22,5 +22,13 @@ namespace NovelNest.Infrastructure.Database
             optionsBuilder.UseSqlServer("Data Source=GISELA\\SQLEXPRESS;Initial Catalog=NovelNest;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
             base.OnConfiguring(optionsBuilder);
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<FolderEntity>()
+                .HasMany(f => f.BookEntities)
+                .WithOne(b => b.Folder)
+                .HasForeignKey(b => b.FolderID);
+        }
     }
 }
