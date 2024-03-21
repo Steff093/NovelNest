@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NovelNest.Infrastructure.Database;
 
@@ -11,9 +12,11 @@ using NovelNest.Infrastructure.Database;
 namespace NovelNest.Infrastructure.Migrations
 {
     [DbContext(typeof(NovelNestDataContext))]
-    partial class NovelNestDataContextModelSnapshot : ModelSnapshot
+    [Migration("20240321185239_addedNewBoolBookAvaliable")]
+    partial class addedNewBoolBookAvaliable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

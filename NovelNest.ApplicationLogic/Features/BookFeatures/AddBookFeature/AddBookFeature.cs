@@ -26,7 +26,7 @@ namespace NovelNest.ApplicationLogic.Features.BookFeatures.AddBookFeature
                 // Ausnahmebehandlung
                 Debug.WriteLine("Fehler beim Hinzufügen des Buchs: " + ex.Message);
 
-                if (ex.InnerException != null)
+                if (ex.InnerException is not null)
                 {
                     Debug.WriteLine("Innere Ausnahme: " + ex.InnerException.Message);
                 }

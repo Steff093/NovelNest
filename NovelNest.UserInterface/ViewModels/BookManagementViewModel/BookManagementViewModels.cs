@@ -1,9 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using Microsoft.Win32;
 using NovelNest.ApplicationLogic.Interfaces.BookInterfaces.IAddBookFeature;
 using NovelNest.ApplicationLogic.Interfaces.BookInterfaces.IDeleteBookFeature;
 using NovelNest.ApplicationLogic.Interfaces.BookInterfaces.IUpdateBookFeature;
 using NovelNest.ApplicationLogic.Interfaces.IDialogProvider;
 using NovelNest.Domain.Entities.BookEntities;
+using NovelNest.Domain.Entities.FolderEntities;
 using NovelNest.Infrastructure.Database;
 using NovelNest.UserInterface.ViewModels.UpdateWindowViewModel;
 using NovelNest.UserInterface.Views.LoginView;
@@ -12,22 +14,30 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Documents;
+using System.Windows.Forms.VisualStyles;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace NovelNest.UserInterface.ViewModels.BookManagementViewModel
 {
     public class BookManagementViewModels : BaseViewModel
     {
-
+        private const long MaxFileSize = 5 * 1024 * 1024; // 5 MB in Bytes
         #region Button Commands - Hinzufügen, Bearbeiten und Löschen 
 
         public ICommand UpdateButtonCommand => new RelayCommand(UpdateWindowCommand);
         public ICommand AddNewBookCommand => new RelayCommand(AddBookCommand);
         public ICommand DeleteButtonCommand => new RelayCommand(DeleteBookCommand);
+        public ICommand MouseDoubleClickCommand => new RelayCommand(BookMouseDoubleClickEventCommand);
+        public ICommand PictureFileOpenCommand => new RelayCommand(OpenPictureForBookCommand);
 
         #endregion
 
@@ -59,6 +69,7 @@ namespace NovelNest.UserInterface.ViewModels.BookManagementViewModel
             _updateBookFeature = updteBookFeature;
             _dialogProvider = dialogProvider;
             _deleteBookFeature = delteBookFeature;
+            _bookEntity = new BookEntity();
         }
 
         #endregion
@@ -85,6 +96,18 @@ namespace NovelNest.UserInterface.ViewModels.BookManagementViewModel
             }
         }
 
+        private ObservableCollection<FolderEntity> _folders;
+
+        public ObservableCollection<FolderEntity> Folders
+        {
+            get => _folders;
+            set
+            {
+                _folders = value;
+                OnPropertyChanged(nameof(Folders));
+            }
+        }
+
         private string _bookName;
         private string _bookDescription;
 
@@ -107,6 +130,63 @@ namespace NovelNest.UserInterface.ViewModels.BookManagementViewModel
                 OnPropertyChanged(nameof(BookDescription));
             }
         }
+
+        private Visibility _imageSelected = Visibility.Visible;
+        public Visibility ImageSelected
+        {
+            get => _imageSelected;
+            set
+            {
+                _imageSelected = value;
+                OnPropertyChanged(nameof(ImageSelected));
+            }
+        }
+
+        private Visibility _labelVisibility = Visibility.Visible;
+        public Visibility LabelVisibility
+        {
+            get => _labelVisibility;
+            set
+            {
+                _labelVisibility = value;
+                OnPropertyChanged(nameof(LabelVisibility));
+            }
+        }
+
+        private ImageSource _selectedImage;
+        public ImageSource SelectedImage
+        {
+            get => _selectedImage;
+            set
+            {
+                if (value == null)
+                    return;
+                else
+                {
+                    _selectedImage = value;
+                    OnPropertyChanged(nameof(SelectedImage));
+                }
+            }
+        }
+        private bool _isPictureAvailable = false;
+        public bool IsPictureAvailable
+        {
+            get => _isPictureAvailable;
+            set
+            {
+                if (SelectedImage != null)
+                {
+                    _isPictureAvailable = value;
+                    OnPropertyChanged(nameof(IsPictureAvailable));
+                }
+                else
+                {
+                    _isPictureAvailable = false;
+                    OnPropertyChanged(nameof(IsPictureAvailable));
+                }
+            }
+        }
+
         #endregion
 
         #region Methoden 
@@ -126,7 +206,10 @@ namespace NovelNest.UserInterface.ViewModels.BookManagementViewModel
                         {
                             BookId = book.BookId,
                             Title = book.Title,
-                            Description = book.Description
+                            Description = book.Description,
+                            ImageBook = book.ImageBook,
+                            ImageMIMEType = book.ImageMIMEType,
+                            IsPictureAvailable = book.ImageBook != null,
                         })
                         .ToList());
             }
@@ -162,8 +245,6 @@ namespace NovelNest.UserInterface.ViewModels.BookManagementViewModel
                 else
                     return;
             }
-
-
         }
         #endregion
 
@@ -186,6 +267,8 @@ namespace NovelNest.UserInterface.ViewModels.BookManagementViewModel
             {
                 Title = BookName,
                 Description = BookDescription,
+                ImageBook = SelectedBook.ImageBook,
+                ImageMIMEType = SelectedBook.ImageMIMEType,
             };
 
             if (BookName.Length < 5 || BookDescription.Length < 5)
@@ -201,7 +284,7 @@ namespace NovelNest.UserInterface.ViewModels.BookManagementViewModel
             {
                 BookCollection.Add(addBook);
                 _dialogProvider.ShowMessage("Erfolg", "Buch erfolgreich hinzugefügt!");
-                BookName = string.Empty; BookDescription = string.Empty;
+                BookName = string.Empty; BookDescription = string.Empty; LabelVisibility = Visibility.Visible; ImageSelected = Visibility.Collapsed ;
             }
             else
             {
@@ -211,7 +294,7 @@ namespace NovelNest.UserInterface.ViewModels.BookManagementViewModel
         }
         #endregion
 
-        #region UpdateFenster für Notiz
+        #region UpdateFenster für den Bucheintrag
 
         /* Hier wird geprüft, ob ein Eintrag aus der Liste
          * ausgewählt wurde oder nicht. 
@@ -220,7 +303,7 @@ namespace NovelNest.UserInterface.ViewModels.BookManagementViewModel
          * man "wechselt" dann zur UpdateWindowViewModel
          */
 
-        public void UpdateBook()
+        public async Task UpdateBook()
         {
             if (SelectedBook is null)
             {
@@ -236,23 +319,109 @@ namespace NovelNest.UserInterface.ViewModels.BookManagementViewModel
         }
         #endregion
 
+        #region DoubleClick für DataGrid 
+
+        private void BookMouseDoubleClickEvent()
+        {
+            if (SelectedBook is null)
+            {
+                return;
+            }
+            else
+            {
+                _dialogProvider.ShowMessage("Hinweis", "Hier entsteht bald etwas neues"); 
+            }
+        }
+
+        #endregion
+        private async Task OpenPictureForBook()
+        {
+            OpenFileDialog openfileDialog = new OpenFileDialog();
+
+            openfileDialog.Filter = "Image Files (*.png; *.jpg) | *.png; *.jpg";
+            openfileDialog.FilterIndex = 2;
+            openfileDialog.Title = "Wählen Sie ein Buch-Cover";
+
+            bool? result = openfileDialog.ShowDialog();
+
+            if (result == true)
+            {
+                FileInfo fileInfo = new FileInfo(openfileDialog.FileName);
+
+                if (fileInfo.Length > MaxFileSize)
+                {
+                    _dialogProvider.ShowError("Fehler", "Ihr Bild ist zu groß. Bitte wählen Sie eine kleinere Datei");
+                    return;
+                }
+                SelectedImage = new BitmapImage(new Uri(openfileDialog.FileName));
+                ImageSelected = Visibility.Visible;
+                LabelVisibility = Visibility.Collapsed;
+
+                using (Stream fileStream = openfileDialog.OpenFile())
+                {
+                    using (MemoryStream memoryStream = new MemoryStream())
+                    {
+                        await fileStream.CopyToAsync(memoryStream);
+
+                        byte[] imageData = memoryStream.ToArray();
+
+                        string mimeType = MimeType(openfileDialog.FileName);
+
+                        if (SelectedImage is not null)
+                        {
+                            SelectedBook.ImageBook = imageData;
+                            SelectedBook.ImageMIMEType = mimeType;
+                            IsPictureAvailable = true;
+                        }
+                        else
+                            IsPictureAvailable = false;
+                    }
+                }
+            }
+            else
+            {
+                LabelVisibility = Visibility.Visible;
+            }
+        }
+
+        private string MimeType(string fileName)
+        {
+            string extension = Path.GetExtension(fileName).ToLowerInvariant();
+            switch (extension)
+            {
+                case ".png": return "image/png";
+                case ".jpg": case ".jpeg": return "image/jpeg";
+                default: return "application/octet-stream";
+            }
+        }
+
         #endregion
 
         #region Command's Methoden
 
-        private async void AddBookCommand()
+        private void AddBookCommand()
         {
-            await AddBook();
+            AddBook();
         }
 
-        private async void DeleteBookCommand()
+        private void DeleteBookCommand()
         {
-            await DeleteBook();
+            DeleteBook();
         }
 
         private void UpdateWindowCommand()
         {
             UpdateBook();
+        }
+
+        private void BookMouseDoubleClickEventCommand()
+        {
+            BookMouseDoubleClickEvent();
+        }
+
+        private void OpenPictureForBookCommand()
+        {
+            OpenPictureForBook();
         }
 
         #endregion

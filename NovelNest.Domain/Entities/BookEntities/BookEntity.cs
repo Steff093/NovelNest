@@ -19,6 +19,13 @@ namespace NovelNest.Domain.Entities.BookEntities
         [Required, MinLength(25)]
         public string Description { get; set; } = string.Empty;
 
+        [MaxLength(1024 * 1024 * 5)]
+        public byte[]? ImageBook { get; set; }
+
+        public string? ImageMIMEType { get; set; }
+
+        public bool? IsPictureAvailable { get; set; }
+
         public int? FolderID { get; set; }
 
         public virtual FolderEntity Folder { get; set; }

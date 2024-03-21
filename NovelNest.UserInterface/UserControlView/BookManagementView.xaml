@@ -43,24 +43,45 @@
             </Grid.ColumnDefinitions>
 
 
-            <TextBlock Text="Buch Titel" Margin="20,10,285,257"
+            <TextBlock Text="Buch Titel" Margin="24,23,280,410"
                        Foreground="White" FontSize="20" Grid.Column="1"
                        FontStyle="Oblique"/>
 
-            <TextBlock Text="Buch Beschreibung" Margin="662,109,238,138"
+            <TextBlock Text="Buch Beschreibung" Margin="667,122,233,295"
                        Foreground="White" FontSize="20" Grid.ColumnSpan="2"
                        FontStyle="Oblique"/>
 
             <TextBox x:Name="tbxtBookName"
                      Text="{Binding BookName, Mode=TwoWay}"
                      Style="{StaticResource CustomTextboxStyle}"
-                     Margin="574,0,150,369" Grid.ColumnSpan="2"
+                     Margin="579,0,145,356" Grid.ColumnSpan="2"
                      VerticalAlignment="Bottom" Height="34" />
 
             <TextBox x:Name="tbxtDescription" 
                      Style="{StaticResource CustomTextboxStyle}"
                      Text="{Binding BookDescription, Mode=TwoWay}" 
-                     Margin="574,157,150,269" Grid.ColumnSpan="2"/>
+                     Margin="579,170,145,256" Grid.ColumnSpan="2"/>
+
+            <Border x:Name="bookImageView"
+                    BorderBrush="Green"
+                    BorderThickness="2" 
+                    Width="Auto"
+                    Height="Auto"
+                    Margin="344,36,164,256">
+                <Grid>
+                    <Image x:Name="bookImage"
+                           Margin="0"
+                           Source="{Binding SelectedImage}"
+                           Visibility="{Binding ImageSelected}"
+                           Stretch="UniformToFill"/>
+                    <Label x:Name="noImage"
+                           Content="No Image"
+                           Foreground="White"
+                           Visibility="{Binding LabelVisibility}"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
         </Grid>
 
         <Grid Grid.Row="2" Margin="2,110,-2,0" Grid.RowSpan="2" Grid.ColumnSpan="2">
@@ -93,21 +114,40 @@
                     Command="{Binding DeleteButtonCommand}"  
                     Style="{StaticResource CustomButtonStyle}"
                     Margin="853,-107,0,0"/>
+
+            <Button x:Name="btnFileUpload"
+                    Height="32" Width="80"
+                    Content="Picture"
+                    FontSize="20"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    Margin="378,-107,0,0"
+                    Style="{StaticResource CustomButtonStyle}"
+                    Command="{Binding PictureFileOpenCommand}"
+                    />
         </Grid>
 
         <DataGrid Grid.Row="2"
-          ItemsSource="{Binding BookCollection}"
-          SelectedItem="{Binding SelectedBook}"
-          Style="{StaticResource CustomDatagridStyle}"
-          Height="212"
-          VerticalAlignment="Top" 
-          Grid.Column="1" 
-          Margin="10,58,45,0" Grid.RowSpan="2"
-          AutoGenerateColumns="False">
+                  ItemsSource="{Binding BookCollection}"
+                  SelectedItem="{Binding SelectedBook}"
+                  Style="{StaticResource CustomDatagridStyle}"
+                  Height="212"
+                  VerticalAlignment="Top" 
+                  Grid.Column="1" 
+                  Margin="10,58,45,0" Grid.RowSpan="2"
+                  AutoGenerateColumns="False">
+            <DataGrid.InputBindings>
+                <MouseBinding
+                    MouseAction="LeftDoubleClick"
+                    Command="{Binding MouseDoubleClickCommand}">
+                </MouseBinding>
+            </DataGrid.InputBindings>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="BuchID" Binding="{Binding BookId}"/>
                 <DataGridTextColumn Header="Title" Binding="{Binding Title}" />
                 <DataGridTextColumn Header="Description" Binding="{Binding Description}" />
+                <DataGridCheckBoxColumn Header="Picture Available" Binding="{Binding
+                    IsPictureAvailable }"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

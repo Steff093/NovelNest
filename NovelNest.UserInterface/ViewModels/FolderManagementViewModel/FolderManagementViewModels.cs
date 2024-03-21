@@ -38,11 +38,10 @@ namespace NovelNest.UserInterface.ViewModels.FolderManagementViewModel
             IFolderDeleteFeatures folderDeleteFeatures)
         {
             LoadDatabase();
-            LoadBooksForSelectedFolder();
+            LoadBooksForSelectFolder();
             _dialogProvider = dialogProider;
             _folderAddFeature = folderAddFeatures;
             _folderDeleteFeatures = folderDeleteFeatures;
-
         }
 
         public ICommand OpenFolderTextBoxCommand => new RelayCommand(OpenFolderTextBox);
@@ -60,20 +59,6 @@ namespace NovelNest.UserInterface.ViewModels.FolderManagementViewModel
                 {
                     _isSubMenuVisible = value;
                     OnPropertyChanged(nameof(IsSubMenuVisible));
-                }
-            }
-        }
-
-        private FolderEntity _selectedFolder;
-        public FolderEntity SelectedFolder
-        {
-            get => _selectedFolder;
-            set
-            {
-                if (_selectedFolder != value)
-                {
-                    _selectedFolder = value;
-                    OnPropertyChanged(nameof(SelectedFolder));
                 }
             }
         }
@@ -104,15 +89,15 @@ namespace NovelNest.UserInterface.ViewModels.FolderManagementViewModel
         private FolderEntity _selectFolder;
         public FolderEntity SelectFolder
         {
-            get => _selectedFolder;
+            get => _selectFolder;
             set
             {
-                _selectedFolder = value;
+                _selectFolder = value;
                 OnPropertyChanged(nameof(SelectFolder));
             }
         }
 
-        private ObservableCollection<BookEntity> _books;
+        private ObservableCollection<BookEntity> _books = new();
         public ObservableCollection<BookEntity> Books
         {
             get => _books;
@@ -163,6 +148,8 @@ namespace NovelNest.UserInterface.ViewModels.FolderManagementViewModel
 
             var addFolder = _folderAddFeature.AddFolder(newFolder);
 
+            if (addFolder is null)
+                return;
             if (addFolder is not null)
             {
                 Folders.Add(newFolder);
@@ -173,7 +160,7 @@ namespace NovelNest.UserInterface.ViewModels.FolderManagementViewModel
 
         private void DeleteFolderButton()
         {
-            if (SelectedFolder is null)
+            if (SelectFolder is null)
             {
                 _dialogProvider.ShowError("Fehler", "Bitte wählen Sie einen Eintrag aus.");
                 return;
@@ -184,8 +171,8 @@ namespace NovelNest.UserInterface.ViewModels.FolderManagementViewModel
                 if (result)
                 {
                     _dialogProvider.ShowMessage("Erfolg", "Ordner erfolgreich gelöscht");
-                    _folderDeleteFeatures.DeleteFolder(SelectedFolder);
-                    Folders.Remove(SelectedFolder);
+                    _folderDeleteFeatures.DeleteFolder(SelectFolder);
+                    Folders.Remove(SelectFolder);
                 }
                 else
                     return;
@@ -205,31 +192,33 @@ namespace NovelNest.UserInterface.ViewModels.FolderManagementViewModel
             }
         }
 
+        // ToDo: Neu Entwicklung zur Auswähl eines Buches aus der Tabelle von BookEntity 
+
         private void OpenFolderSubMenuForBooks()
         {
-            // Funtkionalität zwischen dem Command und der UI schaffen
-            _dialogProvider.ShowMessage("Erfolg!", "Hier sollte sich ein Menü öffnen!");
-            try
-            {
-                if (SelectedFolder != null)
-                {
-                    try
-                    {
-                        using var dbContext = new NovelNestDataContext();
-                        SelectedFolder = dbContext.FolderEntities
-                            .Include(f => f.BookEntities)
-                            .FirstOrDefault(f => f.FolderID == SelectedFolder.FolderID);
-                    }
-                    catch (Exception ex)
-                    {
-                        _dialogProvider.ShowError("Fehler", "Beim Laden der Bücher ist ein Fehler aufgetreten: " + ex.Message);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            //// Funtkionalität zwischen dem Command und der UI schaffen
+            //_dialogProvider.ShowMessage("Erfolg!", "Hier sollte sich ein Menü öffnen!");
+            //try
+            //{
+            //    if (SelectFolder is not null)
+            //    {
+            //        try
+            //        {
+            //            using var dbContext = new NovelNestDataContext();
+            //            SelectFolder = dbContext.FolderEntities
+            //                .Include(f => f.BookEntities)
+            //                .FirstOrDefault(f => f.FolderID == SelectFolder.FolderID);
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            _dialogProvider.ShowError("Fehler", "Beim Laden der Bücher ist ein Fehler aufgetreten: " + ex.Message);
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw;
+            //}
         }
 
         private void OpenFolderTextBox()
@@ -238,23 +227,25 @@ namespace NovelNest.UserInterface.ViewModels.FolderManagementViewModel
             Visibility = Visibility.Visible;
         }
 
-        private void LoadBooksForSelectedFolder()
+        // Sollte dafür zuständig sein, Daten von meiner Buch Tabelle anzuzeigen
+
+        private void LoadBooksForSelectFolder()
         {
-            if (SelectedFolder != null)
-            {
-                try
-                {
-                    using var dbContext = new NovelNestDataContext();
-                    SelectedFolder = dbContext.FolderEntities
-                        .Include(f => f.BookEntities)
-                        .FirstOrDefault(f => f.FolderID == SelectedFolder.FolderID);
-                    Books = new ObservableCollection<BookEntity>(dbContext.BookEntities.ToList());
-                }
-                catch (Exception ex)
-                {
-                    _dialogProvider.ShowError("Fehler", "Beim Laden der Bücher ist ein Fehler aufgetreten: " + ex.Message);
-                }
-            }
+            //if (SelectFolder is not null)
+            //{
+            //    try
+            //    {
+            //        using var dbContext = new NovelNestDataContext();
+            //        SelectFolder = dbContext.FolderEntities
+            //            .Include(f => f.BookEntities)
+            //            .FirstOrDefault(f => f.FolderID == SelectFolder.FolderID);
+            //        Books = new ObservableCollection<BookEntity>(dbContext.BookEntities.ToList());
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        _dialogProvider.ShowError("Fehler", "Beim Laden der Bücher ist ein Fehler aufgetreten: " + ex.Message);
+            //    }
+            //}
         }
     }
 }
