@@ -6,6 +6,12 @@
 
 - [x] Bearbeiten von Büchern: Du kannst Informationen zu Büchern bearbeiten, um Änderungen oder Aktualisierungen vorzunehmen.
 
-- [ ] Löschen von Büchern: Wenn du ein Buch aus deiner Sammlung entfernen möchtest, kannst du es einfach löschen.
+- [x] Löschen von Büchern: Wenn du ein Buch aus deiner Sammlung entfernen möchtest, kannst du es einfach löschen.
 
-- [ ] Datenbankintegration: Deine Buchdaten werden in einer Datenbank gespeichert, um sicherzustellen, dass sie dauerhaft und sicher aufbewahrt werden.
+- [x] Datenbankintegration: Deine Buchdaten werden in einer Datenbank gespeichert, um sicherzustellen, dass sie dauerhaft und sicher aufbewahrt werden.
+    
+- [x] Enthält genauere Informationen zu einzelnen Bücher
+      
+- [x] Hochladen von Bildern zu einem Buch möglich
+      
+- [ ] Anderes Bild auswählen aus einem Datensatz  
