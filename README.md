@@ -14,4 +14,4 @@
       
 - [x] Hochladen von Bildern zu einem Buch möglich: Füge Bilder zu deinen Büchern hinzu, um ihre visuelle Darstellung in deiner digitalen Bibliothek zu verbessern und das Nutzererlebnis zu bereichern.
       
-- [x] Anderes Bild auswählen aus einem Datensatz: Wähle aus einem bereitgestellten Datensatz einfach ein alternatives Bild aus, um es einem Buch zuzuweisen oder die visuelle Darstellung zu aktualisieren.
+- [ ] Anderes Bild auswählen aus einem Datensatz: Wähle aus einem bereitgestellten Datensatz einfach ein alternatives Bild aus, um es einem Buch zuzuweisen oder die visuelle Darstellung zu aktualisieren.
