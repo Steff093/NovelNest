@@ -63,7 +63,7 @@
                      Margin="579,170,145,256" Grid.ColumnSpan="2"/>
 
             <Border x:Name="bookImageView"
-                    BorderBrush="Green"
+                    BorderBrush="Beige"
                     BorderThickness="2" 
                     Width="Auto"
                     Height="Auto"
@@ -75,11 +75,13 @@
                            Visibility="{Binding ImageSelected}"
                            Stretch="UniformToFill"/>
                     <Label x:Name="noImage"
-                           Content="No Image"
+                           Content="Kein Bild"
                            Foreground="White"
                            Visibility="{Binding LabelVisibility}"
                            HorizontalAlignment="Center"
-                           VerticalAlignment="Center"/>
+                           VerticalAlignment="Center"
+                           FontSize="25"
+                           FontStyle="Oblique"/>
                 </Grid>
             </Border>
         </Grid>
@@ -87,27 +89,27 @@
         <Grid Grid.Row="2" Margin="2,110,-2,0" Grid.RowSpan="2" Grid.ColumnSpan="2">
 
             <Button x:Name="btnaddBookInDataGrid" 
-                    Height="32" Width="80"
-                    Content="Add"
+                    Height="32" Width="120"
+                    Content="Hinzufügen"
                     VerticalAlignment="Top"
                     HorizontalAlignment="Left"
                     Command="{Binding AddNewBookCommand}" 
                     Style="{StaticResource CustomButtonStyle}"
-                    Margin="688,-107,0,0"/>
+                    Margin="618,-107,0,0"/>
 
             <Button x:Name="btnupdateBookDataGrid"
-                    Height="32" Width="80"
-                    Content="Update"
+                    Height="32" Width="105"
+                    Content="Bearbeiten"
                     FontSize="20"
                     VerticalAlignment="Top"
                     HorizontalAlignment="Left"
                     Command="{Binding UpdateButtonCommand}"
                     Style="{StaticResource CustomButtonStyle}"
-                    Margin="768,-107,0,0"/>
+                    Margin="743,-107,0,0"/>
 
             <Button x:Name="btndeleteBookDatagrid"
                     Height="32" Width="80"
-                    Content="Delete"
+                    Content="Löschen"
                     FontSize="20"
                     VerticalAlignment="Top"
                     HorizontalAlignment="Left"
@@ -116,12 +118,12 @@
                     Margin="853,-107,0,0"/>
 
             <Button x:Name="btnFileUpload"
-                    Height="32" Width="80"
-                    Content="Picture"
+                    Height="32" Width="170"
+                    Content="Bild hinzufügen"
                     FontSize="20"
                     VerticalAlignment="Top"
                     HorizontalAlignment="Left"
-                    Margin="378,-107,0,0"
+                    Margin="348,-107,0,0"
                     Style="{StaticResource CustomButtonStyle}"
                     Command="{Binding PictureFileOpenCommand}"
                     />
@@ -135,7 +137,8 @@
                   VerticalAlignment="Top" 
                   Grid.Column="1" 
                   Margin="10,58,45,0" Grid.RowSpan="2"
-                  AutoGenerateColumns="False">
+                  AutoGenerateColumns="False"   
+                  SelectionMode="Single">
             <DataGrid.InputBindings>
                 <MouseBinding
                     MouseAction="LeftDoubleClick"
@@ -145,8 +148,8 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="BuchID" Binding="{Binding BookId}"/>
                 <DataGridTextColumn Header="Title" Binding="{Binding Title}" />
-                <DataGridTextColumn Header="Description" Binding="{Binding Description}" />
-                <DataGridCheckBoxColumn Header="Picture Available" Binding="{Binding
+                <DataGridTextColumn Header="Beschreibung" Binding="{Binding Description}" />
+                <DataGridCheckBoxColumn Header="Bild Vorhanden" Binding="{Binding
                     IsPictureAvailable }"/>
             </DataGrid.Columns>
         </DataGrid>

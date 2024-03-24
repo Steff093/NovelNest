@@ -56,8 +56,7 @@
                   Margin="522,108,36,30"
                   Background="Transparent"
                   Foreground="White"
-                  FontSize="20"
-                  SelectedItem="{Binding Books}">
+                  FontSize="20">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -69,6 +68,11 @@
                             <DataGrid ItemsSource="{Binding
                                 BookEntities}"
                                       IsReadOnly="True">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="BuchId" Binding="{Binding BookId}"/>
+                                    <DataGridTextColumn Header="Title" Binding="{Binding Title}"/>
+                                    <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
+                                </DataGrid.Columns>
                             </DataGrid>
                         </Expander>
                         <TextBlock Grid.Column="1" Text="{Binding FolderName}">

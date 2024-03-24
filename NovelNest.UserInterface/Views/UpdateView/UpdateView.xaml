@@ -13,7 +13,7 @@
     </Window.DataContext>
 
     <Grid>
-        <Image x:Name="bookCover" Source="/Assets/CoverNovelNest.jpg" Opacity="0.45" Margin="0,-16,0,0" Height="459" VerticalAlignment="Top"/>
+        <Image x:Name="backGround" Source="/Assets/CoverNovelNest.jpg" Opacity="0.45" Margin="0,-16,0,0" Height="434" VerticalAlignment="Top"/>
 
         <Grid Margin="10,10,-10,30">
             <Grid.RowDefinitions>
@@ -46,7 +46,7 @@
             </StackPanel>
 
             <Button Grid.Row="2" 
-                    x:Name="btnUpdate" Content="Update" 
+                    x:Name="btnUpdate" Content="Update"
                     Margin="135,109,135,-23" Focusable="True"
                     Style="{StaticResource CustomButtonStyle}"
                     Command="{Binding UpdateBookCommand}"/>

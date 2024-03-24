@@ -7,7 +7,9 @@ using NovelNest.ApplicationLogic.Interfaces.IDialogProvider;
 using NovelNest.Domain.Entities.BookEntities;
 using NovelNest.Domain.Entities.FolderEntities;
 using NovelNest.Infrastructure.Database;
+using NovelNest.UserInterface.ViewModels.BookInformationViewModel;
 using NovelNest.UserInterface.ViewModels.UpdateWindowViewModel;
+using NovelNest.UserInterface.Views;
 using NovelNest.UserInterface.Views.LoginView;
 using NovelNest.UserInterface.Views.UpdateView;
 using System;
@@ -31,6 +33,7 @@ namespace NovelNest.UserInterface.ViewModels.BookManagementViewModel
     public class BookManagementViewModels : BaseViewModel
     {
         private const long MaxFileSize = 5 * 1024 * 1024; // 5 MB in Bytes
+
         #region Button Commands - Hinzufügen, Bearbeiten und Löschen 
 
         public ICommand UpdateButtonCommand => new RelayCommand(UpdateWindowCommand);
@@ -208,8 +211,7 @@ namespace NovelNest.UserInterface.ViewModels.BookManagementViewModel
                             Title = book.Title,
                             Description = book.Description,
                             ImageBook = book.ImageBook,
-                            ImageMIMEType = book.ImageMIMEType,
-                            IsPictureAvailable = book.ImageBook != null,
+                            IsPictureAvailable = book.ImageBook != null
                         })
                         .ToList());
             }
@@ -221,7 +223,8 @@ namespace NovelNest.UserInterface.ViewModels.BookManagementViewModel
 
         #region Lösche eines Buches Methode
 
-        /* Methode, welches einen Eintrag löscht, wenn etwas ausgewählt wurde
+        /* 
+         * Methode, welches einen Eintrag löscht, wenn etwas ausgewählt wurde
          * Man wird vorher gefragt, ob man sich sicher sei, diesen Eintrag zu löschen.
         */
 
@@ -250,7 +253,8 @@ namespace NovelNest.UserInterface.ViewModels.BookManagementViewModel
 
         #region Hinzufügen eines Buches
 
-        /* Fügt ein Buch in das Datagrid hinzu
+        /* 
+         * Fügt ein Buch in das Datagrid hinzu
          * Beide Textboxen müssen gefüllt sein
          */
 
@@ -296,7 +300,8 @@ namespace NovelNest.UserInterface.ViewModels.BookManagementViewModel
 
         #region UpdateFenster für den Bucheintrag
 
-        /* Hier wird geprüft, ob ein Eintrag aus der Liste
+        /* 
+         * Hier wird geprüft, ob ein Eintrag aus der Liste
          * ausgewählt wurde oder nicht. 
          * Ist dies nicht der Fall, wird eine Fehlermeldung ausgegeben.
          * Ist ein Eintrag ausgewählt, wird das UpdateView geöffnet und
@@ -310,27 +315,34 @@ namespace NovelNest.UserInterface.ViewModels.BookManagementViewModel
                 _dialogProvider.ShowError("Fehler", "Bitte wählen Sie einen Eintrag aus!");
                 return;
             }
-            var updatebookWindow = new UpdateWindowViewModels(_updateBookFeature, SelectedBook, BookCollection, _dialogProvider);
-            var view = new UpdateView { DataContext = updatebookWindow };
+            var updatebookWindow = new UpdateWindowViewModels(_updateBookFeature, SelectedBook, _dialogProvider);
+            var updateView = new UpdateView { DataContext = updatebookWindow };
 
-            updatebookWindow.CloseAction = () => view.Close();
+            updatebookWindow.CloseAction = () => updateView.Close();
 
-            view.ShowDialog();
+            updateView.ShowDialog();
         }
         #endregion
 
         #region DoubleClick für DataGrid 
 
+        /*
+         * Öffnen eines Informationsfenster's
+         * bei Doppelten Klick in einem Datagrid Eintrag
+         * Enthält mehr Informationen / Bild vom Buch
+        */
+
         private void BookMouseDoubleClickEvent()
         {
             if (SelectedBook is null)
-            {
                 return;
-            }
-            else
-            {
-                _dialogProvider.ShowMessage("Hinweis", "Hier entsteht bald etwas neues"); 
-            }
+
+            var informatiomViewModel = new BookInformationViewModels(SelectedBook, SelectedBook.ImageBook);
+            var bookInformationView = new BookInformationView { DataContext = informatiomViewModel };
+
+            informatiomViewModel.CloseAction = () => bookInformationView.Close();
+
+            bookInformationView.ShowDialog();
         }
 
         #endregion
@@ -340,7 +352,7 @@ namespace NovelNest.UserInterface.ViewModels.BookManagementViewModel
 
             openfileDialog.Filter = "Image Files (*.png; *.jpg) | *.png; *.jpg";
             openfileDialog.FilterIndex = 2;
-            openfileDialog.Title = "Wählen Sie ein Buch-Cover";
+            openfileDialog.Title = "Wählen Sie ein Buch Cover";
 
             bool? result = openfileDialog.ShowDialog();
 
@@ -369,6 +381,7 @@ namespace NovelNest.UserInterface.ViewModels.BookManagementViewModel
 
                         if (SelectedImage is not null)
                         {
+                            SelectedBook = new BookEntity();
                             SelectedBook.ImageBook = imageData;
                             SelectedBook.ImageMIMEType = mimeType;
                             IsPictureAvailable = true;
@@ -397,7 +410,7 @@ namespace NovelNest.UserInterface.ViewModels.BookManagementViewModel
 
         #endregion
 
-        #region Command's Methoden
+        #region Command's Methoden 
 
         private void AddBookCommand()
         {

@@ -14,7 +14,6 @@ namespace NovelNest.UserInterface.ViewModels.UpdateWindowViewModel
         private BookEntity _bookEntity;
         private readonly IUpdateBookFeature _updateBookFeature;
         private readonly IDialogProvider _dialogProvider;
-        public ObservableCollection<BookEntity> _booksCollection;
         #endregion
 
         #region ICommand + Action
@@ -32,39 +31,19 @@ namespace NovelNest.UserInterface.ViewModels.UpdateWindowViewModel
         public UpdateWindowViewModels(
             IUpdateBookFeature updateBookFeature, 
             BookEntity bookEntity, 
-            ObservableCollection<BookEntity> booksCollection, 
             IDialogProvider dialogProvider)
         {
             _bookEntity = bookEntity;
             _updateBookFeature = updateBookFeature;
-            _booksCollection = booksCollection;
             _dialogProvider = dialogProvider;
             UpdateBookName = bookEntity.Title;
             UpdateBookDescription = bookEntity.Description;
             UpdateBookCommand = new RelayCommand(UpodateBookCommandWrapper);
             CloseUpdateViewCommand = new RelayCommand(CloseUpdateCommand);
-            BookCollection = new ObservableCollection<BookEntity>();
         }
         #endregion
 
         #region Property
-        /*
-         * Property für DataGrid vom MainWindow
-         * Property für ausgwaählten Eintrag im Datagrid
-         * Property für Update Fenster Textboxen 
-        */
-        public ObservableCollection<BookEntity> BookCollection
-        {
-            get => _booksCollection;
-            set
-            {
-                if (_booksCollection != value)
-                {
-                    _booksCollection = value;
-                    OnPropertyChanged(nameof(BookCollection));
-                }
-            }
-        }
 
         public BookEntity SelectedBook
         {
@@ -98,9 +77,7 @@ namespace NovelNest.UserInterface.ViewModels.UpdateWindowViewModel
                 var updatedBook = await _updateBookFeature.UpdateBookAsync(SelectedBook);
 
                 if (updatedBook is null)
-                {
                     return;
-                }
 
                 if (updatedBook is not null)
                 {

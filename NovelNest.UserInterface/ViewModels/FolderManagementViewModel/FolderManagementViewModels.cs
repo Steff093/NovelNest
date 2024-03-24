@@ -30,6 +30,8 @@ namespace NovelNest.UserInterface.ViewModels.FolderManagementViewModel
         private readonly IDialogProvider _dialogProvider;
         private readonly IFolderAddFeaturecs _folderAddFeature;
         private readonly IFolderDeleteFeatures _folderDeleteFeatures;
+        private ObservableCollection<BookEntity> _bookCollection;
+        private BookEntity _bookEntity;
 
         public FolderManagementViewModels() { }
 
@@ -42,6 +44,7 @@ namespace NovelNest.UserInterface.ViewModels.FolderManagementViewModel
             _dialogProvider = dialogProider;
             _folderAddFeature = folderAddFeatures;
             _folderDeleteFeatures = folderDeleteFeatures;
+            BookEntity = new BookEntity();
         }
 
         public ICommand OpenFolderTextBoxCommand => new RelayCommand(OpenFolderTextBox);
@@ -60,6 +63,16 @@ namespace NovelNest.UserInterface.ViewModels.FolderManagementViewModel
                     _isSubMenuVisible = value;
                     OnPropertyChanged(nameof(IsSubMenuVisible));
                 }
+            }
+        }
+
+        public BookEntity BookEntity
+        {
+            get => _bookEntity;
+            set
+            {
+                _bookEntity = value;
+                OnPropertyChanged(nameof(BookEntity));
             }
         }
 
@@ -97,13 +110,12 @@ namespace NovelNest.UserInterface.ViewModels.FolderManagementViewModel
             }
         }
 
-        private ObservableCollection<BookEntity> _books = new();
         public ObservableCollection<BookEntity> Books
         {
-            get => _books;
+            get => _bookCollection;
             set
             {
-                _books = value;
+                _bookCollection = value;
                 OnPropertyChanged(nameof(Books));
             }
         }
@@ -196,29 +208,19 @@ namespace NovelNest.UserInterface.ViewModels.FolderManagementViewModel
 
         private void OpenFolderSubMenuForBooks()
         {
-            //// Funtkionalität zwischen dem Command und der UI schaffen
-            //_dialogProvider.ShowMessage("Erfolg!", "Hier sollte sich ein Menü öffnen!");
-            //try
-            //{
-            //    if (SelectFolder is not null)
-            //    {
-            //        try
-            //        {
-            //            using var dbContext = new NovelNestDataContext();
-            //            SelectFolder = dbContext.FolderEntities
-            //                .Include(f => f.BookEntities)
-            //                .FirstOrDefault(f => f.FolderID == SelectFolder.FolderID);
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            _dialogProvider.ShowError("Fehler", "Beim Laden der Bücher ist ein Fehler aufgetreten: " + ex.Message);
-            //        }
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw;
-            //}
+            // Funtkionalität zwischen dem Command und der UI schaffen
+            _dialogProvider.ShowMessage("Erfolg!", "Hier sollte sich ein Menü öffnen!");
+            try
+            {
+                if (SelectFolder is not null)
+                {
+                    Books = new ObservableCollection<BookEntity>();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         private void OpenFolderTextBox()

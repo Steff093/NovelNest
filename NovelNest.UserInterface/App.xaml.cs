@@ -48,7 +48,6 @@ namespace NovelNest.UserInterface
 
         protected override void OnStartup(StartupEventArgs e)
         {
-
             var serviceCollection = new ServiceCollection();
 
             base.OnStartup(e);
