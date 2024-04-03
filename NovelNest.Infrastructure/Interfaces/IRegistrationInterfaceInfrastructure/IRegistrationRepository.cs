@@ -10,6 +10,5 @@ namespace NovelNest.Infrastructure.Interfaces.IRegistrationInterfaceInfrastructu
     public interface IRegistrationRepository
     {
         Task RegistrationNewUser(UserEntity user);
-        Task<UserEntity> GetUserByUsername(string usersame);
     }
 }

@@ -1,8 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using NovelNest.ApplicationLogic.Interfaces.IDialogProvider;
+using NovelNest.ApplicationLogic.Interfaces.LoginInterface;
 using NovelNest.ApplicationLogic.Interfaces.NavigationService;
 using NovelNest.ApplicationLogic.Interfaces.PasswordHasherInterface;
 using NovelNest.ApplicationLogic.Interfaces.RegistrationInterface;
+using NovelNest.Infrastructure.Interfaces.LoginInterfaceInfrastructure;
+using NovelNest.UI.Domain.Entities.LoginEntities;
+using NovelNest.UserInterface.ViewModels.MainWindowViewModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
@@ -19,7 +23,7 @@ namespace NovelNest.UserInterface.ViewModels.LoginViewModel
         public event EventHandler<EventArgs> CloseLogin;
 
         private readonly IDialogProvider _dialogProvider;
-        private readonly IRegistrationFeatures _registrationFeatures;
+        private readonly ILoginFeatures _loginInterface;
         private readonly IPasswordHasher _passwordHasher;
         private readonly INavigationService _navigationService;
 
@@ -30,12 +34,12 @@ namespace NovelNest.UserInterface.ViewModels.LoginViewModel
 
         public LoginViewModels(
             IDialogProvider dialogProvider,
-            IRegistrationFeatures registrationFeatures,
+            ILoginFeatures loginInterface,
             IPasswordHasher passwordHasher,
             INavigationService navigationService)
         {
             _dialogProvider = dialogProvider;
-            _registrationFeatures = registrationFeatures;
+            _loginInterface = loginInterface;
             _passwordHasher = passwordHasher;
             _navigationService = navigationService;
         }
@@ -63,35 +67,28 @@ namespace NovelNest.UserInterface.ViewModels.LoginViewModel
             }
         }
 
-        private async void LoginConnectCommand()
+        private void LoginConnectCommand()
         {
-            //if (string.IsNullOrEmpty(UserName) && string.IsNullOrEmpty(Password))
-            //{
-            //    _dialogProvider.ShowError("Anmeldefehler", "Bitte geben Sie einen Benutzernamen und Password ein!");
-            //    return;
-            //}
+            _ = LoginConnectCommandExecute();
+        }
+
+        public async Task LoginConnectCommandExecute()
+        {
 
             if (!string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(Password))
             {
-                var userFromTable = await _registrationFeatures.GetUserByUsername(UserName);
+                UserEntity? user = await _loginInterface.LoginSucces(UserName);
 
-                if (userFromTable is not null)
+                if (user is not null)
                 {
-                    byte[]? saltFromDatabase = userFromTable.PasswordSalt;
-                    byte[]? hashedPassword = userFromTable.PasswordHash;
+                    byte[]? saltFromDatabase = user.PasswordSalt;
+                    byte[]? hashedPassword = user.PasswordHash;
 
                     var comparisonPassword = _passwordHasher.PBKDF2Hash(Password, saltFromDatabase);
 
                     if (comparisonPassword.SequenceEqual(hashedPassword))
                     {
                         _dialogProvider.ShowMessage("Erfolg!", "Login Erfolgreich. Willkommen " + UserName);
-
-
-                        // Muss Überlegen was besser ist - eigene Klasse für die Verwaltung oder in App.xaml.cs
-                        // Momentan läuft es über die App.xaml.cs 
-
-                        //_navigationService.NavigateToMainWindow();
-
                         App.NavigateToMainWindow();
                     }
                     else

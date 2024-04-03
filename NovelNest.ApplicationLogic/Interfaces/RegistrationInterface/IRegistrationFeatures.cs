@@ -9,8 +9,6 @@ namespace NovelNest.ApplicationLogic.Interfaces.RegistrationInterface
 {
     public interface IRegistrationFeatures
     {
-        Task AddUserToTable(UserEntity entity);
-        Task<UserEntity> GetUserByUsername(string username);
-            
+        Task AddUserToTable(UserEntity entity);            
     }
 }

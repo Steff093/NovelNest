@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace NovelNest.UserInterface.Views
 {
     /// <summary>
-    /// Interaction logic for BookInformationView.xaml
+    /// Interaction logic for StartScreenWindow.xaml
     /// </summary>
-    public partial class BookInformationView : Window
+    public partial class StartScreenWindow : Window
     {
-        public BookInformationView()
+        public StartScreenWindow()
         {
             InitializeComponent();
         }

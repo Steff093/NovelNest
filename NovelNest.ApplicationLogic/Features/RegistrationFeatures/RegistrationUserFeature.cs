@@ -26,18 +26,5 @@ namespace NovelNest.ApplicationLogic.Features.RegistrationFeatures
                 throw;
             }
         }
-
-        public async Task<UserEntity> GetUserByUsername(string username)
-        {
-            try
-            {
-                return await _registeredServices.GetUserByUsername(username);
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
-        }
     }
 }

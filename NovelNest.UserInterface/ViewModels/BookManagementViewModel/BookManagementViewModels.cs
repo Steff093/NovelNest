@@ -10,6 +10,7 @@ using NovelNest.Infrastructure.Database;
 using NovelNest.UserInterface.ViewModels.BookInformationViewModel;
 using NovelNest.UserInterface.ViewModels.UpdateWindowViewModel;
 using NovelNest.UserInterface.Views;
+using NovelNest.UserInterface.Views.BookInformation;
 using NovelNest.UserInterface.Views.LoginView;
 using NovelNest.UserInterface.Views.UpdateView;
 using System;
@@ -188,6 +189,35 @@ namespace NovelNest.UserInterface.ViewModels.BookManagementViewModel
                     OnPropertyChanged(nameof(IsPictureAvailable));
                 }
             }
+        }
+
+        #endregion
+
+        #region Command's Methoden 
+
+        private void AddBookCommand()
+        {
+            AddBook();
+        }
+
+        private void DeleteBookCommand()
+        {
+            DeleteBook();
+        }
+
+        private void UpdateWindowCommand()
+        {
+            UpdateBook();
+        }
+
+        private void BookMouseDoubleClickEventCommand()
+        {
+            BookMouseDoubleClickEvent();
+        }
+
+        private void OpenPictureForBookCommand()
+        {
+            OpenPictureForBook();
         }
 
         #endregion
@@ -406,35 +436,6 @@ namespace NovelNest.UserInterface.ViewModels.BookManagementViewModel
                 case ".jpg": case ".jpeg": return "image/jpeg";
                 default: return "application/octet-stream";
             }
-        }
-
-        #endregion
-
-        #region Command's Methoden 
-
-        private void AddBookCommand()
-        {
-            AddBook();
-        }
-
-        private void DeleteBookCommand()
-        {
-            DeleteBook();
-        }
-
-        private void UpdateWindowCommand()
-        {
-            UpdateBook();
-        }
-
-        private void BookMouseDoubleClickEventCommand()
-        {
-            BookMouseDoubleClickEvent();
-        }
-
-        private void OpenPictureForBookCommand()
-        {
-            OpenPictureForBook();
         }
 
         #endregion

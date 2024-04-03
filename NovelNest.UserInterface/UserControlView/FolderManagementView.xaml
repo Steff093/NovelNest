@@ -75,7 +75,8 @@
                                 </DataGrid.Columns>
                             </DataGrid>
                         </Expander>
-                        <TextBlock Grid.Column="1" Text="{Binding FolderName}">
+                        <TextBlock Grid.Column="1"
+                                   Text="{Binding FolderName}">
                         <Button Style="{StaticResource CustomButtonStyle}"
                                 Content="+">
                             </Button>

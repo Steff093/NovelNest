@@ -19,11 +19,6 @@ namespace NovelNest.Infrastructure.Repositories.RegistrationRepositories
             _context = context;
         }
 
-        public async Task<UserEntity> GetUserByUsername(string username)
-        {
-            return await _context.UserEntities.FirstOrDefaultAsync(u => u.UserName == username);
-        }
-
         public async Task RegistrationNewUser(UserEntity user)
         {
             try

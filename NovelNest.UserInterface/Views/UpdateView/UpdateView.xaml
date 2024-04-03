@@ -6,57 +6,82 @@
         xmlns:local="clr-namespace:NovelNest.UserInterface.Views.UpdateView"
         xmlns:viewModel="clr-namespace:NovelNest.UserInterface.ViewModels.UpdateWindowViewModel"
         mc:Ignorable="d" Background="Transparent"
-        Title="Update-Book" Height="300" Width="400">
+        Title="Update-Book" Height="400" Width="400">
 
     <Window.DataContext>
         <viewModel:UpdateWindowViewModels/>
     </Window.DataContext>
 
     <Grid>
-        <Image x:Name="backGround" Source="/Assets/CoverNovelNest.jpg" Opacity="0.45" Margin="0,-16,0,0" Height="434" VerticalAlignment="Top"/>
+        <Image x:Name="backGround"
+               Source="/Assets/CoverNovelNest.jpg"
+               Opacity="0.45" 
+               Height="378"
+               Width="400"
+               VerticalAlignment="Top" >
+        </Image>
 
-        <Grid Margin="10,10,-10,30">
+        <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="30"/>
                 <RowDefinition Height="60" />
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="98"/>
             </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="400"/>
+                <ColumnDefinition Width="130"/>
+                <ColumnDefinition Width="50"/>
+            </Grid.ColumnDefinitions>
 
-            <StackPanel Grid.Row="1" HorizontalAlignment="Center" >
+            <Grid 
+                HorizontalAlignment="Left" Width="172" Margin="180,15,0,15" Grid.RowSpan="2" >
                 <TextBlock 
                     x:Name="lblName" Text="Name" 
                     Foreground="White"
-                    FontSize="15" Width="44"/>
+                    FontSize="15" Width="44" Margin="64,15,64,15" RenderTransformOrigin="1.75,0.468"/>
                 <TextBox 
                      x:Name="txtName"
                      Text="{Binding UpdateBookName, UpdateSourceTrigger=PropertyChanged}"
-                     Style="{StaticResource CustomTextboxStyle}" Width="172" Height="29"/>
-            </StackPanel>
+                     Style="{StaticResource CustomTextboxStyle}" Width="172" Height="29" Margin="0,31,0,0"/>
+            </Grid>
 
-            <StackPanel Grid.Row="2" HorizontalAlignment="Center">
+            <Grid 
+                Grid.Row="2" HorizontalAlignment="Left" Width="170" Margin="181,10,0,88" Grid.RowSpan="2">
                 <TextBlock
                     x:Name="lblDescription" 
                     Text="Beschreibung"
                     Foreground="White"
-                    FontSize="15" Height="24" Width="90"/>
+                    FontSize="15" Height="24" Width="90" Margin="40,6,40,30"/>
                 <TextBox x:Name="txtDescription" 
                      TextAlignment="Left"
                      Text="{Binding UpdateBookDescription, UpdateSourceTrigger=PropertyChanged}"
-                     Style="{StaticResource CustomTextboxStyle}" Width="170" Height="25"/>
-            </StackPanel>
+                     Style="{StaticResource CustomTextboxStyle}" Width="170" Height="25" Margin="0,30,0,5"/>
+            </Grid>
 
-            <Button Grid.Row="2" 
+            <Grid Grid.Row="3">
+                <Button Grid.Row="3" 
                     x:Name="btnUpdate" Content="Update"
-                    Margin="135,109,135,-23" Focusable="True"
+                    Focusable="True"
                     Style="{StaticResource CustomButtonStyle}"
-                    Command="{Binding UpdateBookCommand}"/>
+                    Command="{Binding UpdateBookCommand}"
+                    Height="50" Width="90" Margin="155,56,155,-8" RenderTransformOrigin="0.556,0.181"/>
 
-            <Button Grid.Row="2" 
+                <Button Grid.Row="3" 
                     x:Name="btnBrakUp" Content="Abbrechen" 
-                    Margin="0,109,24,-23" 
                     Style="{StaticResource CustomButtonStyle}"
-                    HorizontalAlignment="Right" Width="111"
-                    Command="{Binding CloseUpdateViewCommand}"/>
+                    HorizontalAlignment="Right" Width="110"
+                    Command="{Binding CloseUpdateViewCommand}" Margin="0,55,25,-9"/>
+            </Grid>
+
+            <Grid Grid.Column="0" 
+                  Grid.Row="0">
+                <Border
+                    BorderBrush="Beige"
+                    BorderThickness="2">
+                </Border>
+                
+            </Grid>
         </Grid>
     </Grid>
 </Window>

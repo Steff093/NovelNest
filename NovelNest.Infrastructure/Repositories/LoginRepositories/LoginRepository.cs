@@ -1,5 +1,7 @@
-﻿using NovelNest.Infrastructure.Database;
+﻿using Microsoft.EntityFrameworkCore;
+using NovelNest.Infrastructure.Database;
 using NovelNest.Infrastructure.Interfaces.LoginInterfaceInfrastructure;
+using NovelNest.UI.Domain.Entities.LoginEntities;
 
 namespace NovelNest.Infrastructure.Repositories.LoginRepositories
 {
@@ -12,26 +14,9 @@ namespace NovelNest.Infrastructure.Repositories.LoginRepositories
             _context = context;
         }
 
-
-        void ILoginInterface.LoginSuccesful(string username, string password)
+        public async Task<UserEntity> LoginSuccesful(string username)
         {
-            //try
-            //{
-            //    var user = _context.UserEntities.FirstOrDefault(u => u.UserName == username);
-
-            //    if (user is null)
-            //    {
-            //        return;
-            //    }
-
-            //    if (user is not null)
-            //    {
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw new Exception("Fehler in LoginSuccesful Klasse " + ex.Message);
-            //}
+            return await _context.UserEntities.FirstOrDefaultAsync(u => u.UserName == username);
         }
     }
 }

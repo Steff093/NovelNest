@@ -82,9 +82,6 @@ namespace NovelNest.UserInterface.ViewModels.UpdateWindowViewModel
                 if (updatedBook is not null)
                 {
                     _dialogProvider.ShowMessage("Update Erfolg", "Eintrag erfolgreich geändert!");
-
-                    // ToDo: Mit der BookCollection vom MainWindow versuchen, die Liste zu aktualisieren
-
                     CloseAction.Invoke();
                 }
                 else

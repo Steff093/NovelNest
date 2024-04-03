@@ -1,0 +1,25 @@
+﻿    <Window x:Class="NovelNest.UserInterface.Views.StartScreenWindow"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:local="clr-namespace:NovelNest.UserInterface.Views"
+            xmlns:viewModel="clr-namespace:NovelNest.UserInterface.ViewModels.StartScreenViewModel"
+            mc:Ignorable="d"
+            Title="StartScreenWindow" Height="450" Width="800"
+            Background="Transparent">
+        <Window.DataContext>
+            <viewModel:StartScreenViewModels/>
+        </Window.DataContext>
+        <Grid>
+            <Image x:Name="bookCover" Source="/Assets/CoverNovelNest.jpg" Opacity="0.45" Height="555" VerticalAlignment="Top" Stretch="Fill">
+            </Image>
+
+            <ProgressBar x:Name="loadApplication"
+                         Value="{Binding Progress}"
+                         Maximum="100" Height="20"
+                         Background="Transparent"
+                         Foreground="White"
+                         VerticalAlignment="Bottom"/>
+        </Grid>
+    </Window>

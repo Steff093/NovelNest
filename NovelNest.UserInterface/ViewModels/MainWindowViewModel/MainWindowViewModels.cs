@@ -16,28 +16,40 @@ using NovelNest.Infrastructure.Repositories.BookRepositories.BookDeleteRepositor
 using NovelNest.Infrastructure.Repositories.BookRepositories.BookUpdateRepository;
 using NovelNest.Infrastructure.Repositories.FolderRepositories.FolderAddRepositories;
 using NovelNest.Infrastructure.Repositories.FolderRepositories.FolderDeleteRepositories;
+using NovelNest.UI.Domain.Entities.LoginEntities;
 using NovelNest.UserInterface.Services.BookManagementService;
 using NovelNest.UserInterface.UserControlView;
 using NovelNest.UserInterface.ViewModels.BookManagementViewModel;
 using NovelNest.UserInterface.ViewModels.FolderManagementViewModel;
+using NovelNest.UserInterface.ViewModels.LoginViewModel;
 using NovelNest.UserInterface.ViewModels.UpdateWindowViewModel;
 using NovelNest.UserInterface.Views.LoginView;
 using NovelNest.UserInterface.Views.UpdateView;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Printing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace NovelNest.UserInterface.ViewModels.MainWindowViewModel
 {
-    public class MainWindowViewModels :BaseViewModel
+    public class MainWindowViewModels : BaseViewModel
     {
-
         private readonly IDialogProvider _dialogProvider;
+        private string _username;
+        public string Username
+        {
+            get => _username;
+            set
+            {
+                _username = value;
+                OnPropertyChanged(nameof(Username));
+            }
+        }
 
-        public UserControl _currentView;
-
+        private UserControl _currentView;
         public UserControl CurrentView
         {
             get => _currentView;
@@ -47,20 +59,13 @@ namespace NovelNest.UserInterface.ViewModels.MainWindowViewModel
                 OnPropertyChanged(nameof(CurrentView));
             }
         }
-
         public MainWindowViewModels()
         {
-
         }
 
         public MainWindowViewModels(IDialogProvider dialogProvider)
         {
             _dialogProvider = dialogProvider;
-
-            /* Zeigt den View an, der angezeigt werden soll beim Start
-             * Könnte man mit einer Startseite verschönern
-            */
-
             BookButton();
         }
 
@@ -69,10 +74,7 @@ namespace NovelNest.UserInterface.ViewModels.MainWindowViewModel
         public ICommand BookManagement => new RelayCommand(BookManagementButton);
         public ICommand FolderManagement => new RelayCommand(FolderManagementButton);
         public ICommand MouseDrag => new RelayCommand(MouseDownDrag);
-
         public ICommand CloseApplicationCommand => new RelayCommand(CloseApplication);
-        public ICommand LoginApplicationCommand => new RelayCommand(LoginViewCommand);
-        public ICommand RegistrationApplicationCommand => new RelayCommand(RegistrationViewCommand);
 
         #endregion
 
@@ -83,7 +85,7 @@ namespace NovelNest.UserInterface.ViewModels.MainWindowViewModel
                 * Hier DataContext setzen, damit alle Daten angezeigt werden!
              */
 
-            var bookManagementDataContext = new BookManagementViewModels(
+            BookManagementViewModels bookManagementViewModel = new BookManagementViewModels(
                 new AddBookFeature(new BookAddRepository(new NovelNestDataContext())),
                 new UpdateBookFeature(new BookUpdateRepository(new NovelNestDataContext())),
                 new DialogProvider(),
@@ -91,7 +93,7 @@ namespace NovelNest.UserInterface.ViewModels.MainWindowViewModel
 
             CurrentView = new BookManagementView()
             {
-                DataContext = bookManagementDataContext
+                DataContext = bookManagementViewModel
             };
         }
 
@@ -118,23 +120,13 @@ namespace NovelNest.UserInterface.ViewModels.MainWindowViewModel
             };
         }
 
-        public void LoginViewCommand()
-        {
-            _dialogProvider.ShowMessage("Text", "///////");
-        }
-
-        public void RegistrationViewCommand()
-        {
-
-        }
-
         private void MouseDownDrag()
         {
-            var loginWindow = Application.Current.MainWindow as Window;
+            var mainWindow = Application.Current.MainWindow as Window;
 
-            if (loginWindow is not null && Mouse.LeftButton == MouseButtonState.Pressed)
+            if (mainWindow is not null && Mouse.LeftButton == MouseButtonState.Pressed)
             {
-                loginWindow.DragMove();
+                mainWindow.DragMove();
             }
         }
 

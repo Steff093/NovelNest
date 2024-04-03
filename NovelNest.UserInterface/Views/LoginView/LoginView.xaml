@@ -35,14 +35,15 @@
                 <TextBlock Text="NovelNest-Anmeldung" Foreground="White" VerticalAlignment="Center" Margin="0,0,20,0" Height="32"
                            FontSize="20" FontStyle="Oblique"/>
 
-                <Button Content="X" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,20,0" 
+                <Button Content="X" HorizontalAlignment="Right" VerticalAlignment="Top"
+                        Margin="0,0,20,0" 
                         Background="Transparent"
                         FontSize="25"
                         Foreground="White"
                         Command="{Binding CloseCommand}" Height="30" Width="19"/>
             </Grid>
 
-            <!-- Username -->
+            <!-- Benutzer -->
             <StackPanel Grid.Row="0" Margin="40">
                 <TextBlock Text="Benutzername" 
                            FontSize="20" 
@@ -52,7 +53,8 @@
                 <TextBox x:Name="txtUsername" 
                          Width="200" Margin="5"
                          Style="{StaticResource CustomTextboxStyle}"
-                         Text="{Binding UserName}"/>
+                         Text="{Binding UserName}"
+                         Focusable="True"/>
             </StackPanel>
 
             <!-- Password -->
@@ -75,7 +77,7 @@
                     Style="{StaticResource CustomButtonStyle}"
                     Command="{Binding LoginConnect}"/>
             
-            <!-- Link to RegistrationView -->
+            <!-- Link zur Registrierungs Ansicht -->
             <StackPanel Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Top">
                 <TextBlock Width="260" FontStyle="Oblique">
                     <Run Text="Sie haben noch kein Account?" Foreground="White"/><Run/>

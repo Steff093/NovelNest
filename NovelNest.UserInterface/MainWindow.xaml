@@ -10,40 +10,71 @@
         Title="NovelNest"
         Height="600"
         Width="1100"
-        WindowStartupLocation="CenterScreen"
-        Background="Transparent" ResizeMode="NoResize">
+        Background="Transparent"
+        ResizeMode="NoResize">
 
     <Window.DataContext>
         <viewModel:MainWindowViewModels/>
     </Window.DataContext>
     <Grid>
-        <ContentControl Content="{Binding CurrentView}" Margin="-15,-21,0,0"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="37*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <ContentControl Content="{Binding CurrentView}" Margin="-15,-21,0,0" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
 
-        <Menu Height="20" VerticalAlignment="Top" Grid.ColumnSpan="2"
-              Background="Transparent">
-            <MenuItem Header="Menü" Foreground="White" Background="Transparent">
-                <MenuItem x:Name="closeApplication"
-                          Header="Close"
-                          Command="{Binding CloseApplicationCommand}"/>
-                <MenuItem x:Name="loginWindowTest"
-                          Header="LoginTest"
-                          Command="{Binding LoginApplicationCommand}"/>
-                <MenuItem x:Name="registrationTest"
-                          Header="RegistrationTest"
-                          Command="{Binding RegistrationApplicationCommand}"/>
-            </MenuItem>
+        <!-- Titelleiste -->
+        <!--
+        <Grid x:Name="titleGrid" Height="40" Grid.Row="0" Background="Transparent"
+              VerticalAlignment="Top"
+              Margin="0,-29,0,0" Grid.ColumnSpan="2">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDown">
+                    <i:InvokeCommandAction Command="{Binding MouseDrag}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <TextBlock Text="NovelNest" Foreground="White" VerticalAlignment="Center" Height="40"
+            FontSize="20" 
+                       FontStyle="Oblique"/>
+
+            <Button Content="X" HorizontalAlignment="Right" VerticalAlignment="Top"
+             Margin="0,0,20,0" 
+             Background="Transparent"
+             FontSize="25"
+             Foreground="White"
+             Command="{Binding CloseCommand}" Height="30" Width="19"/>
+        </Grid>-->
+
+        <Menu Height="27" VerticalAlignment="Top"
+              Background="Transparent" Margin="0,-3,0,0" Grid.ColumnSpan="2">
+            <MenuItem Header="Menü" Foreground="White" Background="Transparent"/>
         </Menu>
 
-        <Button Grid.Row="0"
+        <Button Grid.Row="0" Grid.Column="0"
                 Style="{StaticResource CustomButtonStyle}"
-                Margin="65,79,857,425"
                 Content="Buecher"
-                Command="{Binding BookManagement}"/>
+                Command="{Binding BookManagement}"
+                Margin="20,69,21,0" Height="55"
+                VerticalAlignment="Top"
+                RenderTransformOrigin="0.36,1.107"/>
 
-        <Button Grid.Row="0"
+        <Button Grid.Row="0" Grid.Column="0"
                 Style="{StaticResource CustomButtonStyle}"
-                Margin="65,164,857,345"
                 Content="Ordner"
-                Command="{Binding FolderManagement}"/>
+                Command="{Binding FolderManagement}"
+                Margin="20,154,21,283"/>
+        
+        <TextBlock Grid.Row="1" Grid.Column="0"
+                   Text="///////////////"
+                   Foreground="White"
+                   FontSize="22"
+                   Background="Transparent"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center" 
+                   Width="133" Height="47"/>
     </Grid>
 </Window>

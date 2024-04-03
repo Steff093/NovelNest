@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NovelNest.UI.Domain.Entities.LoginEntities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace NovelNest.Infrastructure.Interfaces.LoginInterfaceInfrastructure
 {
     public interface ILoginInterface
     {
-        void LoginSuccesful(string username, string password);
+        Task<UserEntity> LoginSuccesful(string username);
     }
 }

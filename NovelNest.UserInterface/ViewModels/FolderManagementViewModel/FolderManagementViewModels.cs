@@ -26,13 +26,16 @@ namespace NovelNest.UserInterface.ViewModels.FolderManagementViewModel
 {
     public class FolderManagementViewModels : BaseViewModel
     {
+        #region Private Felder
         private Visibility _visibility = Visibility.Collapsed;
         private readonly IDialogProvider _dialogProvider;
         private readonly IFolderAddFeaturecs _folderAddFeature;
         private readonly IFolderDeleteFeatures _folderDeleteFeatures;
         private ObservableCollection<BookEntity> _bookCollection;
         private BookEntity _bookEntity;
+        #endregion
 
+        #region Konstruktor
         public FolderManagementViewModels() { }
 
         public FolderManagementViewModels(IDialogProvider dialogProider,
@@ -40,17 +43,20 @@ namespace NovelNest.UserInterface.ViewModels.FolderManagementViewModel
             IFolderDeleteFeatures folderDeleteFeatures)
         {
             LoadDatabase();
-            LoadBooksForSelectFolder();
+            OpenFolderSubMenuForBooks();
             _dialogProvider = dialogProider;
             _folderAddFeature = folderAddFeatures;
             _folderDeleteFeatures = folderDeleteFeatures;
             BookEntity = new BookEntity();
         }
+        #endregion
 
+        #region Commands
         public ICommand OpenFolderTextBoxCommand => new RelayCommand(OpenFolderTextBox);
         public ICommand CreateNewFolder => new RelayCommand(CreateNewFolderButton);
         public ICommand DeleteFolder => new RelayCommand(DeleteFolderButton);
         public ICommand OpenSubMenu => new RelayCommand(OpenFolderSubMenuForBooks);
+        #endregion
 
         private bool _isSubMenuVisible;
         public bool IsSubMenuVisible
@@ -179,7 +185,7 @@ namespace NovelNest.UserInterface.ViewModels.FolderManagementViewModel
             }
             else
             {
-                var result = _dialogProvider.ShowQuestionDelete("Löschen", "Nöchten Sie wirklich den Ordner löschen?");
+                var result = _dialogProvider.ShowQuestionDelete("Löschen", "Nöchten Sie wirklich diesen Ordner löschen?");
                 if (result)
                 {
                     _dialogProvider.ShowMessage("Erfolg", "Ordner erfolgreich gelöscht");
@@ -208,13 +214,14 @@ namespace NovelNest.UserInterface.ViewModels.FolderManagementViewModel
 
         private void OpenFolderSubMenuForBooks()
         {
-            // Funtkionalität zwischen dem Command und der UI schaffen
-            _dialogProvider.ShowMessage("Erfolg!", "Hier sollte sich ein Menü öffnen!");
+            //// Funtkionalität zwischen dem Command und der UI schaffen
+            //_dialogProvider.ShowMessage("Erfolg!", "Hier sollte sich ein Menü öffnen!");
             try
             {
                 if (SelectFolder is not null)
                 {
-                    Books = new ObservableCollection<BookEntity>();
+                    _dialogProvider.ShowMessage("Test", "Test");
+                    LoadBooksForSelectFolder();
                 }
             }
             catch (Exception ex)
@@ -233,21 +240,21 @@ namespace NovelNest.UserInterface.ViewModels.FolderManagementViewModel
 
         private void LoadBooksForSelectFolder()
         {
-            //if (SelectFolder is not null)
-            //{
-            //    try
-            //    {
-            //        using var dbContext = new NovelNestDataContext();
-            //        SelectFolder = dbContext.FolderEntities
-            //            .Include(f => f.BookEntities)
-            //            .FirstOrDefault(f => f.FolderID == SelectFolder.FolderID);
-            //        Books = new ObservableCollection<BookEntity>(dbContext.BookEntities.ToList());
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        _dialogProvider.ShowError("Fehler", "Beim Laden der Bücher ist ein Fehler aufgetreten: " + ex.Message);
-            //    }
-            //}
+            if (SelectFolder is not null)
+            {
+                try
+                {
+                    using var dbContext = new NovelNestDataContext();
+                    SelectFolder = dbContext.FolderEntities
+                        .Include(f => f.BookEntities)
+                        .FirstOrDefault(f => f.FolderID == SelectFolder.FolderID);
+                    Books = new ObservableCollection<BookEntity>(dbContext.BookEntities.ToList());
+                }
+                catch (Exception ex)
+                {
+                    _dialogProvider.ShowError("Fehler", "Beim Laden der Bücher ist ein Fehler aufgetreten: " + ex.Message);
+                }
+            }
         }
     }
 }
