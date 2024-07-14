@@ -74,7 +74,6 @@ namespace NovelNest.UserInterface.ViewModels.LoginViewModel
 
         public async Task LoginConnectCommandExecute()
         {
-
             if (!string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(Password))
             {
                 UserEntity? user = await _loginInterface.LoginSucces(UserName);
@@ -92,7 +91,7 @@ namespace NovelNest.UserInterface.ViewModels.LoginViewModel
                         App.NavigateToMainWindow();
                     }
                     else
-                    { 
+                    {
                         _dialogProvider.ShowError("Fehler", "Benutzername oder Password falsch!");
                         UserName = string.Empty; Password = string.Empty;
                         return;
@@ -126,7 +125,7 @@ namespace NovelNest.UserInterface.ViewModels.LoginViewModel
         {
             var loginWindow = Application.Current.MainWindow as Window;
 
-            if(loginWindow is not null && Mouse.LeftButton == MouseButtonState.Pressed)
+            if (loginWindow is not null && Mouse.LeftButton == MouseButtonState.Pressed)
             {
                 loginWindow.DragMove();
             }

@@ -25,6 +25,7 @@
             <RowDefinition Height="5*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
+
         <ContentControl Content="{Binding CurrentView}" Margin="-15,-21,0,0" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
 
         <!-- Titelleiste -->
@@ -52,6 +53,7 @@
         <Menu Height="27" VerticalAlignment="Top"
               Background="Transparent" Margin="0,-3,0,0" Grid.ColumnSpan="2">
             <MenuItem Header="Menü" Foreground="White" Background="Transparent"/>
+            
         </Menu>
 
         <Button Grid.Row="0" Grid.Column="0"
@@ -68,13 +70,20 @@
                 Command="{Binding FolderManagement}"
                 Margin="20,154,21,283"/>
         
-        <TextBlock Grid.Row="1" Grid.Column="0"
+        <Grid Grid.Row="1">
+            <Button Height="40" Width="40"
+                    Style="{StaticResource CustomElipseButton}"
+                    Command="{Binding ProfileButtonCommand}"
+                    Margin="68,0,67,57"/>
+            
+            <!--<TextBlock Grid.Row="1" 
                    Text="///////////////"
                    Foreground="White"
                    FontSize="22"
                    Background="Transparent"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center" 
-                   Width="133" Height="47"/>
+                   Width="133" Height="47"/>-->
+        </Grid>
     </Grid>
 </Window>

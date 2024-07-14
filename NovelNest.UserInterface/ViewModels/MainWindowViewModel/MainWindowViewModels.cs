@@ -38,6 +38,7 @@ namespace NovelNest.UserInterface.ViewModels.MainWindowViewModel
     public class MainWindowViewModels : BaseViewModel
     {
         private readonly IDialogProvider _dialogProvider;
+
         private string _username;
         public string Username
         {
@@ -75,6 +76,7 @@ namespace NovelNest.UserInterface.ViewModels.MainWindowViewModel
         public ICommand FolderManagement => new RelayCommand(FolderManagementButton);
         public ICommand MouseDrag => new RelayCommand(MouseDownDrag);
         public ICommand CloseApplicationCommand => new RelayCommand(CloseApplication);
+        public ICommand ProfileButtonCommand => new RelayCommand(ProfileButton);
 
         #endregion
 
@@ -105,6 +107,11 @@ namespace NovelNest.UserInterface.ViewModels.MainWindowViewModel
         private void FolderManagementButton()
         {
             FolderButton();
+        }
+
+        private void ProfileButton()
+        {
+            _dialogProvider.ShowMessage("Test", "absdjshdf");
         }
 
         private void FolderButton()
@@ -145,12 +152,9 @@ namespace NovelNest.UserInterface.ViewModels.MainWindowViewModel
             if (result)
             {
                 // Prüfen, ob Anwendung schon geschlossen ist oder nicht 
-
                 if (Application.Current is not null)
                     Application.Current.Shutdown();
-            }
-            else
-                return;
+            } 
         }
         #endregion
     }
