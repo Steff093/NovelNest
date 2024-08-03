@@ -26,12 +26,6 @@ namespace NovelNest.UserInterface.ViewModels.LoginViewModel
         private readonly ILoginFeatures _loginInterface;
         private readonly IPasswordHasher _passwordHasher;
         private readonly INavigationService _navigationService;
-
-        public LoginViewModels()
-        {
-
-        }
-
         public LoginViewModels(
             IDialogProvider dialogProvider,
             ILoginFeatures loginInterface,

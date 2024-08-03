@@ -9,10 +9,6 @@
         Height="450" Width="300" WindowStyle="None"
         ResizeMode="NoResize">
 
-    <Window.DataContext>
-        <viewModel:LoginViewModels/>
-    </Window.DataContext>
-
     <Grid>
         <Image x:Name="bookCover" Source="/Assets/CoverNovelNest.jpg" Stretch="UniformToFill" Opacity="0.45" Margin="1,-6,-1,0" Height="459" VerticalAlignment="Top">
         </Image>
